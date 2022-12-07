@@ -5,7 +5,6 @@
 1. React.js
 1. Redux.js
 1. TypeScript
-1. Firebase
 1. Ant Design
 1. Styled-Components
 1. Apollo Client
