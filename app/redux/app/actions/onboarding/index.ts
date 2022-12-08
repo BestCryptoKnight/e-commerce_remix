@@ -1,6 +1,5 @@
 import urqlQuery from "~/graphql/";
 import { Signup, VerifyOtp, SendOTP } from "~/graphql/mutations/onboarding";
-import { CreateVendor } from "~/graphql/mutations/vendors/vendors";
 import { notification } from "antd";
 import type { Dispatch } from "redux";
 import type { StepOneFormFields, OTPActions } from "~/types/onboarding";

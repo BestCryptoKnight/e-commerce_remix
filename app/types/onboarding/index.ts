@@ -9,3 +9,8 @@ export interface OTPActions {
   code?: string;
   phone: string;
 }
+
+export interface CreateVendor {
+  name: string;
+  slug: string;
+}

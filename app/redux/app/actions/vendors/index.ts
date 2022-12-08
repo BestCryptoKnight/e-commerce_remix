@@ -1,6 +1,7 @@
 import urqlQuery from "~/graphql/";
 import { CreateVendor } from "~/graphql/mutations/vendors/vendors";
 import { notification } from "antd";
+import type { NavigateFunction } from "@remix-run/react";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -8,7 +9,7 @@ import {
 } from "../../";
 
 //Verify OTP
-export function CreateVendorAction(data: any, next: () => void) {
+export function CreateVendorAction(data: any, next: NavigateFunction) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -22,7 +23,7 @@ export function CreateVendorAction(data: any, next: () => void) {
             throw new Error("Something went wrong");
           }
 
-          next();
+          next("/");
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
