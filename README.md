@@ -2,7 +2,17 @@
 
 ![The Remix Indie Stack](https://repository-images.githubusercontent.com/465928257/a241fa49-bd4d-485a-a2a5-5cb8e4ee0abf)
 
-Learn more about [Remix Stacks](https://remix.run/stacks).
+
+1. React.js
+1. Redux.js
+1. Remix
+1. Tailwindcss
+1. TypeScript
+1. Ant Design
+1. Styled-Components
+1. urql
+1. GraphQL
+
 
 ```
 npx create-remix@latest --template remix-run/indie-stack
