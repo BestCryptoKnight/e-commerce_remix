@@ -1,11 +1,14 @@
-import urqlQuery from "../../../../graphql/";
-import { GetProducts } from "../../../../graphql/queries/products";
+import urqlQuery from "~/graphql/";
+import { GetProducts } from "~/graphql/queries/products";
 import type { Dispatch } from "redux";
-import { requestStart, requestSuccess } from "../../";
+import {
+  requestStartInitilizeLoading,
+  requestSuccessUpdateStateData,
+} from "../../";
 
 export function GetProductsAction(categoryId: string, vendorId: string) {
   return async (dispatch: Dispatch) => {
-    dispatch(requestStart());
+    dispatch(requestStartInitilizeLoading());
     try {
       urqlQuery
         .query(GetProducts, {
@@ -17,7 +20,7 @@ export function GetProductsAction(categoryId: string, vendorId: string) {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccess(result.data.getProducts.list));
+          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
         });
     } catch (error) {
       throw error;

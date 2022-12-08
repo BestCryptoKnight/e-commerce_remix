@@ -46,8 +46,10 @@
     "less-loader": "^11.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-otp-input": "^2.4.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
+    "slugify": "^1.6.5",
     "styled-components": "^5.3.6",
     "tiny-invariant": "^1.3.1",
     "urql": "^3.0.3"
