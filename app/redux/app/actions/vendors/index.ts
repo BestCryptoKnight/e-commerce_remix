@@ -1,26 +1,29 @@
 import urqlQuery from "~/graphql/";
-import { GetProducts } from "~/graphql/queries/products";
+import { CreateVendor } from "~/graphql/mutations/vendors/vendors";
+import { notification } from "antd";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
-  requestSuccessUpdateStateData,
+  requestCompleteDisableLoading,
 } from "../../";
 
-export function GetProductsAction(categoryId: string, vendorId: string) {
+//Verify OTP
+export function CreateVendorAction(data: any, next: () => void) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
+      const phone = window.localStorage.getItem("phone");
+      if (phone) data.phone = phone;
       urqlQuery
-        .query(GetProducts, {
-          categoryId,
-          vendorId,
-        })
+        .mutation(CreateVendor, data)
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
+
+          next();
+          dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
       throw error;

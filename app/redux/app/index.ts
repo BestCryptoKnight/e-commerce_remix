@@ -27,11 +27,11 @@ const appReducer = createSlice({
   name: "app",
   initialState,
   reducers: {
-    requestStart: (state) => {
+    requestStartInitilizeLoading: (state) => {
       state.loading = true;
     },
 
-    requestSuccess(state, { payload }) {
+    requestSuccessUpdateStateData(state, { payload }) {
       state.data = payload;
       state.loading = false;
       state.hasErrors = false;
@@ -41,13 +41,20 @@ const appReducer = createSlice({
       state.loading = false;
       state.hasErrors = true;
     },
+    requestCompleteDisableLoading(state) {
+      state.loading = false;
+    },
   },
 });
 
 export const data = (state: finalStateTypes) => state.app.data;
 export const loading = (state: finalStateTypes) => state.app.loading;
 
-export const { requestStart, requestSuccess, requestFailure } =
-  appReducer.actions;
+export const {
+  requestStartInitilizeLoading,
+  requestSuccessUpdateStateData,
+  requestFailure,
+  requestCompleteDisableLoading,
+} = appReducer.actions;
 
 export default appReducer.reducer;
