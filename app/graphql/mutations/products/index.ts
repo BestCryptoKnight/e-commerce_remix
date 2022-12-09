@@ -10,9 +10,9 @@ mutation (
   $tagIds: [String!],
   $price: Float!,
   $categoryId: String!
-  $type: String!,
+  $type: ProductType!,
   $itemsInStock: Int,
-  $attributes: [ProductAttributeInput!],
+  $minPreorderDays: Int,
   $noOfSeats: Int
   $sku: String,
 ) {
@@ -27,12 +27,11 @@ mutation (
     price: $price,
     image: $image,
     categoryId: $categoryId,
-    minPreorderDays: $minPreorderDays,
     type: $type,
     itemsInStock: $itemsInStock,
-    attributes: $attributes,
     noOfSeats: $noOfSeats,
     sku: $sku,
+    minPreorderDays:$minPreorderDays
   }) {
     id
     title

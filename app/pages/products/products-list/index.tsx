@@ -39,7 +39,10 @@ export default function Index() {
         onClose={() => setProductDrawerOpen(false)}
         placement="right"
       >
-        <AddNewProduct />
+        <AddNewProduct
+          selectedProduct={null}
+          setProductDrawerOpen={setProductDrawerOpen}
+        />
       </Drawer>
     </>
   );

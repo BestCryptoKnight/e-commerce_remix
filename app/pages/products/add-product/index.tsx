@@ -8,7 +8,10 @@ import { AddProductWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
 import { AddProductsAction } from "~/redux/app/actions/product";
 
-export default function ProductForm({ selectedProduct }: any) {
+export default function ProductForm({
+  selectedProduct,
+  setProductDrawerOpen,
+}: any) {
   const [selectedLocation, setSelectedLocation] = useState({
     field: "",
     location: "",
@@ -31,7 +34,7 @@ export default function ProductForm({ selectedProduct }: any) {
   const onSubmit = async (data: any) => {
     data.description = data?.description?.target?.targetElm?.value;
     data.description_ar = data?.description_ar?.target?.targetElm?.value;
-    dispatch(AddProductsAction(data));
+    dispatch(AddProductsAction(data, setProductDrawerOpen));
   };
 
   const attendanceType: string = Form.useWatch("attendanceType", form);

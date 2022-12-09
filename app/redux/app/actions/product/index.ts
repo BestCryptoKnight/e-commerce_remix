@@ -5,7 +5,9 @@ import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
   requestSuccessUpdateStateData,
+  requestCompleteDisableLoading,
 } from "../../";
+import { notification } from "antd";
 
 export function GetProductsAction() {
   return async (dispatch: Dispatch) => {
@@ -30,8 +32,8 @@ export function GetProductsAction() {
   };
 }
 
-export function AddProductsAction(data: any) {
-  return async (dispatch: Dispatch) => {
+export function AddProductsAction(data: any, setProductDrawerOpen: any) {
+  return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
       const vendorId =
@@ -40,14 +42,26 @@ export function AddProductsAction(data: any) {
       data.image = "new image";
       urqlQuery
         .mutation(CreateProduct, {
-          data,
+          ...data,
         })
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
+
+          let stateData = state();
+
+          let newStateData = [
+            result?.data?.createProduct,
+            ...stateData.app.data,
+          ];
+          dispatch(requestSuccessUpdateStateData(newStateData));
+          notification.success({
+            message: "Product created successfully",
+          });
+          setProductDrawerOpen(false);
+          dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
       throw error;
