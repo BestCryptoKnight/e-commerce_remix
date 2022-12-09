@@ -8,7 +8,7 @@ import AnyaaLogo from "~/assets/logos/Anyaa_logo.png";
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
   return (

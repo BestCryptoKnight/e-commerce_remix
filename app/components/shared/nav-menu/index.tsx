@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import type { MenuInfo } from "rc-menu/lib/interface";
 import type { MenuProps } from "antd";
-import { HomeFilled } from "@ant-design/icons";
+import { AppstoreFilled } from "@ant-design/icons";
 
 interface NavMenuPropTypes {
   collapsed: boolean;
@@ -12,7 +12,7 @@ interface NavMenuPropTypes {
 type MenuItem = Required<MenuProps>["items"][number];
 
 const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
-  const [current, setCurrent] = useState("Home");
+  const [current, setCurrent] = useState("Products");
 
   const navigate = useNavigate();
   const onClick = (e: MenuInfo) => {
@@ -34,7 +34,9 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
     };
   }
 
-  const items = [getItem(<Link to="/">Home</Link>, "Home", <HomeFilled />)];
+  const items = [
+    getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
+  ];
 
   return (
     <Menu
