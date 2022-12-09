@@ -1,4 +1,4 @@
-import ProductsList from "../pages/products/products-list";
+import ProductsList from "~/pages/products/products-list";
 import Layout from "~/components/layout/main";
 const Products = () => {
   return (
