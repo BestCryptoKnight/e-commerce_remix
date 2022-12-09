@@ -1,9 +1,9 @@
-import ProductsList from "~/pages/products/products-list";
+import BusinessProfile from "~/pages/business/profile";
 import Layout from "~/components/layout/main";
 const Products = () => {
   return (
     <Layout>
-      <ProductsList />
+      <BusinessProfile />
     </Layout>
   );
 };
