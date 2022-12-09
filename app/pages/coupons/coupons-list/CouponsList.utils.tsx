@@ -1,6 +1,5 @@
 import type { ProductType } from "~/types/products";
 import type { ColumnsType } from "antd/es/table";
-import moment from "moment";
 
 export const couponTableColumns: ColumnsType<ProductType> = [
   {
