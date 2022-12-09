@@ -12,9 +12,7 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
   return (
     <LayoutWrapper>
       <Layout className="site-layout w-2/5">
-        <Content className="content-padding flex w-full flex-col items-center justify-center">
-          {children}
-        </Content>
+        <Content className="content-padding mt-36 w-full">{children}</Content>
       </Layout>
       <Layout className="w-3/5">
         <HeroImage />

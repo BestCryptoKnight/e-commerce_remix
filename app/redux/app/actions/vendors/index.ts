@@ -1,6 +1,5 @@
 import urqlQuery from "~/graphql/";
 import { CreateVendor } from "~/graphql/mutations/vendors/vendors";
-import { notification } from "antd";
 import type { NavigateFunction } from "@remix-run/react";
 import type { Dispatch } from "redux";
 import {

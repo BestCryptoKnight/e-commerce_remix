@@ -1,19 +1,21 @@
 import { Button, Form, Input } from "antd";
-import type { StepOneFormFields } from "~/types/onboarding";
-import { CreateUser } from "~/redux/app/actions/onboarding/";
+import { Link, useNavigate } from "@remix-run/react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { loading as stateLoading } from "~/redux/app";
+import { LoginUser } from "~/redux/app/actions/login";
+import type { EmailLoginForm } from "~/types/login";
 
 export default function EmailLogin() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const loading = useAppSelector(stateLoading);
 
-  const onSubmit = async (data: StepOneFormFields) => {
-    // dispatch(CreateUser(data));
+  const onFinish = async (data: EmailLoginForm) => {
+    dispatch(LoginUser(data, navigate));
   };
 
   return (
-    <Form onFinish={onSubmit} layout="vertical" className="h-36 w-4/5">
+    <Form onFinish={onFinish} layout="vertical" className="h-36 w-4/5">
       <Form.Item
         name="email"
         label="Email"
@@ -26,7 +28,6 @@ export default function EmailLogin() {
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         name="password"
         label="Password"
@@ -43,10 +44,14 @@ export default function EmailLogin() {
         type="primary"
         htmlType="submit"
         loading={loading}
-        className="w-full"
+        className="mb-4 w-full"
       >
         Next
       </Button>
+      <Link to="/onboarding" className="text-gray-400 hover:text-gray-400">
+        Don't have an account?
+        <span className="text-black underline"> Register here</span>
+      </Link>
     </Form>
   );
 }

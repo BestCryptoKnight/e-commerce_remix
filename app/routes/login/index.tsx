@@ -10,7 +10,7 @@ export default function Login() {
     <Layout>
       <div className="m-auto flex w-full flex-col items-center justify-center">
         <img
-          width="80"
+          width="60"
           src="https://res.cloudinary.com/ddkwmafbd/image/upload/v1670590779/Anyaa_icon_blue_c68807d4b0.png"
           alt="anyaa blue logo"
         />
