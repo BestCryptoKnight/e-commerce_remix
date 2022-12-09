@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import type { MenuInfo } from "rc-menu/lib/interface";
 import type { MenuProps } from "antd";
-import { AppstoreFilled } from "@ant-design/icons";
+import { AppstoreFilled, BankFilled } from "@ant-design/icons";
 
 interface NavMenuPropTypes {
   collapsed: boolean;
@@ -37,6 +37,12 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
   const items = [
     getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
     getItem(<Link to="/coupons">Coupons</Link>, "Products", <AppstoreFilled />),
+    getItem(
+      <Link to="/business/profile">Business Profile</Link>,
+      "Business Profile",
+      <BankFilled />
+    ),
+
   ];
 
   return (

@@ -6,7 +6,7 @@ import { Button, Form, Input } from "antd";
 import { useAppDispatch } from "~/hooks/Store";
 import type { CreateVendor } from "~/types/onboarding";
 
-export default function StepTwo() {
+export default function StepThree() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
