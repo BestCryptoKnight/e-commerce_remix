@@ -1,4 +1,4 @@
-import { Col, Form, Input, Switch } from "antd";
+import { Col, Form, Input, InputNumber, Switch } from "antd";
 
 const CouponDetailsFields = ({ selectedCoupon }: any) => {
   return (
@@ -42,7 +42,7 @@ const CouponDetailsFields = ({ selectedCoupon }: any) => {
             },
           ]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
       </Col>
 
