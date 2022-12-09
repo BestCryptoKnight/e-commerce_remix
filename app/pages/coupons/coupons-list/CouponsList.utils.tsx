@@ -1,7 +1,7 @@
-import type { ProductType } from "~/types/products";
+import type { CouponType } from "~/types/coupons";
 import type { ColumnsType } from "antd/es/table";
 
-export const couponTableColumns: ColumnsType<ProductType> = [
+export const couponTableColumns: ColumnsType<CouponType> = [
   {
     title: "Title",
     dataIndex: "title",
