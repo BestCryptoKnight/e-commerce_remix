@@ -29,10 +29,13 @@ export function UpdateVendorAction(data: any) {
         phone: data.phone || "",
         terms: data.terms || "",
       };
-      payload.settings = {
-        deliveryMethods: data.deliveryMethods || "",
-        paymentMethods: data.paymentMethods || "",
-      };
+      if (data.deliveryMethods && data.paymentMethods) {
+        payload.settings = {
+          deliveryMethods: data.deliveryMethods,
+          paymentMethods: data.paymentMethods,
+        };
+      }
+
       urqlQuery
         .mutation(UpdateVendor, {
           ...payload,
