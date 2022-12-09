@@ -36,7 +36,7 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
 
   const items = [
     getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
-    getItem(<Link to="/coupons">Coupons</Link>, "Products", <AppstoreFilled />),
+    getItem(<Link to="/coupons">Coupons</Link>, "Coupons", <AppstoreFilled />),
     getItem(
       <Link to="/business/profile">Business Profile</Link>,
       "Business Profile",

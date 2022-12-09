@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { GetProductsAction } from "../../../redux/app/actions/product";
-import { useAppDispatch, useAppSelector } from "../../../hooks/Store";
+import { useState } from "react";
+import { useAppSelector } from "../../../hooks/Store";
 import { Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { couponTableColumns } from "./CouponsList.utils";
@@ -9,13 +8,8 @@ import AddNewCoupon from "../add-coupon";
 
 export default function Index() {
   const [couponDrawerOpen, setCouponDrawerOpen] = useState(false);
-  const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
-  useEffect(() => {
-    dispatch(GetProductsAction());
-  }, [dispatch]);
-
   return (
     <>
       <div className="flex justify-end">
