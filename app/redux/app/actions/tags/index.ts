@@ -84,7 +84,7 @@ export function CreateTagAction(data: any, setTagDrawerOpen: any) {
 
 export function DeleteTagsAction(id: string) {
   return async (dispatch: Dispatch, state: any) => {
-    dispatch(requestStartInitilizeDrawerLoading());
+    dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
     let records = stateData.app.data;
@@ -103,7 +103,7 @@ export function DeleteTagsAction(id: string) {
             (record: any) => record.id !== id
           );
           dispatch(requestSuccessUpdateStateData(filteredRecords));
-          dispatch(requestCompleteDisableDrawerLoading());
+          dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
       throw error;
