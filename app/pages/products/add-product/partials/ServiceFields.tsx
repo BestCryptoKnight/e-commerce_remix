@@ -1,15 +1,16 @@
-import { Col, Form, Input, Switch, DatePicker, Select } from "antd";
+import { Col, Form, Input, Switch, Select } from "antd";
 import GeoLocation from "~/components/shared/geo-location";
-import type { ServiceFieldsProps } from "../../products.types";
+import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
 import { getTags } from "~/graphql/queries/tags";
+import type { TagsTypes } from "~/types/tags";
 
 const ServiceFields: React.FC<ServiceFieldsProps> = ({
   attendanceType,
   selectedLocation,
   setSelectedLocation,
 }) => {
-  const [tagsResult] = useQuery({
+  const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
     query: getTags,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
@@ -23,7 +24,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
       <Col span={12}>
         <Form.Item name="tagIds" label="Tag">
           <Select
-            options={(tags?.getTags || []).map((t: any) => ({
+            options={(tags?.getTags || []).map((t: TagsTypes) => ({
               value: t.id,
               label: t.title,
             }))}

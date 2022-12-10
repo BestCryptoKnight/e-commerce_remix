@@ -14,7 +14,8 @@ import { Button, Modal, Row, Col, DatePicker, Form, Input, Select } from "antd";
 import { GetProductsAction } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
-
+import type { ProductType } from "~/types/products";
+import { ProductTypeEnum } from "~/types/products";
 import type { BookingFormFields } from "~/types/booking";
 
 function BookingCalendar() {
@@ -81,7 +82,7 @@ function BookingCalendar() {
       </li>
     );
   };
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: BookingFormFields) => {
     const calendarApi = formData?.view.calendar;
 
     calendarApi?.unselect(); // clear date selection
@@ -171,7 +172,7 @@ function BookingCalendar() {
                 <Col span={12}>
                   <Form.Item
                     label="Customer full name "
-                    name="full_name"
+                    name="fullName"
                     rules={[
                       {
                         required: true,
@@ -184,7 +185,7 @@ function BookingCalendar() {
                 </Col>
                 <Col span={12}>
                   <Form.Item
-                    name="phone_number"
+                    name="phoneNumber"
                     label="Customer phone number "
                     rules={[
                       {
@@ -221,11 +222,7 @@ function BookingCalendar() {
                       },
                     ]}
                   >
-                    <DatePicker
-                      showTime
-                      name="date/time"
-                      format="YYYY-MM-DD HH:mm"
-                    />
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm" />
                   </Form.Item>
                 </Col>
 
@@ -235,8 +232,11 @@ function BookingCalendar() {
                       loading={loading}
                       mode="multiple"
                       options={data
-                        .filter((product: any) => product.type === "SERVICE")
-                        .map((t: any) => ({
+                        .filter(
+                          (product: ProductType) =>
+                            product.type == ProductTypeEnum.SERVICE
+                        )
+                        .map((t: ProductType) => ({
                           value: t.id,
                           label: t.title,
                         }))}

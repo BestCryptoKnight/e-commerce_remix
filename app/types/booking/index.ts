@@ -1,12 +1,9 @@
 export interface BookingFormFields {
-  name: string;
+  title: string;
+  fullName: string;
+  phoneNumber: number;
   email: string;
-  contact_name: string;
-  contact_phone_number: string;
-  business_phone_number: string;
-  store_location: string;
-  vat_number: string;
-  cr_number: string;
+  services: string[];
 }
 
 export type BookingFormProps = {

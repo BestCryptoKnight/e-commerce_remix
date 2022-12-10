@@ -1,9 +1,9 @@
 import { Col, Form, InputNumber, Select } from "antd";
 import { useQuery } from "urql";
 import { getTags } from "~/graphql/queries/tags";
-
+import type { TagsTypes } from "~/types/tags";
 const ProductFields = () => {
-  const [tagsResult] = useQuery({
+  const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
     query: getTags,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
@@ -23,7 +23,7 @@ const ProductFields = () => {
         <Form.Item name="tagIds" label="Tag">
           <Select
             mode="multiple"
-            options={(tags?.getTags || []).map((t: any) => ({
+            options={(tags?.getTags || []).map((t: TagsTypes) => ({
               value: t.id,
               label: t.title,
             }))}

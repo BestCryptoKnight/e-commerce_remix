@@ -6,8 +6,9 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import type { UpdateVendorForm } from "~/types/vendors";
 
-export function UpdateVendorAction(data: any) {
+export function UpdateVendorAction(data: UpdateVendorForm) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {

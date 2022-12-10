@@ -1,7 +1,6 @@
 import { Col, Form, Input, DatePicker, Select, InputNumber } from "antd";
 import GeoLocation from "~/components/shared/geo-location";
-import type { ServiceFieldsProps } from "../../products.types";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
 import { getTags } from "~/graphql/queries/tags";
 
@@ -10,12 +9,6 @@ const WorkShopFields = ({
   selectedLocation,
   setSelectedLocation,
 }: ServiceFieldsProps) => {
-  const handleSelect = (address: string) => {
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng: any) => setSelectedLocation(latLng));
-  };
-
   const [tagsResult] = useQuery({
     query: getTags,
     variables: {
@@ -93,7 +86,9 @@ const WorkShopFields = ({
               handleChange={(address) =>
                 setSelectedLocation({ ...selectedLocation, location: address })
               }
-              handleSelect={handleSelect}
+              handleSelect={(address) =>
+                setSelectedLocation({ ...selectedLocation, location: address })
+              }
             />
           </>
         )}

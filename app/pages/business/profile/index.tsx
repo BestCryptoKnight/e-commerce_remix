@@ -13,12 +13,13 @@ import { BusinessProfileWrapper } from "./styles";
 import { UpdateVendorAction } from "~/redux/app/actions/business";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { loading as StateLoading } from "~/redux/app";
+import type { UpdateVendorForm } from "~/types/vendors";
 
 export default function ProductForm() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(StateLoading);
   const { TextArea } = Input;
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UpdateVendorForm) => {
     dispatch(UpdateVendorAction(data));
   };
 
@@ -48,7 +49,7 @@ export default function ProductForm() {
           </Col>
 
           <Col span={12}>
-            <Form.Item name="contact_name" label="Contact Name">
+            <Form.Item name="contactName" label="Contact Name">
               <Input />
             </Form.Item>
           </Col>
@@ -66,17 +67,17 @@ export default function ProductForm() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="store_location" label="Store Location">
+            <Form.Item name="storeLocation" label="Store Location">
               <Input />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="vat_number" label="VAT Number">
+            <Form.Item name="vatNumber" label="VAT Number">
               <InputNumber />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="cr_number" label="CR Number">
+            <Form.Item name="crNumber" label="CR Number">
               <InputNumber />
             </Form.Item>
           </Col>
