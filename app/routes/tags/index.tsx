@@ -1,9 +1,9 @@
-import CouponsList from "~/pages/coupons/coupons-list";
+import TagsList from "~/pages/tags/tags-list";
 import Layout from "~/components/layout/main";
 const Products = () => {
   return (
     <Layout>
-      <CouponsList />
+      <TagsList />
     </Layout>
   );
 };

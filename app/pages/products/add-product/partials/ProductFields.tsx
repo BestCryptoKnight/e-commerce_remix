@@ -1,10 +1,10 @@
 import { Col, Form, InputNumber, Select } from "antd";
 import { useQuery } from "urql";
-import { getTags } from "~/graphql/queries/tags";
+import { GetTags } from "~/graphql/queries/tags";
 import type { TagsTypes } from "~/types/tags";
 const ProductFields = () => {
   const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
-    query: getTags,
+    query: GetTags,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
     },

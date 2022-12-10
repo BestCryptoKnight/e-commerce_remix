@@ -2,7 +2,7 @@ import { Col, Form, Input, Switch, Select } from "antd";
 import GeoLocation from "~/components/shared/geo-location";
 import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
-import { getTags } from "~/graphql/queries/tags";
+import { GetTags } from "~/graphql/queries/tags";
 import type { TagsTypes } from "~/types/tags";
 
 const ServiceFields: React.FC<ServiceFieldsProps> = ({
@@ -11,7 +11,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
   setSelectedLocation,
 }) => {
   const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
-    query: getTags,
+    query: GetTags,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
     },

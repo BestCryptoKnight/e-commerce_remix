@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppSelector } from "../../../hooks/Store";
+import { useAppSelector } from "~/hooks/Store";
 import { Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { couponTableColumns } from "./CouponsList.utils";

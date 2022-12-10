@@ -1,6 +1,7 @@
 import urqlQuery from "~/graphql/";
-import { GetProducts } from "~/graphql/queries/products";
-import { CreateProduct } from "~/graphql/mutations/products";
+import { CreateTag } from "~/graphql/mutations/tags";
+import { GetTags } from "~/graphql/queries/tags";
+import moment from "moment";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -9,22 +10,25 @@ import {
 } from "../../";
 import { notification } from "antd";
 
-export function GetProductsAction() {
+export function GetTagsAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
+    console.log("Get tag actions");
     try {
       const vendorId =
         localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
       urqlQuery
-        .query(GetProducts, {
+        .query(GetTags, {
           vendorId,
         })
         .toPromise()
         .then((result) => {
+          console.log(result);
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
+          console.log(result);
+          dispatch(requestSuccessUpdateStateData(result.data.getTags));
         });
     } catch (error) {
       throw error;
@@ -32,16 +36,26 @@ export function GetProductsAction() {
   };
 }
 
-export function CreateProductsAction(data: any, setProductDrawerOpen: any) {
+export function CreateTagAction(data: any, setTagDrawerOpen: any) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
       const vendorId =
         localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
       data.vendorId = vendorId;
-      data.image = "new image";
+
+      data.availabilities = data?.availabilities?.map((availability: any) => {
+        return {
+          days: availability?.days?.map((day: any) =>
+            moment.unix(day?.unix).format("DD/MM/YYYY")
+          ),
+          startTime: moment(availability?.startDate).format("hh:mm"),
+          endTime: moment(availability?.endDate).format("hh:mm"),
+        };
+      });
+
       urqlQuery
-        .mutation(CreateProduct, {
+        .mutation(CreateTag, {
           ...data,
         })
         .toPromise()
@@ -52,15 +66,13 @@ export function CreateProductsAction(data: any, setProductDrawerOpen: any) {
 
           let stateData = state();
 
-          let newStateData = [
-            result?.data?.createProduct,
-            ...stateData.app.data,
-          ];
+          let newStateData = [result?.data?.createTag, ...stateData.app.data];
           dispatch(requestSuccessUpdateStateData(newStateData));
           notification.success({
-            message: "Product created successfully",
+            message: "Tag created successfully",
           });
-          setProductDrawerOpen(false);
+          setTagDrawerOpen(false);
+
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
