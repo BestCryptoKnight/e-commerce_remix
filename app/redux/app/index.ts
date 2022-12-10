@@ -5,6 +5,7 @@ interface initialStateTypes {
   loading: boolean;
   hasErrors: boolean;
   data: [];
+  drawerActionLoading: boolean;
 }
 
 export interface finalStateTypes {
@@ -13,6 +14,7 @@ export interface finalStateTypes {
     loading: boolean;
     hasErrors: boolean;
     data: [];
+    drawerActionLoading: boolean;
   };
 }
 
@@ -21,6 +23,7 @@ const initialState: initialStateTypes = {
   loading: false,
   hasErrors: false,
   data: [],
+  drawerActionLoading: false,
 };
 
 const appReducer = createSlice({
@@ -31,6 +34,9 @@ const appReducer = createSlice({
       state.loading = true;
     },
 
+    requestStartInitilizeDrawerLoading: (state) => {
+      state.loading = true;
+    },
     requestSuccessUpdateStateData(state, { payload }) {
       state.data = payload;
       state.loading = false;
@@ -44,6 +50,9 @@ const appReducer = createSlice({
     requestCompleteDisableLoading(state) {
       state.loading = false;
     },
+    requestCompleteDisableDrawerLoading(state) {
+      state.loading = false;
+    },
   },
 });
 
@@ -55,6 +64,8 @@ export const {
   requestSuccessUpdateStateData,
   requestFailure,
   requestCompleteDisableLoading,
+  requestStartInitilizeDrawerLoading,
+  requestCompleteDisableDrawerLoading,
 } = appReducer.actions;
 
 export default appReducer.reducer;
