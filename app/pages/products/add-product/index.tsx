@@ -6,7 +6,7 @@ import WorkShopFields from "./partials/WorkShopFields";
 import { Row, Col, Button, Form } from "antd";
 import { AddProductWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
-import { AddProductsAction } from "~/redux/app/actions/product";
+import { CreateProductsAction } from "~/redux/app/actions/product";
 
 export default function ProductForm({
   selectedProduct,
@@ -34,7 +34,7 @@ export default function ProductForm({
   const onSubmit = async (data: any) => {
     data.description = data?.description?.target?.targetElm?.value;
     data.description_ar = data?.description_ar?.target?.targetElm?.value;
-    dispatch(AddProductsAction(data, setProductDrawerOpen));
+    dispatch(CreateProductsAction(data, setProductDrawerOpen));
   };
 
   const attendanceType: string = Form.useWatch("attendanceType", form);

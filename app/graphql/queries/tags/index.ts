@@ -1,5 +1,5 @@
-export const getTags = `
-query ($vendorId: String!) {
+export const GetTags = `
+query ($vendorId: String) {
   getTags (vendorId: $vendorId) {
     id
     title

@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
-
-import { useNavigate, Link } from "react-router-dom";
-import type { MenuInfo } from "rc-menu/lib/interface";
+import { Link } from "react-router-dom";
 import type { MenuProps } from "antd";
-import { AppstoreFilled, BankFilled, CalendarFilled } from "@ant-design/icons";
+import {
+  AppstoreFilled,
+  BankFilled,
+  CalendarFilled,
+  TagsFilled,
+  TrophyFilled,
+} from "@ant-design/icons";
 
 interface NavMenuPropTypes {
   collapsed: boolean;
@@ -12,12 +16,13 @@ interface NavMenuPropTypes {
 type MenuItem = Required<MenuProps>["items"][number];
 
 const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
-  const [current, setCurrent] = useState("Products");
+  const [current, setCurrent] = useState("");
 
-  const navigate = useNavigate();
-  const onClick = (e: MenuInfo) => {
-    setCurrent(e.key);
-  };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrent(localStorage.getItem("activeMenu") || "Products");
+    }
+  }, []);
 
   function getItem(
     label: React.ReactNode,
@@ -36,19 +41,24 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
 
   const items = [
     getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
-    getItem(<Link to="/coupons">Coupons</Link>, "Coupons", <AppstoreFilled />),
+    getItem(<Link to="/tags">Tags</Link>, "Tags", <TagsFilled />),
+    getItem(<Link to="/coupons">Coupons</Link>, "Coupons", <TrophyFilled />),
+    getItem(<Link to="/booking">Booking</Link>, "Booking", <CalendarFilled />),
     getItem(
       <Link to="/business/profile">Business Profile</Link>,
       "Business Profile",
       <BankFilled />
     ),
-
-    getItem(<Link to="/booking">Booking</Link>, "Booking", <CalendarFilled />),
   ];
 
   return (
     <Menu
-      onClick={onClick}
+      onClick={(e) => {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("activeMenu", e.key);
+          if (e.key !== "") setCurrent(e.key);
+        }
+      }}
       selectedKeys={[current]}
       mode="inline"
       theme="light"

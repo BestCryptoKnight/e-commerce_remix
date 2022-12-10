@@ -2,7 +2,7 @@ import { Col, Form, Input, DatePicker, Select, InputNumber } from "antd";
 import GeoLocation from "~/components/shared/geo-location";
 import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
-import { getTags } from "~/graphql/queries/tags";
+import { GetTags } from "~/graphql/queries/tags";
 
 const WorkShopFields = ({
   attendanceType,
@@ -10,7 +10,7 @@ const WorkShopFields = ({
   setSelectedLocation,
 }: ServiceFieldsProps) => {
   const [tagsResult] = useQuery({
-    query: getTags,
+    query: GetTags,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
     },
