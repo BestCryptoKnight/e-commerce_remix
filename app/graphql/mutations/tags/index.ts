@@ -20,3 +20,16 @@ mutation (
   }
 }
 `;
+
+export const DeleteTag = `
+mutation (
+  $id: String!,
+) {
+  deleteTag (id: $id) {
+    id
+    title
+    title_ar
+    active
+  }
+}
+`;

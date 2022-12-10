@@ -1,7 +1,7 @@
 import AddNewTag from "./partials/AddNewTagFields";
 import Availibility from "./partials/Availibility";
 import { Row, Col, Button, Form } from "antd";
-import { AddCouponWrapper } from "./styles";
+import { AddCouponWrapper } from "../styles";
 import { useAppDispatch } from "~/hooks/Store";
 import { CreateTagAction } from "~/redux/app/actions/tags";
 
