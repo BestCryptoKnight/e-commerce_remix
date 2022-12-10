@@ -3,15 +3,14 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { getCategories } from "~/graphql/queries/categories";
-
-import type { ProductDetailsFieldsTypes } from "../../products.types";
+import type { CategoryType } from "~/types/categories";
 
 const ProductDetailsFields = ({
   selectedProduct,
   descriptionRef,
   arabicDescriptionRef,
 }: any) => {
-  const [catgoriesResult] = useQuery({
+  const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
     query: getCategories,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
@@ -62,10 +61,12 @@ const ProductDetailsFields = ({
           ]}
         >
           <Select
-            options={(categories?.getCategories || []).map((t: any) => ({
-              value: t.id,
-              label: t.title,
-            }))}
+            options={(categories?.getCategories || []).map(
+              (t: CategoryType) => ({
+                value: t.id,
+                label: t.title,
+              })
+            )}
           />
         </Form.Item>
       </Col>
