@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { GetProductsAction } from "../../../redux/app/actions/product";
-import { useAppDispatch, useAppSelector } from "../../../hooks/Store";
+import { GetProductsAction } from "~/redux/app/actions/product";
+import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { productTableColumns } from "./ProductsList.utils";

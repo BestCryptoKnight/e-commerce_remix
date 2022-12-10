@@ -14,11 +14,13 @@ import tailwindStylesheetUrl from "~/styles/tailwind.css";
 import antStylesUrl from "~/styles/antd-customized.css";
 import { Provider as ReduxProvider } from "react-redux";
 import store from "./redux/store";
+import calendarStyles from "fullcalendar/main.min.css";
 
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     { rel: "stylesheet", href: antStylesUrl },
+    { rel: "stylesheet", href: calendarStyles },
   ];
 };
 
