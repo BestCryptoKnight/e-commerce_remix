@@ -9,7 +9,7 @@ import { OrderFiltersWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 
 export default function Index() {
-  const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(true);
+  const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
