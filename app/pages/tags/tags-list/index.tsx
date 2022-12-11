@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "~/hooks/Store";
 import { Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import Drawer from "~/components/shared/drawer";
-import AddNewTag from "../add-actions";
+import AddNewTag from "../tag-actions";
 import { GetTagsAction } from "~/redux/app/actions/tags";
 import { DeleteTagsAction } from "~/redux/app/actions/tags";
 import { ActionButtonsWrapper } from "../styles";
