@@ -44,7 +44,7 @@ export function TagAction(
   form: any
 ) {
   return async (dispatch: Dispatch, state: any) => {
-    dispatch(requestStartInitilizeLoading());
+    dispatch(requestStartInitilizeDrawerLoading());
     try {
       const vendorId =
         localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
@@ -79,6 +79,7 @@ export function TagAction(
 
           if (selectedAction === "create-tag") {
             let newStateData = [...stateData.app.data, result?.data?.createTag];
+
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
             const filteredData = stateData.app.data.filter(
@@ -96,7 +97,7 @@ export function TagAction(
           });
           setTagDrawerOpen(false);
           form.resetFields();
-          dispatch(requestCompleteDisableLoading());
+          dispatch(requestCompleteDisableDrawerLoading());
         });
     } catch (error) {
       throw error;

@@ -3,9 +3,10 @@ import AddNewTag from "./partials/AddNewTagFields";
 import Availibility from "./partials/Availibility";
 import { Row, Col, Button, Form } from "antd";
 import { AddCouponWrapper } from "../styles";
-import { useAppDispatch } from "~/hooks/Store";
+import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { TagAction } from "~/redux/app/actions/tags";
 import moment from "moment";
+import { drawerLoading as StateDrawerLoading } from "~/redux/app";
 
 export default function CouponForm({
   setTagDrawerOpen,
@@ -16,6 +17,7 @@ export default function CouponForm({
   const [form] = Form.useForm();
 
   const dispatch = useAppDispatch();
+  const drawerLoading = useAppSelector(StateDrawerLoading);
 
   useEffect(() => {
     if (selectedAction == "edit-tag") {
@@ -55,7 +57,7 @@ export default function CouponForm({
           <Availibility />
 
           <Col span={24}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={drawerLoading}>
               Submit
             </Button>
           </Col>
