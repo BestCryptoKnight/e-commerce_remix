@@ -58,6 +58,8 @@ const appReducer = createSlice({
 
 export const data = (state: finalStateTypes) => state.app.data;
 export const loading = (state: finalStateTypes) => state.app.loading;
+export const drawerLoading = (state: finalStateTypes) =>
+  state.app.drawerActionLoading;
 
 export const {
   requestStartInitilizeLoading,

@@ -16,6 +16,12 @@ const Availibility = () => {
                       {...field}
                       label="Start time"
                       name={[field.name, "startTime"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select the start time...!",
+                        },
+                      ]}
                     >
                       <TimePicker />
                     </Form.Item>
@@ -25,6 +31,12 @@ const Availibility = () => {
                       {...field}
                       label="End time"
                       name={[field.name, "endTime"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select the start time...!",
+                        },
+                      ]}
                     >
                       <TimePicker />
                     </Form.Item>
@@ -42,6 +54,12 @@ const Availibility = () => {
                           {...field}
                           label="Days"
                           name={[field.name, "days"]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select the start time...!",
+                            },
+                          ]}
                         >
                           <DatePicker multiple={true} className="rmdp-input1" />
                         </Form.Item>
