@@ -13,7 +13,7 @@ import type { ProductType } from "~/types/products";
 import type { ColumnsType } from "antd/es/table";
 import moment from "moment";
 import { ActionButtonsWrapper } from "../styles";
-
+import ProductFilter from "../product-filter";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 export default function Index() {
@@ -96,6 +96,9 @@ export default function Index() {
 
   return (
     <>
+      <div>
+        <ProductFilter />
+      </div>
       <div className="flex justify-end">
         <Button
           type="primary"
