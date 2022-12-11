@@ -5,28 +5,6 @@ export const LayoutWrapper = styled.div`
   background: #ffffff;
   display: flex;
   justify-content: center;
-  .ant-layout-content {
-    background: #ffff;
-  }
-  .ant-layout {
-    background: #ffff;
-  }
-  .content-padding {
-    padding: 40px;
-    padding-top: 15px;
-  }
-  .col-adjust {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-  .header-bg-color {
-    background-color: #c0d3ea;
-  }
-  .user-profile {
-    text-align: right;
-  }
 `;
 
 export const HeroImage = styled.div`
