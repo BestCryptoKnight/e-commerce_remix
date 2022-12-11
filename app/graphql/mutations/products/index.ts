@@ -16,6 +16,7 @@ mutation (
   $noOfSeats: Int,
   $sku: String,
   $sortOrder: Int
+  $slug: String!
 ) {
   createProduct (data: {
     title: $title,
@@ -32,8 +33,9 @@ mutation (
     itemsInStock: $itemsInStock,
     noOfSeats: $noOfSeats,
     sku: $sku,
-    minPreorderDays:$minPreorderDays
-    sortOrder: $sortOrder
+    minPreorderDays:$minPreorderDays,
+    sortOrder: $sortOrder,
+    slug: $slug,
   }) {
     id
     title
@@ -53,6 +55,8 @@ mutation (
     createdAt
     updatedAt
     sortOrder
+    slug
+    sku
   }
 }
 `;
@@ -75,6 +79,7 @@ mutation ($id: String!,
   $noOfSeats: Int,
   $sku: String,
   $sortOrder: Int
+  $slug: String!
 ) {
  updateProduct (id: $id, data: {
   title: $title,
@@ -93,6 +98,7 @@ mutation ($id: String!,
     sku: $sku,
     minPreorderDays:$minPreorderDays
     sortOrder: $sortOrder
+    slug: $slug,
   }) {
     id
     title
@@ -111,6 +117,8 @@ mutation ($id: String!,
     noOfSeats
     createdAt
     updatedAt
+    slug
+    sku
   }
 }
 `;

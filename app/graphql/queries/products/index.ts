@@ -20,6 +20,8 @@ export const GetProducts = gql`
         noOfSeats
         createdAt
         updatedAt
+        categoryId
+        sku
       }
     }
   }
