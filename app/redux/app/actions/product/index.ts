@@ -1,6 +1,10 @@
 import urqlQuery from "~/graphql/";
 import { GetProducts } from "~/graphql/queries/products";
-import { CreateProduct } from "~/graphql/mutations/products";
+import {
+  CreateProduct,
+  UpdateProduct,
+  DeleteProduct,
+} from "~/graphql/mutations/products";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -32,7 +36,12 @@ export function GetProductsAction() {
   };
 }
 
-export function CreateProductsAction(data: any, setProductDrawerOpen: any) {
+export function ProductsAction(
+  data: any,
+  setProductDrawerOpen: any,
+  selectedAction: string,
+  id: string
+) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -41,9 +50,17 @@ export function CreateProductsAction(data: any, setProductDrawerOpen: any) {
       data.vendorId = vendorId;
       data.image = "new image";
       urqlQuery
-        .mutation(CreateProduct, {
-          ...data,
-        })
+        .mutation(
+          selectedAction === "new-product" ? CreateProduct : UpdateProduct,
+          selectedAction === "new-product"
+            ? {
+                ...data,
+              }
+            : {
+                ...data,
+                id: id,
+              }
+        )
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
@@ -52,15 +69,61 @@ export function CreateProductsAction(data: any, setProductDrawerOpen: any) {
 
           let stateData = state();
 
-          let newStateData = [
-            result?.data?.createProduct,
-            ...stateData.app.data,
-          ];
-          dispatch(requestSuccessUpdateStateData(newStateData));
+          if (selectedAction === "new-product") {
+            let newStateData = [
+              ...stateData.app.data,
+              result?.data?.createProduct,
+            ];
+
+            dispatch(requestSuccessUpdateStateData(newStateData));
+          } else {
+            const filteredData = stateData.app.data.filter(
+              (product: any) => product.id !== data.id
+            );
+            let newStateData = [result?.data?.updateProduct, ...filteredData];
+            dispatch(requestSuccessUpdateStateData(newStateData));
+          }
+
           notification.success({
-            message: "Product created successfully",
+            message:
+              selectedAction === "new-product"
+                ? "Product created successfully"
+                : "Product updated successfully",
           });
           setProductDrawerOpen(false);
+          dispatch(requestCompleteDisableLoading());
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function DeleteProductAction(id: string) {
+  return async (dispatch: Dispatch, state: any) => {
+    dispatch(requestStartInitilizeLoading());
+    let stateData = state();
+
+    let records = stateData.app.data;
+    try {
+      urqlQuery
+        .mutation(DeleteProduct, {
+          id,
+        })
+        .toPromise()
+        .then((result) => {
+          console.log(result);
+          if (!result || !result.data) {
+            throw new Error("Something went wrong");
+          }
+          let filteredRecords = records.filter(
+            (record: any) => record.id !== id
+          );
+
+          notification.success({
+            message: "Product deleted successfully",
+          });
+          dispatch(requestSuccessUpdateStateData(filteredRecords));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

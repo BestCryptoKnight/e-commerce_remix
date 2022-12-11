@@ -4,13 +4,14 @@ import ProductFields from "./partials/ProductFields";
 import ServiceFields from "./partials/ServiceFields";
 import WorkShopFields from "./partials/WorkShopFields";
 import { Row, Col, Button, Form } from "antd";
-import { AddProductWrapper } from "./styles";
+import { AddProductWrapper } from "../styles";
 import { useAppDispatch } from "~/hooks/Store";
-import { CreateProductsAction } from "~/redux/app/actions/product";
+import { ProductsAction } from "~/redux/app/actions/product";
 
 export default function ProductForm({
   selectedProduct,
   setProductDrawerOpen,
+  selectedAction,
 }: any) {
   const [selectedLocation, setSelectedLocation] = useState({
     field: "",
@@ -21,20 +22,36 @@ export default function ProductForm({
   const descriptionRef = useRef<any>(null);
   const arabicDescriptionRef = useRef<any>(null);
 
+  console.log(selectedProduct);
+
   useEffect(() => {
-    if (selectedProduct) {
+    if (selectedAction == "edit-product") {
       form.setFieldsValue(selectedProduct);
+    } else {
+      form.resetFields();
     }
-  }, [selectedProduct, form]);
+  }, [selectedProduct, form, selectedAction]);
 
   useEffect(() => {
     form.setFieldValue("location", selectedLocation.location);
   }, [selectedLocation, form]);
 
   const onSubmit = async (data: any) => {
-    data.description = data?.description?.target?.targetElm?.value;
-    data.description_ar = data?.description_ar?.target?.targetElm?.value;
-    dispatch(CreateProductsAction(data, setProductDrawerOpen));
+    data.description = descriptionRef?.current?.targetElm?.value;
+    data.description_ar = arabicDescriptionRef?.current?.targetElm?.value;
+
+    if (selectedAction == "edit-product") {
+      dispatch(
+        ProductsAction(
+          data,
+          setProductDrawerOpen,
+          selectedAction,
+          selectedProduct.id
+        )
+      );
+    } else {
+      dispatch(ProductsAction(data, setProductDrawerOpen, selectedAction, ""));
+    }
   };
 
   const attendanceType: string = Form.useWatch("attendanceType", form);

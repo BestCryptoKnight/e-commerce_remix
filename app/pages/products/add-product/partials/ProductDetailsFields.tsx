@@ -105,61 +105,63 @@ const ProductDetailsFields = ({
       </Col>
       <Col span={12} className="mb-24">
         <h3>Description</h3>
-        <Form.Item name="description">
-          <Editor
-            onInit={(evt, editor) => {
-              if (descriptionRef) return (descriptionRef.current = editor);
-            }}
-            initialValue={`<p>${
-              selectedProduct?.description ? selectedProduct?.description : ""
-            }</p>`}
-            init={{
-              height: 200,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | " +
-                "bold italic backcolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            }}
-          />
-        </Form.Item>
+
+        <Editor
+          onInit={(evt, editor) => {
+            if (descriptionRef) return (descriptionRef.current = editor);
+          }}
+          initialValue={
+            selectedProduct?.description ? selectedProduct?.description : ""
+          }
+          onChange={(evt, editor) => {
+            console.log(evt);
+            console.log(editor);
+          }}
+          init={{
+            height: 200,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | " +
+              "bold italic backcolor | alignleft aligncenter " +
+              "alignright alignjustify | bullist numlist outdent indent | " +
+              "removeformat | help",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          }}
+        />
       </Col>
       <Col span={12} className="mb-24">
         <h3>Arabic Description</h3>
-        <Form.Item name="description_ar">
-          <Editor
-            onInit={(evt, editor) => (arabicDescriptionRef.current = editor)}
-            initialValue={`<p>${
-              selectedProduct?.description_ar
-                ? selectedProduct?.description_ar
-                : ""
-            }</p>`}
-            init={{
-              height: 200,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | " +
-                "bold italic backcolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            }}
-          />
-        </Form.Item>
+
+        <Editor
+          onInit={(evt, editor) => (arabicDescriptionRef.current = editor)}
+          initialValue={
+            selectedProduct?.description_ar
+              ? selectedProduct?.description_ar
+              : ""
+          }
+          init={{
+            height: 200,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | " +
+              "bold italic backcolor | alignleft aligncenter " +
+              "alignright alignjustify | bullist numlist outdent indent | " +
+              "removeformat | help",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          }}
+        />
       </Col>
 
       <Col span={24}>
