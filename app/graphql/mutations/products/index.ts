@@ -9,12 +9,13 @@ mutation (
   $active: Boolean!,
   $tagIds: [String!],
   $price: Float!,
-  $categoryId: String!
+  $categoryId: String!,
   $type: ProductType!,
   $itemsInStock: Int,
   $minPreorderDays: Int,
-  $noOfSeats: Int
+  $noOfSeats: Int,
   $sku: String,
+  $sortOrder: Int
 ) {
   createProduct (data: {
     title: $title,
@@ -32,6 +33,7 @@ mutation (
     noOfSeats: $noOfSeats,
     sku: $sku,
     minPreorderDays:$minPreorderDays
+    sortOrder: $sortOrder
   }) {
     id
     title
@@ -50,6 +52,7 @@ mutation (
     noOfSeats
     createdAt
     updatedAt
+    sortOrder
   }
 }
 `;
