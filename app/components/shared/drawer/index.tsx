@@ -8,12 +8,14 @@ const App: React.FC<DrawerPropsTypes> = ({
   open,
   placement,
   extra,
+  width,
   children,
 }) => {
   return (
     <>
       <Drawer
         title={title}
+        width={width}
         placement={placement ? placement : "right"}
         size={size ? size : "default"}
         onClose={onClose}

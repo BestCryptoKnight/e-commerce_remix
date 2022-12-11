@@ -1,5 +1,6 @@
 export interface DrawerPropsTypes {
   title: string;
+  width?: string | number;
   size?: "default" | "large";
   onClose: () => void;
   open: boolean;
