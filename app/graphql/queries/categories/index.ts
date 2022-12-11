@@ -1,4 +1,4 @@
-export const getCategories = `
+export const GetCategories = `
 query ($vendorId: String!) {
     getCategories (vendorId: $vendorId) {
     id

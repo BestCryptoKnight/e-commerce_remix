@@ -2,7 +2,7 @@ import { Col, Upload, Form, Input, InputNumber, Select, Switch } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
-import { getCategories } from "~/graphql/queries/categories";
+import { GetCategories } from "~/graphql/queries/categories";
 import type { CategoryType } from "~/types/categories";
 
 const ProductDetailsFields = ({
@@ -11,7 +11,7 @@ const ProductDetailsFields = ({
   arabicDescriptionRef,
 }: any) => {
   const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
-    query: getCategories,
+    query: GetCategories,
     variables: {
       vendorId: "63900eb5788c2b789fe57cb3",
     },
