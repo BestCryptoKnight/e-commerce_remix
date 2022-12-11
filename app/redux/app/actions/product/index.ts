@@ -6,6 +6,7 @@ import {
   DeleteProduct,
 } from "~/graphql/mutations/products";
 import type { Dispatch } from "redux";
+import slugify from "slugify";
 import {
   requestStartInitilizeLoading,
   requestSuccessUpdateStateData,
@@ -49,6 +50,15 @@ export function ProductsAction(
         localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
       data.vendorId = vendorId;
       data.image = "new image";
+
+      const suggestedSlug = slugify(data.title, {
+        replacement: "-",
+        remove: /[^\w\s]/gi,
+      })
+        .replace(/'_+/g, "")
+        .toLowerCase();
+      data.slug = suggestedSlug;
+
       urqlQuery
         .mutation(
           selectedAction === "new-product" ? CreateProduct : UpdateProduct,
