@@ -8,6 +8,7 @@ import {
   CalendarFilled,
   TagsFilled,
   TrophyFilled,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 
 interface NavMenuPropTypes {
@@ -41,6 +42,11 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
 
   const items = [
     getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
+    getItem(
+      <Link to="/categories">Categories</Link>,
+      "Categories",
+      <AppstoreAddOutlined />
+    ),
     getItem(<Link to="/tags">Tags</Link>, "Tags", <TagsFilled />),
     getItem(<Link to="/coupons">Coupons</Link>, "Coupons", <TrophyFilled />),
     getItem(<Link to="/booking">Booking</Link>, "Booking", <CalendarFilled />),
