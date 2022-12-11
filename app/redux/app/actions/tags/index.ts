@@ -1,5 +1,5 @@
 import urqlQuery from "~/graphql/";
-import { CreateTag, DeleteTag } from "~/graphql/mutations/tags";
+import { CreateTag, DeleteTag, UpdateTag } from "~/graphql/mutations/tags";
 import { GetTags } from "~/graphql/queries/tags";
 import moment from "moment";
 import type { Dispatch } from "redux";
@@ -37,7 +37,12 @@ export function GetTagsAction() {
   };
 }
 
-export function CreateTagAction(data: any, setTagDrawerOpen: any) {
+export function TagAction(
+  data: any,
+  setTagDrawerOpen: any,
+  selectedAction: any,
+  form: any
+) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -48,7 +53,7 @@ export function CreateTagAction(data: any, setTagDrawerOpen: any) {
       data.availabilities = data?.availabilities?.map((availability: any) => {
         return {
           days: availability?.days?.map((day: any) =>
-            moment.unix(day?.unix).format("DD/MM/YYYY")
+            moment.unix(day?.unix).format("MM/DD/YYYY")
           ),
           startTime: moment(availability?.startDate).format("hh:mm"),
           endTime: moment(availability?.endDate).format("hh:mm"),
@@ -56,9 +61,14 @@ export function CreateTagAction(data: any, setTagDrawerOpen: any) {
       });
 
       urqlQuery
-        .mutation(CreateTag, {
-          ...data,
-        })
+        .mutation(
+          selectedAction === "create-tag" ? CreateTag : UpdateTag,
+          selectedAction === "create-tag"
+            ? {
+                ...data,
+              }
+            : { ...data, id: data.id }
+        )
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
@@ -67,13 +77,25 @@ export function CreateTagAction(data: any, setTagDrawerOpen: any) {
 
           let stateData = state();
 
-          let newStateData = [result?.data?.createTag, ...stateData.app.data];
-          dispatch(requestSuccessUpdateStateData(newStateData));
+          if (selectedAction === "create-tag") {
+            let newStateData = [...stateData.app.data, result?.data?.createTag];
+            dispatch(requestSuccessUpdateStateData(newStateData));
+          } else {
+            const filteredData = stateData.app.data.filter(
+              (tag: any) => tag.id !== data.id
+            );
+            let newStateData = [result?.data?.updateTag, ...filteredData];
+            dispatch(requestSuccessUpdateStateData(newStateData));
+          }
+
           notification.success({
-            message: "Tag created successfully",
+            message:
+              selectedAction === "create-tag"
+                ? "Tag created successfully"
+                : "Tag updated successfully",
           });
           setTagDrawerOpen(false);
-
+          form.resetFields();
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

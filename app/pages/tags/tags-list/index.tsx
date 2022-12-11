@@ -3,17 +3,19 @@ import { useAppSelector, useAppDispatch } from "~/hooks/Store";
 import { Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import Drawer from "~/components/shared/drawer";
-import AddNewTag from "../add-tags";
+import AddNewTag from "../add-actions";
 import { GetTagsAction } from "~/redux/app/actions/tags";
 import { DeleteTagsAction } from "~/redux/app/actions/tags";
 import { ActionButtonsWrapper } from "../styles";
 import { Popconfirm } from "antd";
 import type { CouponType } from "~/types/coupons";
 import type { ColumnsType } from "antd/es/table";
-import { DeleteFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 export default function Index() {
   const [tagDrawerOpen, setTagDrawerOpen] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [selectedAction, setSelectedAction] = useState("");
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
@@ -40,7 +42,14 @@ export default function Index() {
       render: (_: any, record: any) => {
         return (
           <ActionButtonsWrapper>
-            {/* <EditFilled style={{ fontSize: "24px" }} /> */}
+            <EditFilled
+              className="warning-icon"
+              onClick={() => {
+                setSelectedTag(record);
+                setTagDrawerOpen(true);
+                setSelectedAction("edit-tag");
+              }}
+            />
             <Popconfirm
               title="Are you sure to delete this tag?"
               onConfirm={() => dispatch(DeleteTagsAction(record.id))}
@@ -61,20 +70,30 @@ export default function Index() {
         <Button
           type="primary"
           className="mb-4"
-          onClick={() => setTagDrawerOpen(true)}
+          onClick={() => {
+            setTagDrawerOpen(true);
+            setSelectedAction("create-tag");
+          }}
         >
           Create Tag
         </Button>
       </div>
       <Table dataSource={data} loading={loading} columns={tagColumns} />
       <Drawer
-        title="Add Tag"
+        title={selectedAction === "create-tag" ? "Add Tag" : "Edit Tag"}
         size="large"
         open={tagDrawerOpen}
-        onClose={() => setTagDrawerOpen(false)}
+        onClose={() => {
+          setTagDrawerOpen(false);
+        }}
         placement="right"
       >
-        <AddNewTag tagDrawerOpen={null} setTagDrawerOpen={setTagDrawerOpen} />
+        <AddNewTag
+          setTagDrawerOpen={setTagDrawerOpen}
+          selectedTag={selectedTag}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
       </Drawer>
     </>
   );

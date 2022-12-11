@@ -1,6 +1,6 @@
 import { Col, Form, Input, Switch } from "antd";
 
-const AddTagsFields = ({ selectedCoupon }: any) => {
+const AddTagsFields = () => {
   return (
     <>
       <Col span={12}>
