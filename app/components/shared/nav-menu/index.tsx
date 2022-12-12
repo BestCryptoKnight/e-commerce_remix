@@ -55,11 +55,7 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
     getItem(<Link to="/tags">Tags</Link>, "Tags", <TagsFilled />),
     getItem(<Link to="/variants">Variants</Link>, "Variants", <StarFilled />),
     getItem(<Link to="/coupons">Coupons</Link>, "Coupons", <TrophyFilled />),
-    getItem(
-      <Link to="/business/profile">Business Profile</Link>,
-      "Business Profile",
-      <BankFilled />
-    ),
+
     getItem(
       <Link to="/settings">Settings</Link>,
       "Settings",

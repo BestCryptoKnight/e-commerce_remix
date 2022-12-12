@@ -1,314 +1,237 @@
-import { Row, Col, Button, Upload, Form, Input } from "antd";
+import {
+  Row,
+  Col,
+  Button,
+  Upload,
+  Form,
+  Input,
+  Select,
+  InputNumber,
+} from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { BusinessProfileWrapper } from "./styles";
+import { UpdateVendorAction } from "~/redux/app/actions/business";
+import { useAppDispatch, useAppSelector } from "~/hooks/Store";
+import { loading as StateLoading } from "~/redux/app";
+import type { UpdateVendorForm } from "~/types/vendors";
 
 export default function ProductForm() {
-  const onSubmit = async (data: any) => {};
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(StateLoading);
+  const { TextArea } = Input;
+  const onSubmit = async (data: UpdateVendorForm) => {
+    dispatch(UpdateVendorAction(data));
+  };
 
   return (
-    <Form onFinish={onSubmit} layout="vertical">
-      <Row gutter={24}>
-        <Col span={24}>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            // beforeUpload={beforeUpload}
-            // onChange={handleChange}
-          >
-            {/* {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} */}
-            <div>
-              {false ? <LoadingOutlined /> : <PlusOutlined />}
-              <div style={{ marginTop: 8 }}>Upload logo</div>
-            </div>
-          </Upload>
-        </Col>
-
-        <Col span={12}>
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the name...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the email...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="contact_name"
-            label="Contact Name"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the Contact Name...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="contact_phone_number"
-            label="Contact phone number"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the Contact phone number...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="business_phone_number"
-            label="Business phone number"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the Contact phone number...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="store_location"
-            label="Store Location"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the Store Location...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-
-        <Col span={24}>
-          <h4 className="form-label">Social media links</h4>
-        </Col>
-
+    <BusinessProfileWrapper>
+      <Form onFinish={onSubmit} layout="vertical">
         <Row gutter={24}>
-          <Col span={8}>
-            <Form.Item
-              name="instagram"
-              label="Instagram"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Instagram...!",
-                },
-              ]}
-            >
+          <Col span={12}>
+            <Form.Item name="name" label="Name">
               <Input />
             </Form.Item>
           </Col>
-          <Col span={8}>
-            <Form.Item
-              name="facebook"
-              label="Facebook"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Facebook...!",
-                },
-              ]}
-            >
+          <Col span={12}>
+            <Form.Item name="email" label="Email">
               <Input />
             </Form.Item>
           </Col>
-          <Col span={8}>
-            <Form.Item
-              name="snapchat"
-              label="Snapchat"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Snapchat...!",
-                },
-              ]}
-            >
+          <Col span={12}>
+            <Form.Item name="address" label="Address">
               <Input />
             </Form.Item>
           </Col>
-          <Col span={8}>
-            <Form.Item
-              name="whatsapp"
-              label="Whatsapp"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Whatsapp...!",
-                },
-              ]}
-            >
+          <Col span={12}>
+            <Form.Item name="addressUrl" label="Address URL">
               <Input />
             </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item name="contactName" label="Contact Name">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="phone" label="Contact phone number">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="business_phone_number"
+              label="Business phone number"
+            >
+              <InputNumber />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="storeLocation" label="Store Location">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="vatNumber" label="VAT Number">
+              <InputNumber />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="crNumber" label="CR Number">
+              <InputNumber />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item name="deliveryMethods" label="Delivery Methods">
+              <Select
+                options={[
+                  { label: "Mandoob", value: "MANDOOB" },
+                  { label: "Pickup", value: "PICKUP" },
+                  { label: "Smsa", value: "SMSA" },
+                ]}
+              />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item name="paymentMethods" label="Payment Methods">
+              <Select
+                options={[
+                  { label: "Bank Transfer", value: "BANK_TRANSFER" },
+                  { label: "Cash", value: "CASH" },
+                  { label: "Online", value: "ONLINE" },
+                  { label: "Store", value: "STORE" },
+                ]}
+              />
+            </Form.Item>
+          </Col>
+          <br></br>
+
+          <Col span={24}>
+            <h4 className="form-label">Bank information fields</h4>
+          </Col>
+
+          <Col span={6}>
+            <Form.Item name="iban" label="Iban Number">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="accountNumber" label="Account Number">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="beneficiary" label="Beneficiary name">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="bankName" label="Bank Name">
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <br></br>
+          <Col span={24}>
+            <h4 className="form-label">Social media links</h4>
+          </Col>
+
+          {/* <Row gutter={24}> */}
+          <Col span={6}>
+            <Form.Item name="instagram" label="Instagram">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="facebook" label="Facebook">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="snapchat" label="Snapchat">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="whatsapp" label="Whatsapp">
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item name="description" label="Description">
+              <TextArea rows={4} />
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item name="description_ar" label="Arabic Description">
+              <TextArea rows={4} />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name="terms" label="Terms">
+              <TextArea rows={4} />
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <h4 className="form-label">
+              Upload business certificates: allow for 5 different uploads{" "}
+            </h4>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+            >
+              <div>
+                {false ? <LoadingOutlined /> : <PlusOutlined />}
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Col>
+
+          <Col span={8}>
+            <h4 className="form-label">Upload IBAN Certificate </h4>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+            >
+              <div>
+                {false ? <LoadingOutlined /> : <PlusOutlined />}
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Col>
+
+          <Col span={8}>
+            <h4 className="form-label">Upload Avatar</h4>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+            >
+              <div>
+                {false ? <LoadingOutlined /> : <PlusOutlined />}
+                <div style={{ marginTop: 8 }}>Upload logo</div>
+              </div>
+            </Upload>
+          </Col>
+          {/* </Row> */}
+
+          <Col span={24}>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              submit
+            </Button>
           </Col>
         </Row>
-        <Col span={12}>
-          <Form.Item
-            name="vat_number"
-            label="VAT Number"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the VAT Number...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            name="cr_number"
-            label="CR Number"
-            rules={[
-              {
-                required: true,
-                message: "Please enter the CR Number...!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-
-        <Col span={12}>
-          <h4 className="form-label">
-            Upload business certificates: allow for 5 different uploads{" "}
-          </h4>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            // beforeUpload={beforeUpload}
-            // onChange={handleChange}
-          >
-            {/* {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} */}
-            <div>
-              {false ? <LoadingOutlined /> : <PlusOutlined />}
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-        </Col>
-
-        <Col span={12}>
-          <h4 className="form-label">Upload IBAN Certificate </h4>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            // beforeUpload={beforeUpload}
-            // onChange={handleChange}
-          >
-            {/* {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} */}
-            <div>
-              {false ? <LoadingOutlined /> : <PlusOutlined />}
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-        </Col>
-
-        <br></br>
-
-        <Col span={24}>
-          <h4 className="form-label">Bank information fields</h4>
-        </Col>
-
-        <Row gutter={24}>
-          <Col span={8}>
-            <Form.Item
-              name="iban_number"
-              label="Iban Number"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Iban Number...!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="account_number"
-              label="Account Number"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Account Number...!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="beneficiary_name"
-              label="Beneficiary name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Beneficiary name...!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="bank_name"
-              label="Bank Name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the Bank Name...!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Col span={24}>
-          <Button type="primary" htmlType="submit">
-            submit
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+      </Form>
+    </BusinessProfileWrapper>
   );
 }

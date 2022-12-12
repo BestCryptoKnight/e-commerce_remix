@@ -45,6 +45,10 @@ export function UpdateVendorAction(data: UpdateVendorForm) {
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
+            notification.success({
+              message: result.error?.graphQLErrors[0]?.message,
+            });
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 
