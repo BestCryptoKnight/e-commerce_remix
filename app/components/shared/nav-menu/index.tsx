@@ -11,6 +11,7 @@ import {
   StarFilled,
   AppstoreAddOutlined,
   ContainerOutlined,
+  SettingFilled,
 } from "@ant-design/icons";
 
 interface NavMenuPropTypes {
@@ -58,6 +59,11 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
       <Link to="/business/profile">Business Profile</Link>,
       "Business Profile",
       <BankFilled />
+    ),
+    getItem(
+      <Link to="/settings">Settings</Link>,
+      "Settings",
+      <SettingFilled />
     ),
   ];
 
