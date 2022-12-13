@@ -1,9 +1,15 @@
 import { Button, Form, Col, Row, Input, InputNumber } from "antd";
 import { useEffect } from "react";
+import Cookies from "universal-cookie";
 const UserProfile = () => {
   const [form] = Form.useForm();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const cookies = new Cookies();
+    if (cookies.get("userInfo")) {
+      form.setFieldsValue(cookies.get("userInfo"));
+    }
+  }, [form]);
   const onFinish = (values: any) => {
     console.log(values);
   };
@@ -11,52 +17,32 @@ const UserProfile = () => {
     <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={24}>
         <Col span={12}>
-          <Form.Item name="name" label="Name">
-            <Input />
+          <Form.Item name="firstName" label="First Name">
+            <Input disabled />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item name="lastName" label="Last Name">
+            <Input disabled />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item name="email" label="Email">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="address" label="Address">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="addressUrl" label="Address URL">
-            <Input />
+            <Input disabled />
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item name="contactName" label="Contact Name">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="phone" label="Contact phone number">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="business_phone_number" label="Business phone number">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item name="storeLocation" label="Store Location">
-            <Input />
+          <Form.Item name="phone" label="Phone number">
+            <Input disabled />
           </Form.Item>
         </Col>
 
-        <Col span={24}>
+        {/* <Col span={24}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </Col>
+        </Col> */}
       </Row>
     </Form>
   );
