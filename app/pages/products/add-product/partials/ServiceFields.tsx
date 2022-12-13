@@ -72,6 +72,9 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
               handleSelect={(address) =>
                 setSelectedLocation({ ...selectedLocation, location: address })
               }
+              title="Location"
+              required={true}
+              name="location"
             />
           </>
         )}
