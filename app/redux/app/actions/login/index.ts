@@ -33,7 +33,9 @@ export function LoginUser(data: EmailLoginForm, next: NavigateFunction) {
           if (login) {
             const cookies = new Cookies();
             cookies.set("accessToken", login?.accessToken, { path: "/" });
-            console.log(cookies.get("accessToken")); // Pacman
+            cookies.set("userInfo", JSON.stringify(login?.user), { path: "/" });
+
+            console.log(cookies.get("userInfo")); // Pacman
             window.localStorage.setItem("accessToken", login?.accessToken);
             window.localStorage.setItem("refreshToken", login?.refreshToken);
             window.localStorage.setItem("userId", login?.user?.id);

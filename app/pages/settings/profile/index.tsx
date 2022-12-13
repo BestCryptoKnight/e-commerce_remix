@@ -1,7 +1,9 @@
 import { Button, Form, Col, Row, Input, InputNumber } from "antd";
+import { useEffect } from "react";
 const UserProfile = () => {
   const [form] = Form.useForm();
 
+  useEffect(() => {}, []);
   const onFinish = (values: any) => {
     console.log(values);
   };
