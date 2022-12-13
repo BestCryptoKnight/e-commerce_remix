@@ -1,5 +1,5 @@
 import urqlQuery from "~/graphql/";
-import { UpdateVendor } from "~/graphql/mutations/business";
+import { UpdateVendor } from "~/graphql/mutations/vendors/vendors";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,

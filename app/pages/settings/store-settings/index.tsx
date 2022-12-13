@@ -7,14 +7,18 @@ import {
   Select,
   Upload,
   InputNumber,
+  Switch,
 } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { UpdateVendorAction } from "~/redux/app/actions/vendors";
+import { useAppDispatch } from "~/hooks/Store";
 
 const UserProfile = () => {
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
-    console.log(values);
+    dispatch(UpdateVendorAction(values));
   };
 
   return (
@@ -50,37 +54,47 @@ const UserProfile = () => {
         {Form.useWatch("deliveryMethods", form)?.includes("MANDOOB") && (
           <>
             <Col span={24}>
-              <Form.List name="availabilities">
+              <Form.List name="deliveryAreas">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map((field) => (
                       <div key={field.key} className="flex">
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
-                            label="Delivery Area"
-                            name={[field.name, "deliveryArea"]}
+                            label="Label"
+                            name={[field.name, "label"]}
                           >
                             <Input />
                           </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
-                            label="Delivery Area Arabic"
-                            name={[field.name, "deliveryArea_ar"]}
+                            label="Label Arabic"
+                            name={[field.name, "label_ar"]}
                           >
                             <Input />
                           </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
                             label="Price"
-                            name={[field.name, "price"]}
+                            name={[field.name, "charge"]}
                           >
                             <InputNumber />
+                          </Form.Item>
+                        </Col>
+
+                        <Col span={3}>
+                          <Form.Item
+                            {...field}
+                            label="Active"
+                            name={[field.name, "active"]}
+                          >
+                            <Switch />
                           </Form.Item>
                         </Col>
                         <MinusCircleOutlined
