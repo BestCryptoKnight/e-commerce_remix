@@ -1,6 +1,17 @@
 import { useRef } from "react";
-import { Button, Form, Col, Row, Input, Select, Upload } from "antd";
+import {
+  Button,
+  Form,
+  Col,
+  Row,
+  Input,
+  Select,
+  Upload,
+  InputNumber,
+} from "antd";
 import { Editor } from "@tinymce/tinymce-react";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
 const UserProfile = () => {
   const [form] = Form.useForm();
   const descriptionRef = useRef<any>(null);
@@ -8,12 +19,15 @@ const UserProfile = () => {
   const onFinish = (values: any) => {
     console.log(values);
   };
+
+  console.log(Form.useWatch("deliveryMethods", form));
   return (
     <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item name="deliveryMethods" label="Delivery Methods">
             <Select
+              mode="multiple"
               options={[
                 { label: "Mandoob", value: "MANDOOB" },
                 { label: "Pickup", value: "PICKUP" },
@@ -26,6 +40,7 @@ const UserProfile = () => {
         <Col span={12}>
           <Form.Item name="paymentMethods" label="Payment Methods">
             <Select
+              mode="multiple"
               options={[
                 { label: "Bank Transfer", value: "BANK_TRANSFER" },
                 { label: "Cash", value: "CASH" },
@@ -36,17 +51,73 @@ const UserProfile = () => {
           </Form.Item>
         </Col>
 
-        {Form.useWatch("deliveryMethods", form) === "MANDOOB" && (
+        {Form.useWatch("deliveryMethods", form)?.includes("MANDOOB") && (
+          // <>
+          //   <Col span={12}>
+          //     <Form.Item name="deliveryArea" label="Delivery Area">
+          //       <Input.TextArea />
+          //     </Form.Item>
+          //   </Col>
+          //   <Col span={12}>
+          //     <Form.Item name="deliveryArea_ar" label="Delivery Area Arabic">
+          //       <Input.TextArea />
+          //     </Form.Item>
+          //   </Col>
+          // </>
           <>
-            <Col span={12}>
-              <Form.Item name="deliveryArea" label="Delivery Area">
-                <Input.TextArea />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="deliveryArea_ar" label="Delivery Area Arabic">
-                <Input.TextArea />
-              </Form.Item>
+            <Col span={24}>
+              <Form.List name="availabilities">
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map((field) => (
+                      <div key={field.key} className="flex">
+                        <Col span={8}>
+                          <Form.Item
+                            {...field}
+                            label="Delivery Area"
+                            name={[field.name, "deliveryArea"]}
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            {...field}
+                            label="Delivery Area Arabic"
+                            name={[field.name, "deliveryArea_ar"]}
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Col>
+
+                        <Col span={8}>
+                          <Form.Item
+                            {...field}
+                            label="Price"
+                            name={[field.name, "price"]}
+                          >
+                            <InputNumber />
+                          </Form.Item>
+                        </Col>
+                        <MinusCircleOutlined
+                          onClick={() => remove(field.name)}
+                        />
+                      </div>
+                    ))}
+
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Add Delivery Area
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
             </Col>
           </>
         )}
