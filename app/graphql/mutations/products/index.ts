@@ -113,6 +113,7 @@ mutation ($id: String!,
     categoryId
     minPreorderDays
     type
+    sortOrder
     itemsInStock
     noOfSeats
     createdAt
