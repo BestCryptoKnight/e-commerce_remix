@@ -46,6 +46,9 @@ export default function App() {
     <html lang="en" className="h-full">
       <head>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCpDNOfbiKVenZZrQ8N-dzwzOKxWuRh0c&libraries=places"></script>
+        <script
+          src={`https://cdn.tiny.cloud/1/x6dm7f5o70w2uodxebi2vqi7f447kwx3b3fcm29tdleitqub/tinymce/6/tinymce.min.js`}
+        ></script>
         <Meta />
         <Links />
         {typeof document === "undefined" ? "__STYLES__" : null}
