@@ -46,7 +46,11 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
   const items = [
     getItem(<Link to="/orders">Orders</Link>, "Orders", <ContainerOutlined />),
     getItem(<Link to="/booking">Bookings</Link>, "Booking", <CalendarFilled />),
-    getItem(<Link to="/">Products</Link>, "Products", <AppstoreFilled />),
+    getItem(
+      <Link to="/products">Products</Link>,
+      "Products",
+      <AppstoreFilled />
+    ),
     getItem(
       <Link to="/categories">Categories</Link>,
       "Categories",
