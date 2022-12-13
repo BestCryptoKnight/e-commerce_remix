@@ -17,7 +17,7 @@ export const LogoWrapper = styled.div`
 export const ParentWrapper = styled.div`
   .ant-layout-sider,
   .ant-layout-sider-has-trigger {
-    border-right: 1px solid #f0f0f0;
     height: 100vh;
   }
+  border-right: 1px solid #f0f0f0;
 `;

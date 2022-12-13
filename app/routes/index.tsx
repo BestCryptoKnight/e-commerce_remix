@@ -1,11 +1,17 @@
-import ProductsList from "~/pages/products/products-list";
+import OrderssList from "~/pages/orders/orders-list";
 import Layout from "~/components/layout/main";
+import Cookies from "universal-cookie";
 const Products = () => {
-  return (
-    <Layout>
-      <ProductsList />
-    </Layout>
-  );
+  const cookies = new Cookies();
+  if (cookies.get("accessToken")) {
+    return (
+      <Layout>
+        <OrderssList />
+      </Layout>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Products;

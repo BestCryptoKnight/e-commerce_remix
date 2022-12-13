@@ -24,7 +24,7 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setCurrent(localStorage.getItem("activeMenu") || "Products");
+      setCurrent(localStorage.getItem("activeMenu") || "Orders");
     }
   }, []);
 

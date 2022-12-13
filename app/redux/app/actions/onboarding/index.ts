@@ -25,6 +25,7 @@ export function CreateUser(data: StepOneFormFields, next: () => void) {
                 message: error.message[0],
               });
             }
+            dispatch(requestCompleteDisableLoading());
           }
           const { signup } = result.data;
           if (signup) {
@@ -53,6 +54,7 @@ export function SendOTPAction(data: OTPActions, next: () => void) {
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
           console.log(result);
@@ -78,6 +80,7 @@ export function VerifyOTPAction(data: OTPActions, next: () => void) {
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 

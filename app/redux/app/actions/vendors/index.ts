@@ -18,6 +18,7 @@ export function CreateVendorAction(data: any, next: NavigateFunction) {
         .mutation(CreateVendor, data)
         .toPromise()
         .then((result) => {
+          dispatch(requestCompleteDisableLoading());
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }

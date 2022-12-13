@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import profile from "~/assets/images/profile.png";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "~/components/shared/loading-spinner";
-
+import Cookies from "universal-cookie";
 const { Content } = Layout;
 const { Header } = Layout;
 
@@ -18,6 +18,7 @@ interface LayoutPropsTypes {
 const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const cookies = new Cookies();
 
   const menu = (
     <Menu
@@ -29,9 +30,11 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
           label: (
             <div
               onClick={() => {
+                cookies.remove("accessToken");
                 setLoading(true);
                 setTimeout(() => {
-                  localStorage.removeItem("token");
+                  localStorage.removeItem("accessToken");
+                  localStorage.removeItem("activeMenu");
                   navigate("/login");
                 }, 2000);
               }}
