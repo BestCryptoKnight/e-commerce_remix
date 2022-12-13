@@ -10,9 +10,19 @@ mutation (
    accessToken
    refreshToken
    user {
+    createdAt
+    email
+    firstName
     id
+    lastName
+    phone
     role
-   }
+    updatedAt
+    vendor{
+      id
+    }
+    verified
+    }
   }
 
 }

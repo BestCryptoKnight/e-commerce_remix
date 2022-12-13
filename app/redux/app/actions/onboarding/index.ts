@@ -7,7 +7,7 @@ import {
   requestStartInitilizeLoading,
   requestCompleteDisableLoading,
 } from "../../";
-
+import Cookies from "universal-cookie";
 //Create a new user
 export function CreateUser(data: StepOneFormFields, next: () => void) {
   return async (dispatch: Dispatch) => {
@@ -29,6 +29,11 @@ export function CreateUser(data: StepOneFormFields, next: () => void) {
           }
           const { signup } = result.data;
           if (signup) {
+            const cookies = new Cookies();
+            cookies.set("accessToken", signup?.accessToken, { path: "/" });
+            cookies.set("userInfo", JSON.stringify(signup?.user), {
+              path: "/",
+            });
             window.localStorage.setItem("accessToken", signup?.accessToken);
             window.localStorage.setItem("refreshToken", signup?.refreshToken);
             window.localStorage.setItem("userId", signup?.user?.id);
