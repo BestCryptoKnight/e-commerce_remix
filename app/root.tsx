@@ -1,5 +1,5 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
-
+import { useEffect } from "react";
 import {
   Links,
   LiveReload,
@@ -15,6 +15,9 @@ import antStylesUrl from "~/styles/antd-customized.css";
 import { Provider as ReduxProvider } from "react-redux";
 import store from "./redux/store";
 import calendarStyles from "fullcalendar/main.min.css";
+import Cookies from "universal-cookie";
+import { redirect, json } from "@remix-run/node";
+import { useNavigate } from "react-router-dom";
 
 export const links: LinksFunction = () => {
   return [
@@ -31,6 +34,14 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  useEffect(() => {
+    if (!cookies.get("accessToken")) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <html lang="en" className="h-full">
       <head>

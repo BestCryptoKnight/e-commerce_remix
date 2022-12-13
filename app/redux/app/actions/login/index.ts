@@ -4,6 +4,7 @@ import { notification } from "antd";
 import type { Dispatch } from "redux";
 import type { NavigateFunction } from "@remix-run/react";
 import type { EmailLoginForm } from "~/types/login";
+import Cookies from "universal-cookie";
 import {
   requestStartInitilizeLoading,
   requestCompleteDisableLoading,
@@ -26,9 +27,13 @@ export function LoginUser(data: EmailLoginForm, next: NavigateFunction) {
                 message: error.message[0],
               });
             }
+            dispatch(requestCompleteDisableLoading());
           }
           const { login } = result.data;
           if (login) {
+            const cookies = new Cookies();
+            cookies.set("accessToken", login?.accessToken, { path: "/" });
+            console.log(cookies.get("accessToken")); // Pacman
             window.localStorage.setItem("accessToken", login?.accessToken);
             window.localStorage.setItem("refreshToken", login?.refreshToken);
             window.localStorage.setItem("userId", login?.user?.id);

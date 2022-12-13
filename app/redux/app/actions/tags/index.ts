@@ -26,6 +26,7 @@ export function GetTagsAction() {
         .then((result) => {
           console.log(result);
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
           console.log(result);
@@ -72,6 +73,7 @@ export function TagAction(
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 
@@ -120,6 +122,7 @@ export function DeleteTagsAction(id: string) {
         .then((result) => {
           console.log(result);
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
           let filteredRecords = records.filter(

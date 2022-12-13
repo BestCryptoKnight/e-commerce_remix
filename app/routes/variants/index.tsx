@@ -1,11 +1,17 @@
 import VariantList from "~/pages/variants/variant-list";
 import Layout from "~/components/layout/main";
+import Cookies from "universal-cookie";
 const Products = () => {
-  return (
-    <Layout>
-      <VariantList />
-    </Layout>
-  );
+  const cookies = new Cookies();
+  if (cookies.get("accessToken")) {
+    return (
+      <Layout>
+        <VariantList />
+      </Layout>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Products;

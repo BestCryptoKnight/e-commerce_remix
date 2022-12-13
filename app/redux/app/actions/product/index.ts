@@ -74,6 +74,7 @@ export function ProductsAction(
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 

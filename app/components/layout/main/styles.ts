@@ -24,7 +24,7 @@ export const LayoutWrapper = styled.div`
     gap: 10px;
   }
   .header-bg-color {
-    background-color: #c0d3ea;
+    background-color: #f5f5f5;
   }
   .user-profile {
     text-align: right;
