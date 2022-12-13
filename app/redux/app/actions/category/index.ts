@@ -28,7 +28,26 @@ export function GetCategoriesAction() {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getCategories));
+
+          //change to backend sort once implemented
+          const items = result.data.getCategories;
+
+          const sortedItems = items.sort(
+            (a: { createdAt: Date }, b: { createdAt: Date }) => {
+              const aCreatedAt = new Date(a.createdAt);
+              const bCreatedAt = new Date(b.createdAt);
+
+              if (aCreatedAt > bCreatedAt) {
+                return -1;
+              }
+              if (bCreatedAt < aCreatedAt) {
+                return 1;
+              }
+              return 0;
+            }
+          );
+
+          dispatch(requestSuccessUpdateStateData(sortedItems));
         });
     } catch (error) {
       throw error;
@@ -91,6 +110,39 @@ export function CategoryAction(
                 : "Category updated successfully",
           });
           setCategoryDrawerOpen(false);
+          dispatch(requestCompleteDisableLoading());
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function DeleteCategoryAction(id: string) {
+  return async (dispatch: Dispatch, state: any) => {
+    dispatch(requestStartInitilizeLoading());
+    let stateData = state();
+
+    let records = stateData.app.data;
+    try {
+      urqlQuery
+        .mutation(DeleteCategory, {
+          id,
+        })
+        .toPromise()
+        .then((result) => {
+          console.log(result);
+          if (!result || !result.data) {
+            throw new Error("Something went wrong");
+          }
+          let filteredRecords = records.filter(
+            (record: any) => record.id !== id
+          );
+
+          notification.success({
+            message: "Category deleted successfully",
+          });
+          dispatch(requestSuccessUpdateStateData(filteredRecords));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { GetCategoriesAction } from "~/redux/app/actions/category";
+import {
+  DeleteCategoryAction,
+  GetCategoriesAction,
+} from "~/redux/app/actions/category";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Table, Button, Popconfirm } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
@@ -63,7 +66,7 @@ export default function Index() {
             />
             <Popconfirm
               title="Are you sure to delete this category?"
-              // onConfirm={() => dispatch(DeleteProductAction(record.id))}
+              onConfirm={() => dispatch(DeleteCategoryAction(record.id))}
               onCancel={() => console.log("cancel")}
               okText="Yes"
               cancelText="No"
