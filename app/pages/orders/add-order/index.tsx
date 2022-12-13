@@ -3,7 +3,7 @@ import OrderDetailsFields from "./partials/OrderDetails";
 import { Row, Col, Button, Form } from "antd";
 import { AddOrderWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
-import { CreateCategoryAction } from "~/redux/app/actions/category";
+
 
 export default function OrderForm({
   selectedCategory,
@@ -18,9 +18,7 @@ export default function OrderForm({
     }
   }, [selectedCategory, form]);
 
-  const onSubmit = async (data: any) => {
-    dispatch(CreateCategoryAction(data, setCategoryDrawerOpen));
-  };
+  const onSubmit = async (data: any) => {};
 
   return (
     <AddOrderWrapper>

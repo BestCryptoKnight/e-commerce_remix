@@ -6,6 +6,7 @@ query ($vendorId: String!) {
     title_ar
     createdAt
     updatedAt
+    sortOrder
     active
     tagIds
   }

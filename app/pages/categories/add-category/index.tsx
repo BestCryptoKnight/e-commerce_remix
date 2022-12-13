@@ -3,11 +3,12 @@ import CategoryDetailsFields from "./partials/CategoryDetailsFields";
 import { Row, Col, Button, Form } from "antd";
 import { AddCategoryWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
-import { CreateCategoryAction } from "~/redux/app/actions/category";
+import { CategoryAction } from "~/redux/app/actions/category";
 
 export default function CategoryForm({
   selectedCategory,
   setCategoryDrawerOpen,
+  selectedAction,
 }: any) {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
@@ -19,7 +20,18 @@ export default function CategoryForm({
   }, [selectedCategory, form]);
 
   const onSubmit = async (data: any) => {
-    dispatch(CreateCategoryAction(data, setCategoryDrawerOpen));
+    if (selectedAction === "edit-category") {
+      dispatch(
+        CategoryAction(
+          data,
+          setCategoryDrawerOpen,
+          selectedAction,
+          selectedCategory.id
+        )
+      );
+    } else {
+      dispatch(CategoryAction(data, setCategoryDrawerOpen, selectedAction, ""));
+    }
   };
 
   return (
