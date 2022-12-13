@@ -1,63 +1,38 @@
-import {
-  Row,
-  Col,
-  Button,
-  Upload,
-  Form,
-  Input,
-  Select,
-  InputNumber,
-} from "antd";
+import { useRef, useState, useEffect } from "react";
+import { Row, Col, Button, Upload, Form, Input, InputNumber } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { BusinessProfileWrapper } from "./styles";
 import { UpdateVendorAction } from "~/redux/app/actions/business";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { loading as StateLoading } from "~/redux/app";
 import type { UpdateVendorForm } from "~/types/vendors";
+import { Editor } from "@tinymce/tinymce-react";
+import GeoLocation from "~/components/shared/geo-location";
 
 export default function ProductForm() {
   const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
   const loading = useAppSelector(StateLoading);
+  const [storeLocation, setStoreLocation] = useState("");
+  const descriptionRef = useRef<any>(null);
   const { TextArea } = Input;
+
+  useEffect(() => {
+    form.setFieldValue("storeLocation", storeLocation);
+  }, [storeLocation, form]);
+
   const onSubmit = async (data: UpdateVendorForm) => {
+    data.terms = descriptionRef?.current?.targetElm?.value;
+    data.storeLocation = storeLocation;
+    data.address = storeLocation;
+    data.addressUrl = storeLocation;
     dispatch(UpdateVendorAction(data));
   };
 
   return (
     <BusinessProfileWrapper>
-      <Form onFinish={onSubmit} layout="vertical">
+      <Form onFinish={onSubmit} layout="vertical" form={form}>
         <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item name="name" label="Name">
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="email" label="Email">
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="address" label="Address">
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="addressUrl" label="Address URL">
-              <Input />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item name="contactName" label="Contact Name">
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="phone" label="Contact phone number">
-              <Input />
-            </Form.Item>
-          </Col>
           <Col span={12}>
             <Form.Item
               name="business_phone_number"
@@ -67,9 +42,14 @@ export default function ProductForm() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="storeLocation" label="Store Location">
-              <Input />
-            </Form.Item>
+            <GeoLocation
+              selectedLocation={storeLocation}
+              handleChange={(address) => setStoreLocation(address)}
+              handleSelect={(address) => setStoreLocation(address)}
+              title="Store Location"
+              required={false}
+              name="storeLocation"
+            />
           </Col>
           <Col span={12}>
             <Form.Item name="vatNumber" label="VAT Number">
@@ -82,30 +62,6 @@ export default function ProductForm() {
             </Form.Item>
           </Col>
 
-          <Col span={12}>
-            <Form.Item name="deliveryMethods" label="Delivery Methods">
-              <Select
-                options={[
-                  { label: "Mandoob", value: "MANDOOB" },
-                  { label: "Pickup", value: "PICKUP" },
-                  { label: "Smsa", value: "SMSA" },
-                ]}
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item name="paymentMethods" label="Payment Methods">
-              <Select
-                options={[
-                  { label: "Bank Transfer", value: "BANK_TRANSFER" },
-                  { label: "Cash", value: "CASH" },
-                  { label: "Online", value: "ONLINE" },
-                  { label: "Store", value: "STORE" },
-                ]}
-              />
-            </Form.Item>
-          </Col>
           <br></br>
 
           <Col span={24}>
@@ -162,19 +118,43 @@ export default function ProductForm() {
 
           <Col span={8}>
             <Form.Item name="description" label="Description">
-              <TextArea rows={4} />
+              <TextArea rows={8} />
             </Form.Item>
           </Col>
 
           <Col span={8}>
             <Form.Item name="description_ar" label="Arabic Description">
-              <TextArea rows={4} />
+              <TextArea rows={8} />
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item name="terms" label="Terms">
-              <TextArea rows={4} />
-            </Form.Item>
+            <h4>Terms and conditions of vendor: </h4>
+            <Editor
+              onInit={(evt, editor) => {
+                if (descriptionRef) return (descriptionRef.current = editor);
+              }}
+              initialValue={""}
+              onChange={(evt, editor) => {
+                console.log(evt);
+                console.log(editor);
+              }}
+              init={{
+                height: 200,
+                menubar: false,
+                plugins: [
+                  "advlist autolink lists link image charmap print preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | " +
+                  "bold italic backcolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+            />
           </Col>
 
           <Col span={8}>

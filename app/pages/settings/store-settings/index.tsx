@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   Button,
   Form,
@@ -9,18 +8,15 @@ import {
   Upload,
   InputNumber,
 } from "antd";
-import { Editor } from "@tinymce/tinymce-react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const UserProfile = () => {
   const [form] = Form.useForm();
-  const descriptionRef = useRef<any>(null);
 
   const onFinish = (values: any) => {
     console.log(values);
   };
 
-  console.log(Form.useWatch("deliveryMethods", form));
   return (
     <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={24}>
@@ -52,18 +48,6 @@ const UserProfile = () => {
         </Col>
 
         {Form.useWatch("deliveryMethods", form)?.includes("MANDOOB") && (
-          // <>
-          //   <Col span={12}>
-          //     <Form.Item name="deliveryArea" label="Delivery Area">
-          //       <Input.TextArea />
-          //     </Form.Item>
-          //   </Col>
-          //   <Col span={12}>
-          //     <Form.Item name="deliveryArea_ar" label="Delivery Area Arabic">
-          //       <Input.TextArea />
-          //     </Form.Item>
-          //   </Col>
-          // </>
           <>
             <Col span={24}>
               <Form.List name="availabilities">
@@ -123,36 +107,6 @@ const UserProfile = () => {
         )}
         <br></br>
 
-        <Col span={12} className="mb-24">
-          <h4>Terms and conditions of vendor: </h4>
-
-          <Editor
-            onInit={(evt, editor) => {
-              if (descriptionRef) return (descriptionRef.current = editor);
-            }}
-            initialValue={""}
-            onChange={(evt, editor) => {
-              console.log(evt);
-              console.log(editor);
-            }}
-            init={{
-              height: 200,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | " +
-                "bold italic backcolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            }}
-          />
-        </Col>
         <Col span={24}>
           <Form.Item name="avatar" label="Hero image for store">
             <Upload

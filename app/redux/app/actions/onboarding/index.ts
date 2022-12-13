@@ -34,9 +34,6 @@ export function CreateUser(data: StepOneFormFields, next: () => void) {
             cookies.set("userInfo", JSON.stringify(signup?.user), {
               path: "/",
             });
-            window.localStorage.setItem("accessToken", signup?.accessToken);
-            window.localStorage.setItem("refreshToken", signup?.refreshToken);
-            window.localStorage.setItem("userId", signup?.user?.id);
 
             next();
           }
