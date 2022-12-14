@@ -2,23 +2,23 @@ import {
   MailOutlined,
   PhoneOutlined,
   ShareAltOutlined,
-  ShoppingCartOutlined,
   UserOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
-import { Button, Divider, Table, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
 import {
   cartProductTableColumns,
   cartServiceTableColumns,
   cartWorkshopTableColumns,
 } from "./OrderDetailsList.utils";
 
-const OrderDetails = () => {
+const OrderDetails = ({ selectedOrder }: any) => {
   return (
     <div className="rounded-md bg-graybg p-4">
       <div className="flex items-baseline justify-between">
         <p className="text-xl font-bold">
-          Order Number <span className="text-xl text-green">#PS-12345678</span>
+          Order Number{" "}
+          <span className="text-xl text-green">#{selectedOrder?.id}</span>
         </p>
 
         <div className="flex items-center">
@@ -88,14 +88,14 @@ const OrderDetails = () => {
                   <UserOutlined /> <p className="ml-2">Customer Name</p>
                 </div>
 
-                <p>John Doe</p>
+                <p>{selectedOrder?.customer}</p>
               </div>
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-baseline">
                   <PhoneOutlined /> <p className="ml-2">Phone Number</p>
                 </div>
 
-                <p>0505868500</p>
+                <p>{selectedOrder?.customerInfo?.phone}</p>
               </div>
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-baseline">

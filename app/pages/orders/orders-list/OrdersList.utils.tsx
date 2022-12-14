@@ -5,8 +5,8 @@ import moment from "moment";
 export const orderTableColumns: ColumnsType<OrderType> = [
   {
     title: "Order ID",
-    dataIndex: "orderId",
-    key: "orderId",
+    dataIndex: "id",
+    key: "id",
     responsive: ["md", "xs"],
   },
   {

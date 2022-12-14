@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GetCategoriesAction } from "~/redux/app/actions/category";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Tabs, Table, Button } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
@@ -7,14 +6,16 @@ import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
 import { OrderFiltersWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
+import { GetOrdersAction } from "~/redux/app/actions/order";
 
 export default function Index() {
   const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
-    dispatch(GetCategoriesAction());
+    dispatch(GetOrdersAction());
   }, [dispatch]);
 
   const tabItems = orderStatusTabs.map((item, i) => {
@@ -35,9 +36,10 @@ export default function Index() {
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
       <Table
-        onRow={(record) => {
+        onRow={(record: any) => {
           return {
-            onClick: (event) => {
+            onClick: () => {
+              setSelectedOrder(record);
               setOrderDetailsDrawerOpen(true);
             },
           };
@@ -54,7 +56,7 @@ export default function Index() {
         onClose={() => setOrderDetailsDrawerOpen(false)}
         placement="right"
       >
-        <OrderDetails />
+        <OrderDetails selectedOrder={selectedOrder} />
       </Drawer>
     </>
   );
