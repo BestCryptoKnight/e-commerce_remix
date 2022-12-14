@@ -18,3 +18,9 @@ export const ActionButtonsWrapper = styled.div`
     color: #ffc007;
   }
 `;
+
+export const ProductTableWrapper = styled.div`
+  .ant-table-content {
+    overflow: scroll;
+  }
+`;

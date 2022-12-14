@@ -1,5 +1,5 @@
 export interface OrderType {}
 
 export interface OrderStatusType {
-  label: string;
+  label: JSX.Element;
 }
