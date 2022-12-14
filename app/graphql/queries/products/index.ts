@@ -12,7 +12,7 @@ export const GetProducts = gql`
         vendorId
         active
         tagIds
-        price
+
         image
         minPreorderDays
         type
@@ -21,7 +21,6 @@ export const GetProducts = gql`
         createdAt
         updatedAt
         categoryId
-        sku
       }
     }
   }

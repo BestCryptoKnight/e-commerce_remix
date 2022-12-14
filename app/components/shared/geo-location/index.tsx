@@ -7,11 +7,17 @@ interface GeoLocationTypes {
   selectedLocation: string;
   handleChange: (address: string) => void;
   handleSelect: (address: string) => void;
+  title: string;
+  required: boolean;
+  name: string;
 }
 function GeoLocation({
   selectedLocation,
   handleChange,
   handleSelect,
+  title,
+  required,
+  name,
 }: GeoLocationTypes) {
   console.log(selectedLocation);
   return (
@@ -23,11 +29,11 @@ function GeoLocation({
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
           <Form.Item
-            name="location"
-            label="Location"
+            name={name}
+            label={title ? title : "Location"}
             rules={[
               {
-                required: true,
+                required: required,
                 message: "Please enter the Location ...!",
               },
             ]}
