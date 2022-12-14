@@ -5,44 +5,30 @@ const CouponDetailsFields = ({ selectedCoupon }: any) => {
     <>
       <Col span={12}>
         <Form.Item
-          name="title"
-          label="Title"
+          name="discount"
+          label="Discount"
           rules={[
             {
               required: true,
-              message: "Please enter the title...!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-        <Form.Item
-          name="title_ar"
-          label="Arabic Title"
-          rules={[
-            {
-              required: true,
-              message: "Please enter the arabic title...!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-        <Form.Item
-          name="percentage"
-          label="Percentage"
-          rules={[
-            {
-              required: true,
-              message: "Please enter the discount percentage...!",
+              message: "Please enter the discount...!",
             },
           ]}
         >
           <InputNumber />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item
+          name="code"
+          label="code"
+          rules={[
+            {
+              required: true,
+              message: "Please enter the code...!",
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
       </Col>
 

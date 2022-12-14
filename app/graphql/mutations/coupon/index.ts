@@ -1,24 +1,25 @@
 export const CreateCoupon = `
 mutation (
-  $title: String!,
+  $discount: Float!,
   $code: String!,
   $vendorId: String!,
   $active: Boolean!,
 ) {
   createCoupon (data: {
-    title: $title,
-    title_ar: $title_ar,
     vendorId: $vendorId,
     active: $active,
     code: $code
+    discount: $discount
 
   }) {
-    id
-    title
-    title_ar
-    vendorId
-    code
-    active 
+      active
+      code
+      createdAt
+      discount
+      id
+      updatedAt
+      vendorId
+      
   }
 }
 `;
