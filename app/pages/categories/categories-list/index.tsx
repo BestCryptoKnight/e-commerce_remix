@@ -4,13 +4,12 @@ import {
   GetCategoriesAction,
 } from "~/redux/app/actions/category";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm } from "antd";
+import { Table, Button, Popconfirm, Row, Checkbox } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
-import moment from "moment";
+import { categoriesColumns } from "./Categories.utils";
+import CategoriesFilter from "~/components/shared/filter-columns";
 import Drawer from "~/components/shared/drawer";
 import AddNewCategory from "../add-category";
-import type { CategoryType } from "~/types/categories";
-import type { ColumnsType } from "antd/es/table";
 import { ActionButtonsWrapper } from "./styles";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
@@ -18,6 +17,8 @@ export default function Index() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
   const [categoryDrawerOpen, setCategoryDrawerOpen] = useState(false);
+  const [filteredColumn, setFilteredColumn] = useState([]);
+
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
@@ -25,32 +26,8 @@ export default function Index() {
     dispatch(GetCategoriesAction());
   }, [dispatch]);
 
-  const categoryTableColumns: ColumnsType<CategoryType> = [
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Arabic Title",
-      dataIndex: "title_ar",
-      key: "title_ar",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Active",
-      dataIndex: "active",
-      key: "active",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Created At",
-      render(value: string) {
-        return <div>{moment(value).format("DD-MM-YYYY")}</div>;
-      },
-      responsive: ["sm"],
-    },
+  const [tableColumns, setTableColumns] = useState<any>([
+    ...categoriesColumns,
     {
       title: "Actions",
       render: (_: any, record: any) => {
@@ -76,12 +53,20 @@ export default function Index() {
           </ActionButtonsWrapper>
         );
       },
+      label: <Checkbox value="actions">Actions</Checkbox>,
     },
-  ];
+  ]);
 
   return (
     <>
-      <div className="flex justify-end">
+      <h2 className="text-3xl">Categories</h2>
+      <Row gutter={24} className="flex items-baseline">
+        <CategoriesFilter
+          tableColumns={tableColumns}
+          setTableColumns={setTableColumns}
+          filteredColumn={filteredColumn}
+          setFilteredColumn={setFilteredColumn}
+        />
         <Button
           type="primary"
           className="mb-4"
@@ -92,9 +77,10 @@ export default function Index() {
         >
           Create category
         </Button>
-      </div>
+      </Row>
+
       <Table
-        columns={categoryTableColumns}
+        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
         dataSource={data}
         loading={loading}
       />

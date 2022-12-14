@@ -30,7 +30,7 @@ export function GetCategoriesAction() {
           }
 
           //change to backend sort once implemented
-          const items = result.data.getCategories;
+          const items = [...result.data.getCategories];
 
           const sortedItems = items.sort(
             (a: { createdAt: Date }, b: { createdAt: Date }) => {
