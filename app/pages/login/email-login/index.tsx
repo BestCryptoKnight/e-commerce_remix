@@ -44,13 +44,13 @@ export default function EmailLogin() {
         type="primary"
         htmlType="submit"
         loading={loading}
-        className="mb-4 w-full"
+        className="mb-4 w-full uppercase"
       >
-        Next
+        Login
       </Button>
       <Link to="/onboarding" className="text-gray-400 hover:text-gray-400">
         Don't have an account?
-        <span className="text-black underline"> Register here</span>
+        <span className="tjwl-bold text-green"> Register here</span>
       </Link>
     </Form>
   );

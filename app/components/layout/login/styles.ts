@@ -5,6 +5,10 @@ export const LayoutWrapper = styled.div`
   background: #ffffff;
   display: flex;
   justify-content: center;
+
+  .ant-layout {
+    background: white !important;
+  }
 `;
 
 export const HeroImage = styled.div`
@@ -13,5 +17,5 @@ export const HeroImage = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
-  border-top-left-radius: 50px;
+  border-top-left-radius: 200px;
 `;
