@@ -1,20 +1,6 @@
 import { Checkbox } from "antd";
 export const couponTableColumns = [
   {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-    responsive: ["md", "xs"],
-    label: <Checkbox value="title">Title</Checkbox>,
-  },
-  {
-    title: "Arabic Title",
-    dataIndex: "title_ar",
-    key: "title_ar",
-    responsive: ["md", "xs"],
-    label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
-  },
-  {
     title: "Code",
     dataIndex: "code",
     key: "code",
@@ -22,9 +8,9 @@ export const couponTableColumns = [
     label: <Checkbox value="code">Code</Checkbox>,
   },
   {
-    title: "Percentage",
-    dataIndex: "percentage",
-    key: "percentage",
+    title: "Discount",
+    dataIndex: "discount",
+    key: "discount",
     responsive: ["md", "xs"],
     label: <Checkbox value="percentage">Percentage</Checkbox>,
   },
@@ -33,6 +19,9 @@ export const couponTableColumns = [
     title: "Active",
     dataIndex: "active",
     key: "active",
+    render: (record) => {
+      return <>{String(record)}</>;
+    },
     responsive: ["md", "xs"],
     label: <Checkbox value="active">Active</Checkbox>,
   },
