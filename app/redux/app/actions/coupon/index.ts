@@ -56,7 +56,7 @@ export function CouponAction(data: any, setCouponDrawerOpen: any) {
           dispatch(requestSuccessUpdateStateData(newStateData));
 
           notification.success({
-            message: "Category created successfully",
+            message: "Coupon created successfully",
           });
           setCouponDrawerOpen(false);
           dispatch(requestCompleteDisableLoading());

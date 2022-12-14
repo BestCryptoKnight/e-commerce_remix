@@ -4,10 +4,10 @@ import { Row, Col, Button, Form } from "antd";
 import { AddCouponWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
 import { CouponAction } from "~/redux/app/actions/coupon";
-export default function CouponForm(
-  { selectedCoupon }: any,
-  { setCouponDrawerOpen }: any
-) {
+export default function CouponForm({
+  selectedCoupon,
+  setCouponDrawerOpen,
+}: any) {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
 

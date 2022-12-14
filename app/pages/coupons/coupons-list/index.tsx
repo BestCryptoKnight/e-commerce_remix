@@ -38,6 +38,7 @@ export default function Index() {
         <AddNewCoupon
           selectedCoupon={null}
           setCouponDrawerOpen={setCouponDrawerOpen}
+          
         />
       </Drawer>
     </>

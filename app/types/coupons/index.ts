@@ -3,6 +3,6 @@ export interface CouponType {
   title: string;
   title_ar: string;
   code: string;
-  percentage: number;
+  discount: number;
   active: boolean;
 }
