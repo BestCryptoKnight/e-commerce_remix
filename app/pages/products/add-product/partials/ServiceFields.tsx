@@ -1,4 +1,4 @@
-import { Col, Form, Input, Switch, Select } from "antd";
+import { Col, Form, Input, Switch, Select, DatePicker, TimePicker } from "antd";
 import GeoLocation from "~/components/shared/geo-location";
 import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
@@ -34,11 +34,15 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
         </Form.Item>
       </Col>
 
-      {/* <Col span={12}>
+      <Col span={12}>
         <Form.Item name="duration" label="Duration">
-          <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+          <TimePicker
+            format="HH:mm"
+            minuteStep={5}
+            placeholder="How long does this service take?"
+          />
         </Form.Item>
-      </Col> */}
+      </Col>
 
       <Col span={12}>
         <Form.Item name="attendanceType" label="Attendance Type">
