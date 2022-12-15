@@ -14,7 +14,7 @@ import { ActionButtonsWrapper } from "../styles";
 import ProductFilter from "~/components/shared/filter-columns";
 import { productColumns } from "./ProductList.utils";
 export default function Index() {
-  const [productDrawerOpen, setProductDrawerOpen] = useState(true);
+  const [productDrawerOpen, setProductDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
   const [filteredColumn, setFilteredColumn] = useState([]);

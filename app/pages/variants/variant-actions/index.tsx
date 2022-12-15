@@ -1,9 +1,7 @@
-import { useEffect } from "react";
-import Availibility from "./partials/AddVariant";
+import VariantOptions from "./partials/AddVariant";
 import { Row, Col, Button, Form, Input } from "antd";
 import { AddCouponWrapper } from "../styles";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { TagAction } from "~/redux/app/actions/tags";
 import { drawerLoading as StateDrawerLoading, loading } from "~/redux/app";
 import { CreateVariantAction } from "~/redux/app/actions/variants";
 
@@ -19,7 +17,6 @@ export default function CouponForm({
   const drawerLoading = useAppSelector(loading);
 
   const onFinish = (values: any) => {
-    console.log(values);
     dispatch(CreateVariantAction(values, setVariantDrawerOpen));
   };
 
@@ -55,7 +52,7 @@ export default function CouponForm({
               <Input />
             </Form.Item>
           </Col>
-          <Availibility />
+          <VariantOptions />
 
           <Col span={24}>
             <Button type="primary" htmlType="submit" loading={drawerLoading}>
