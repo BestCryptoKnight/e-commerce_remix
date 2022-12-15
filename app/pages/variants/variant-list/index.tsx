@@ -4,7 +4,7 @@ import { Table, Button, Row, Checkbox } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import Drawer from "~/components/shared/drawer";
 import AddNewVariant from "../variant-actions";
-import { GetTagsAction } from "~/redux/app/actions/tags";
+import { GetVariantsAction } from "~/redux/app/actions/variants";
 // import { DeleteTagsAction } from "~/redux/app/actions/tags";
 // import { ActionButtonsWrapper } from "../styles";
 // import { Popconfirm } from "antd";
@@ -23,7 +23,7 @@ export default function Index() {
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
-    dispatch(GetTagsAction());
+    dispatch(GetVariantsAction());
   }, [dispatch]);
 
   const variantColumns = [

@@ -1,18 +1,45 @@
 import urqlQuery from "~/graphql/";
 import { CreateVariant } from "~/graphql/mutations/variants";
-import { GetTags } from "~/graphql/queries/tags";
+import { GetVariants } from "~/graphql/queries/variants";
 
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
   requestCompleteDisableLoading,
   requestSuccessUpdateStateData,
+  requestStartInitilizeDrawerLoading,
+  requestCompleteDisableDrawerLoading,
 } from "../../";
 import { notification } from "antd";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-export function CreateVariantAction(data: any) {
+export function GetVariantsAction() {
+  return async (dispatch: Dispatch) => {
+    dispatch(requestStartInitilizeLoading());
+    try {
+      const vendorId = cookies.get("vendorId");
+      urqlQuery
+        .query(GetVariants, {
+          vendorId,
+        })
+        .toPromise()
+        .then((result) => {
+          console.log(result);
+          if (!result || !result.data) {
+            dispatch(requestCompleteDisableLoading());
+            throw new Error("Something went wrong");
+          }
+          console.log(result);
+          dispatch(requestSuccessUpdateStateData(result.data.getVariants));
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function CreateVariantAction(data: any, setVariantDrawerOpen: any) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -32,7 +59,7 @@ export function CreateVariantAction(data: any) {
             result?.data?.createVariant,
           ];
           dispatch(requestSuccessUpdateStateData(newStateData));
-
+          setVariantDrawerOpen(false);
           notification.success({
             message: "Variant created successfully",
           });

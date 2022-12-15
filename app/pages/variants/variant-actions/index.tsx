@@ -4,8 +4,9 @@ import { Row, Col, Button, Form, Input } from "antd";
 import { AddCouponWrapper } from "../styles";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { TagAction } from "~/redux/app/actions/tags";
-import { drawerLoading as StateDrawerLoading } from "~/redux/app";
+import { drawerLoading as StateDrawerLoading, loading } from "~/redux/app";
 import { CreateVariantAction } from "~/redux/app/actions/variants";
+
 export default function CouponForm({
   setVariantDrawerOpen,
   selectedVariant,
@@ -15,11 +16,11 @@ export default function CouponForm({
   const [form] = Form.useForm();
 
   const dispatch = useAppDispatch();
-  const drawerLoading = useAppSelector(StateDrawerLoading);
+  const drawerLoading = useAppSelector(loading);
 
   const onFinish = (values: any) => {
     console.log(values);
-    dispatch(CreateVariantAction(values));
+    dispatch(CreateVariantAction(values, setVariantDrawerOpen));
   };
 
   return (
