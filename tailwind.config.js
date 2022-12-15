@@ -12,7 +12,7 @@ module.exports = {
       border: "rgba(255, 255, 255, 0.5)",
       grayCta: "#F1F0F6",
       grayNav: "#E1E6F0",
-      graybg: "#fbf5f7",
+      graybg: "#fdfbfb",
       textCta: "#080717",
       lightYellow: "#f5fcfa",
       subscriptions: {
