@@ -15,7 +15,7 @@ export const LayoutWrapper = styled.div`
   }
   .content-padding {
     padding: 40px;
-    padding-top: 15px;
+    padding-top: 40px;
     padding-bottom: 0;
   }
   .col-adjust {
@@ -25,9 +25,19 @@ export const LayoutWrapper = styled.div`
     gap: 10px;
   }
   .header-bg-color {
+    background-color: #fff;
+    border-bottom: solid #dbdadd 1px;
+  }
+  .main-bg-color {
     background-color: #f5f5f5;
   }
   .user-profile {
     text-align: right;
   }
+  .ant-layout-header {
+    padding: 0 50px 0 10px !important;
+  }
 `;
+
+
+//f5f5f5

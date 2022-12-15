@@ -16,9 +16,10 @@ interface LayoutPropsTypes {
 }
 
 const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
+  const cookies = new Cookies();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const cookies = new Cookies();
+  const [collapsed, setCollapsed] = useState(true);
 
   const menu = (
     <Menu
@@ -49,10 +50,44 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
   return (
     <LayoutWrapper>
       <Layout className="layout-container">
-        <Sidebar />
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <Layout className="site-layout">
-          {/* <Header className="nav-fixed header-bg-color ">
-            <Row justify="space-between">
+          <Header className="nav-fixed header-bg-color">
+            <Row justify="space-between" align="middle">
+              {collapsed ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => setCollapsed(!collapsed)}
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => setCollapsed(!collapsed)}
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+                  />
+                </svg>
+              )}
+
               <Col className="col-adjust"></Col>
               <Col span={4}>
                 <div className="user-profile">
@@ -72,8 +107,10 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
                 </div>
               </Col>
             </Row>
-          </Header> */}
-          <Content className="content-padding mt-20">{children}</Content>
+          </Header>
+          <Content className="content-padding main-bg-color">
+            {children}
+          </Content>
         </Layout>
       </Layout>
     </LayoutWrapper>
