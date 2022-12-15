@@ -23,4 +23,7 @@ export const ProductTableWrapper = styled.div`
   .ant-table-content {
     overflow: scroll;
   }
+  .ant-table-wrapper {
+    width: 100%;
+  }
 `;
