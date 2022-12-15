@@ -10,6 +10,8 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function CreateVendorAction(data: any, next: NavigateFunction) {
   return async (dispatch: Dispatch) => {
@@ -25,7 +27,8 @@ export function CreateVendorAction(data: any, next: NavigateFunction) {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-
+          cookies.set("vendorId", JSON.stringify(result.data.createVendor.id));
+          window.localStorage.removeItem("onboarding-step");
           next("/");
           dispatch(requestCompleteDisableLoading());
         });
@@ -39,8 +42,7 @@ export function UpdateVendorAction(data: any) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       urqlQuery
         .mutation(UpdateVendor, { ...data, id: vendorId })
         .toPromise()

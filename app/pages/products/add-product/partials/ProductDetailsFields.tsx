@@ -13,7 +13,7 @@ const ProductDetailsFields = ({
   const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
     query: GetCategories,
     variables: {
-      vendorId: "63900eb5788c2b789fe57cb3",
+      vendorId: "638e6e77898a05f954ca1cc3",
     },
   });
 

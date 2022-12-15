@@ -13,7 +13,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
   const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
     query: GetTags,
     variables: {
-      vendorId: "63900eb5788c2b789fe57cb3",
+      vendorId: "638e6e77898a05f954ca1cc3",
     },
   });
 
