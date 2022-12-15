@@ -13,13 +13,14 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function GetProductsAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       urqlQuery
         .query(GetProducts, {
           vendorId,
@@ -46,9 +47,7 @@ export function ProductsAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
-      data.vendorId = vendorId;
+      data.vendorId = cookies.get("vendorId");
       data.image = "new image";
 
       const suggestedSlug = slugify(data.title, {
@@ -123,7 +122,6 @@ export function DeleteProductAction(id: string) {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }

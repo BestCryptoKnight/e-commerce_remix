@@ -8,13 +8,14 @@ import {
 import type { Dispatch } from "redux";
 import { CreateCoupon } from "~/graphql/mutations/coupon";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function GetCouponAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       urqlQuery
         .query(GetCoupons, {
           vendorId,
@@ -36,8 +37,7 @@ export function CouponAction(data: any, setCouponDrawerOpen: any) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       data.vendorId = vendorId;
       urqlQuery
         .mutation(CreateCoupon, {

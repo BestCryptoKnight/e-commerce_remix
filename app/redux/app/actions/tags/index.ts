@@ -11,13 +11,14 @@ import {
   requestSuccessUpdateStateData,
 } from "../../";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function GetTagsAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       urqlQuery
         .query(GetTags, {
           vendorId,
@@ -47,8 +48,7 @@ export function TagAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeDrawerLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
+      const vendorId = cookies.get("vendorId");
       data.vendorId = vendorId;
 
       data.availabilities = data?.availabilities?.map((availability: any) => {

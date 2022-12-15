@@ -2,11 +2,13 @@ import { Col, Form, InputNumber, Select } from "antd";
 import { useQuery } from "urql";
 import { GetTags } from "~/graphql/queries/tags";
 import type { TagsTypes } from "~/types/tags";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 const ProductFields = () => {
   const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
     query: GetTags,
     variables: {
-      vendorId: "63900eb5788c2b789fe57cb3",
+      vendorId: cookies.get("vendorId"),
     },
   });
 

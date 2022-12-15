@@ -37,6 +37,9 @@ export function LoginUser(data: EmailLoginForm, next: NavigateFunction) {
             const cookies = new Cookies();
             cookies.set("accessToken", login?.accessToken, { path: "/" });
             cookies.set("userInfo", JSON.stringify(login?.user), { path: "/" });
+            cookies.set("vendorId", JSON.stringify(login?.user?.vendor?.id), {
+              path: "/",
+            });
 
             next("/");
           }
