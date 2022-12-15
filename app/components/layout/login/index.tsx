@@ -11,10 +11,12 @@ interface LayoutPropsTypes {
 const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
   return (
     <LayoutWrapper>
-      <Layout className="site-layout w-2/5">
-        <Content className="content-padding mt-36 w-full">{children}</Content>
+      <Layout className="site-layout w-full md:w-2/5">
+        <Content className="content-padding mt-20 w-full md:mt-36">
+          {children}
+        </Content>
       </Layout>
-      <Layout className="w-3/5">
+      <Layout className="hidden md:block md:w-3/5">
         <HeroImage />
       </Layout>
     </LayoutWrapper>
