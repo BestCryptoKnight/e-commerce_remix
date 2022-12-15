@@ -52,7 +52,7 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
       <Layout className="layout-container">
         <Sidebar />
         <Layout className="site-layout">
-          <Header className="nav-fixed header-bg-color ">
+          {/* <Header className="nav-fixed header-bg-color ">
             <Row justify="space-between">
               <Col className="col-adjust"></Col>
               <Col span={4}>
@@ -73,8 +73,8 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
                 </div>
               </Col>
             </Row>
-          </Header>
-          <Content className="content-padding">{children}</Content>
+          </Header> */}
+          <Content className="content-padding mt-20">{children}</Content>
         </Layout>
       </Layout>
     </LayoutWrapper>
