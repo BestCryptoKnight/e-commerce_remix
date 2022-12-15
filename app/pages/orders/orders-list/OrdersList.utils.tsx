@@ -4,8 +4,8 @@ import moment from "moment";
 export const orderTableColumns = [
   {
     title: "Order ID",
-    dataIndex: "orderId",
-    key: "orderId",
+    dataIndex: "id",
+    key: "id",
     responsive: ["md", "xs"],
     label: <Checkbox value="orderId">Order ID</Checkbox>,
   },
