@@ -16,7 +16,6 @@ import { Provider as ReduxProvider } from "react-redux";
 import store from "./redux/store";
 import calendarStyles from "fullcalendar/main.min.css";
 import Cookies from "universal-cookie";
-import { redirect, json } from "@remix-run/node";
 import { useNavigate } from "react-router-dom";
 
 export const links: LinksFunction = () => {

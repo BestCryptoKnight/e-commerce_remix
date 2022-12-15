@@ -5,7 +5,7 @@ const Availibility = () => {
   return (
     <>
       <Col span={24}>
-        <Form.List name="variants">
+        <Form.List name="options">
           {(fields, { add, remove }) => (
             <>
               {fields.map((field) => (
@@ -60,21 +60,6 @@ const Availibility = () => {
                   </Col>
 
                   <Col span={12}>
-                    <Form.Item
-                      {...field}
-                      label="Variant Options"
-                      name={[field.name, "variantOptions"]}
-                    >
-                      <Select
-                        options={[
-                          { label: "Small", value: "small" },
-                          { label: "Medium", value: "medium" },
-                          { label: "Large", value: "large" },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
                     <Upload
                       name="avatar"
                       listType="picture-card"
@@ -96,7 +81,7 @@ const Availibility = () => {
                   block
                   icon={<PlusOutlined />}
                 >
-                  Add Variant
+                  Options
                 </Button>
               </Form.Item>
             </>
