@@ -3,6 +3,8 @@ import GeoLocation from "~/components/shared/geo-location";
 import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
 import { GetTags } from "~/graphql/queries/tags";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const WorkShopFields = ({
   attendanceType,
@@ -12,7 +14,7 @@ const WorkShopFields = ({
   const [tagsResult] = useQuery({
     query: GetTags,
     variables: {
-      vendorId: "638e6e77898a05f954ca1cc3",
+      vendorId: cookies.get("vendorId"),
     },
   });
 
