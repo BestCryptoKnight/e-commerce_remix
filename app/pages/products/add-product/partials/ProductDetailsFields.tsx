@@ -124,11 +124,7 @@ const ProductDetailsFields = ({
           <Input />
         </Form.Item>
       </Col> */}
-      {/* <Col span={12}>
-        <Form.Item name="minPreorderDays" label="Min Preorder Days">
-          <InputNumber min={0} />
-        </Form.Item>
-      </Col> */}
+
       <Col span={12} className="mb-10">
         <h3>Description</h3>
 
