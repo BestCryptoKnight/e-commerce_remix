@@ -1,5 +1,5 @@
 import urqlQuery from "~/graphql/";
-import { UpdateVendor } from "~/graphql/mutations/business";
+import { UpdateVendor } from "~/graphql/mutations/vendors/vendors";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -7,6 +7,7 @@ import {
 } from "../../";
 import { notification } from "antd";
 import type { UpdateVendorForm } from "~/types/vendors";
+import Cookies from "universal-cookie";
 
 export function UpdateVendorAction(data: UpdateVendorForm) {
   return async (dispatch: Dispatch) => {
@@ -36,11 +37,12 @@ export function UpdateVendorAction(data: UpdateVendorForm) {
           paymentMethods: data.paymentMethods,
         };
       }
+      const cookies = new Cookies();
 
       urqlQuery
         .mutation(UpdateVendor, {
           ...payload,
-          id: "63900eb5788c2b789fe57cb3",
+          id: cookies.get("vendorId"),
         })
         .toPromise()
         .then((result) => {

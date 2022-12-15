@@ -4,6 +4,8 @@ import type { ServiceFieldsProps } from "~/types/products";
 import { useQuery } from "urql";
 import { GetTags } from "~/graphql/queries/tags";
 import type { TagsTypes } from "~/types/tags";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const ServiceFields: React.FC<ServiceFieldsProps> = ({
   attendanceType,
@@ -13,7 +15,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
   const [tagsResult] = useQuery<{ getTags: TagsTypes[] }>({
     query: GetTags,
     variables: {
-      vendorId: "63900eb5788c2b789fe57cb3",
+      vendorId: cookies.get("vendorId"),
     },
   });
 
@@ -72,6 +74,9 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
               handleSelect={(address) =>
                 setSelectedLocation({ ...selectedLocation, location: address })
               }
+              title="Location"
+              required={true}
+              name="location"
             />
           </>
         )}

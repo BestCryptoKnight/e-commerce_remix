@@ -12,16 +12,16 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export function GetCategoriesAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
       urqlQuery
         .query(GetCategories, {
-          vendorId,
+          vendorId: cookies.get("vendorId"),
         })
         .toPromise()
         .then((result) => {
@@ -30,7 +30,7 @@ export function GetCategoriesAction() {
           }
 
           //change to backend sort once implemented
-          const items = result.data.getCategories;
+          const items = [...result.data.getCategories];
 
           const sortedItems = items.sort(
             (a: { createdAt: Date }, b: { createdAt: Date }) => {
@@ -64,10 +64,8 @@ export function CategoryAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
       const tagIds = ["638df0b7788c2b789fe57c9c"];
-      data.vendorId = vendorId;
+      data.vendorId = cookies.get("vendorId");
       data.tagIds = tagIds;
       urqlQuery
         .mutation(

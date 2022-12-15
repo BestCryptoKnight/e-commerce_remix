@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Tabs, Table, Button } from "antd";
+import { Tabs, Table, Button, Row } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
+import OrdersFilter from "~/components/shared/filter-columns";
 import { OrderFiltersWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 import { GetOrdersAction } from "~/redux/app/actions/order";
@@ -12,6 +13,8 @@ export default function Index() {
   const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const dispatch = useAppDispatch();
+  const [filteredColumn, setFilteredColumn] = useState([]);
+  const [tableColumns, setTableColumns] = useState<any>(orderTableColumns);
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
@@ -31,7 +34,14 @@ export default function Index() {
 
   return (
     <>
-      <h1 className="text-3xl">Your Orders</h1>
+      <Row gutter={24} className="flex items-baseline">
+        <OrdersFilter
+          tableColumns={tableColumns}
+          setTableColumns={setTableColumns}
+          filteredColumn={filteredColumn}
+          setFilteredColumn={setFilteredColumn}
+        />
+      </Row>
       <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
@@ -44,7 +54,7 @@ export default function Index() {
             },
           };
         }}
-        columns={orderTableColumns}
+        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
         dataSource={data}
         loading={loading}
       />

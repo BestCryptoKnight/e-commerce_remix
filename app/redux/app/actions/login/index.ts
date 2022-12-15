@@ -37,10 +37,9 @@ export function LoginUser(data: EmailLoginForm, next: NavigateFunction) {
             const cookies = new Cookies();
             cookies.set("accessToken", login?.accessToken, { path: "/" });
             cookies.set("userInfo", JSON.stringify(login?.user), { path: "/" });
-
-            window.localStorage.setItem("accessToken", login?.accessToken);
-            window.localStorage.setItem("refreshToken", login?.refreshToken);
-            window.localStorage.setItem("userId", login?.user?.id);
+            cookies.set("vendorId", JSON.stringify(login?.user?.vendor?.id), {
+              path: "/",
+            });
 
             next("/");
           }

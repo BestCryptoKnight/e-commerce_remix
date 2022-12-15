@@ -16,6 +16,7 @@ export const LayoutWrapper = styled.div`
   .content-padding {
     padding: 40px;
     padding-top: 15px;
+    padding-bottom: 0;
   }
   .col-adjust {
     display: flex;

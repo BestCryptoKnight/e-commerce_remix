@@ -1,36 +1,28 @@
-import type { CouponType } from "~/types/coupons";
-import type { ColumnsType } from "antd/es/table";
-
-export const couponTableColumns: ColumnsType<CouponType> = [
-  {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-    responsive: ["md", "xs"],
-  },
-  {
-    title: "Arabic Title",
-    dataIndex: "title_ar",
-    key: "title_ar",
-    responsive: ["md", "xs"],
-  },
+import { Checkbox } from "antd";
+export const couponTableColumns = [
   {
     title: "Code",
     dataIndex: "code",
     key: "code",
     responsive: ["md", "xs"],
+    label: <Checkbox value="code">Code</Checkbox>,
   },
   {
-    title: "Percentage",
-    dataIndex: "percentage",
-    key: "percentage",
+    title: "Discount",
+    dataIndex: "discount",
+    key: "discount",
     responsive: ["md", "xs"],
+    label: <Checkbox value="percentage">Percentage</Checkbox>,
   },
 
   {
     title: "Active",
     dataIndex: "active",
     key: "active",
+    render: (record) => {
+      return <>{String(record)}</>;
+    },
     responsive: ["md", "xs"],
+    label: <Checkbox value="active">Active</Checkbox>,
   },
 ];

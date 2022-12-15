@@ -4,22 +4,22 @@ import {
   DeleteProductAction,
 } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm } from "antd";
+import { Table, Button, Popconfirm, Checkbox, Row, Col } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
-
+import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
 import AddNewProduct from "../add-product";
-import type { ProductType } from "~/types/products";
-import type { ColumnsType } from "antd/es/table";
-import moment from "moment";
-import { ActionButtonsWrapper } from "../styles";
-import ProductFilter from "../product-filter";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
+import { ActionButtonsWrapper } from "../styles";
+import ProductFilter from "~/components/shared/filter-columns";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { productColumns } from "./ProductList.utils";
 export default function Index() {
   const [productDrawerOpen, setProductDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
+  const [filteredColumn, setFilteredColumn] = useState([]);
+
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
   const loading = useAppSelector(StateLoading);
@@ -27,47 +27,11 @@ export default function Index() {
     dispatch(GetProductsAction());
   }, [dispatch]);
 
-  const productTableColumns: ColumnsType<ProductType> = [
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Arabic Title",
-      dataIndex: "title_ar",
-      key: "title_ar",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Arabic Description",
-      dataIndex: "description_ar",
-      key: "description_ar",
-      responsive: ["md", "xs"],
-    },
-
-    {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      responsive: ["md", "xs"],
-    },
-    {
-      title: "Created At",
-      render(value: string) {
-        return <div>{moment(value).format("DD-MM-YYYY")}</div>;
-      },
-      responsive: ["sm"],
-    },
+  const [tableColumns, setTableColumns] = useState<any>([
+    ...productColumns,
     {
       title: "Actions",
+      key: "actions",
       render: (_: any, record: any) => {
         return (
           <ActionButtonsWrapper>
@@ -115,15 +79,21 @@ export default function Index() {
           </ActionButtonsWrapper>
         );
       },
+      label: <Checkbox value="actions">Actions</Checkbox>,
     },
-  ];
+  ]);
 
   return (
-    <>
-      <div>
-        <ProductFilter />
-      </div>
-      <div className="flex justify-end">
+    <ProductTableWrapper>
+      <h2 className="text-3xl">Products</h2>
+      <Row gutter={24} className="flex items-baseline">
+        <ProductFilter
+          tableColumns={tableColumns}
+          setTableColumns={setTableColumns}
+          filteredColumn={filteredColumn}
+          setFilteredColumn={setFilteredColumn}
+        />
+
         <Button
           type="primary"
           className="mb-4"
@@ -134,27 +104,30 @@ export default function Index() {
         >
           Create product
         </Button>
-      </div>
-      <Table
-        columns={productTableColumns}
-        dataSource={data}
-        loading={loading}
-      />
-      <Drawer
-        title={
-          selectedAction === "new-product" ? "Add product" : "Edit product"
-        }
-        size="large"
-        open={productDrawerOpen}
-        onClose={() => setProductDrawerOpen(false)}
-        placement="right"
-      >
-        <AddNewProduct
-          selectedProduct={selectedProduct}
-          setProductDrawerOpen={setProductDrawerOpen}
-          selectedAction={selectedAction}
+      </Row>
+      <Row gutter={24} className="flex items-baseline">
+        <Table
+          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+          dataSource={data}
+          loading={loading}
+          size="middle"
         />
-      </Drawer>
-    </>
+        <Drawer
+          title={
+            selectedAction === "new-product" ? "Add product" : "Edit product"
+          }
+          size="large"
+          open={productDrawerOpen}
+          onClose={() => setProductDrawerOpen(false)}
+          placement="right"
+        >
+          <AddNewProduct
+            selectedProduct={selectedProduct}
+            setProductDrawerOpen={setProductDrawerOpen}
+            selectedAction={selectedAction}
+          />
+        </Drawer>
+      </Row>
+    </ProductTableWrapper>
   );
 }

@@ -4,7 +4,8 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { GetCategories } from "~/graphql/queries/categories";
 import type { CategoryType } from "~/types/categories";
-
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 const ProductDetailsFields = ({
   selectedProduct,
   descriptionRef,
@@ -13,7 +14,7 @@ const ProductDetailsFields = ({
   const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
     query: GetCategories,
     variables: {
-      vendorId: "63900eb5788c2b789fe57cb3",
+      vendorId: cookies.get("vendorId"),
     },
   });
 

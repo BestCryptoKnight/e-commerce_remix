@@ -33,7 +33,6 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
                 cookies.remove("accessToken");
                 setLoading(true);
                 setTimeout(() => {
-                  localStorage.removeItem("accessToken");
                   localStorage.removeItem("activeMenu");
                   navigate("/login");
                 }, 2000);

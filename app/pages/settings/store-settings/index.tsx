@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   Button,
   Form,
@@ -8,19 +7,20 @@ import {
   Select,
   Upload,
   InputNumber,
+  Switch,
 } from "antd";
-import { Editor } from "@tinymce/tinymce-react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { UpdateVendorAction } from "~/redux/app/actions/vendors";
+import { useAppDispatch } from "~/hooks/Store";
 
 const UserProfile = () => {
   const [form] = Form.useForm();
-  const descriptionRef = useRef<any>(null);
+  const dispatch = useAppDispatch();
 
   const onFinish = (values: any) => {
-    console.log(values);
+    dispatch(UpdateVendorAction(values));
   };
 
-  console.log(Form.useWatch("deliveryMethods", form));
   return (
     <Form form={form} layout="vertical" onFinish={onFinish}>
       <Row gutter={24}>
@@ -52,51 +52,49 @@ const UserProfile = () => {
         </Col>
 
         {Form.useWatch("deliveryMethods", form)?.includes("MANDOOB") && (
-          // <>
-          //   <Col span={12}>
-          //     <Form.Item name="deliveryArea" label="Delivery Area">
-          //       <Input.TextArea />
-          //     </Form.Item>
-          //   </Col>
-          //   <Col span={12}>
-          //     <Form.Item name="deliveryArea_ar" label="Delivery Area Arabic">
-          //       <Input.TextArea />
-          //     </Form.Item>
-          //   </Col>
-          // </>
           <>
             <Col span={24}>
-              <Form.List name="availabilities">
+              <Form.List name="deliveryAreas">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map((field) => (
                       <div key={field.key} className="flex">
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
-                            label="Delivery Area"
-                            name={[field.name, "deliveryArea"]}
+                            label="Label"
+                            name={[field.name, "label"]}
                           >
                             <Input />
                           </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
-                            label="Delivery Area Arabic"
-                            name={[field.name, "deliveryArea_ar"]}
+                            label="Label Arabic"
+                            name={[field.name, "label_ar"]}
                           >
                             <Input />
                           </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col span={7}>
                           <Form.Item
                             {...field}
                             label="Price"
-                            name={[field.name, "price"]}
+                            name={[field.name, "charge"]}
                           >
                             <InputNumber />
+                          </Form.Item>
+                        </Col>
+
+                        <Col span={3}>
+                          <Form.Item
+                            {...field}
+                            label="Active"
+                            name={[field.name, "active"]}
+                          >
+                            <Switch />
                           </Form.Item>
                         </Col>
                         <MinusCircleOutlined
@@ -123,36 +121,6 @@ const UserProfile = () => {
         )}
         <br></br>
 
-        <Col span={12} className="mb-24">
-          <h4>Terms and conditions of vendor: </h4>
-
-          <Editor
-            onInit={(evt, editor) => {
-              if (descriptionRef) return (descriptionRef.current = editor);
-            }}
-            initialValue={""}
-            onChange={(evt, editor) => {
-              console.log(evt);
-              console.log(editor);
-            }}
-            init={{
-              height: 200,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-              ],
-              toolbar:
-                "undo redo | formatselect | " +
-                "bold italic backcolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-            }}
-          />
-        </Col>
         <Col span={24}>
           <Form.Item name="avatar" label="Hero image for store">
             <Upload
