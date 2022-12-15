@@ -16,7 +16,7 @@ export function CreateVariantAction(data: any) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      data.identifier = cookies.get("vendorId");
+      data.vendorId = cookies.get("vendorId");
       urqlQuery
         .mutation(CreateVariant, data)
         .toPromise()

@@ -3,13 +3,13 @@ mutation (
   $title: String!,
   $title_ar: String!,
   $options: [VariantOptionsInput!]
-  $identifier: String!
+  $vendorId: String!
 ) {
 createVariant (data: {
     title: $title,
     title_ar: $title_ar,
     options: $options,
-    identifier: $identifier
+    vendorId: $vendorId
   }) {
     id
     title
