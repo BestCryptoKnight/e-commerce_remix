@@ -64,7 +64,7 @@ const App = (props: any) => {
           </div>
         </Dropdown>
       </Col>
-      <Col span={19} sm={19} xs={24}>
+      {/* <Col span={19} sm={19} xs={24}>
         <AutoComplete
           value={value}
           options={options}
@@ -74,7 +74,7 @@ const App = (props: any) => {
           onChange={onChange}
           placeholder="Search"
         />
-      </Col>
+      </Col> */}
     </>
   );
 };

@@ -22,17 +22,17 @@ const WorkShopFields = ({
 
   return (
     <>
-      <Col span={12}>
+      {/* <Col span={12}>
         <Form.Item name="noOfSeats" label="Items In Stock">
           <InputNumber min={0} />
         </Form.Item>
-      </Col>
+      </Col> */}
       <Col span={12}>
         <Form.Item name="maxSeats" label="Maximum number of seats">
           <InputNumber min={0} />
         </Form.Item>
       </Col>
-      <Col span={12}>
+      {/* <Col span={12}>
         <Form.Item name="tagIds" label="Tag">
           <Select
             mode="multiple"
@@ -42,7 +42,7 @@ const WorkShopFields = ({
             }))}
           ></Select>
         </Form.Item>
-      </Col>
+      </Col> */}
       <Col span={12}>
         <Form.Item
           name="date/time"

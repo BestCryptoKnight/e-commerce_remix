@@ -22,7 +22,7 @@ const ProductDetailsFields = ({
 
   return (
     <>
-      <Col span={12}>
+      {/* <Col span={12}>
         <Form.Item
           name="title"
           label="Title"
@@ -49,6 +49,31 @@ const ProductDetailsFields = ({
         >
           <Input />
         </Form.Item>
+      </Col> */}
+      <Col span={24}>
+        <Form.Item name="active" label="Active" initialValue={true}>
+          <Switch />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item
+          name="type"
+          label="Product Type"
+          rules={[
+            {
+              required: true,
+              message: "Please select the product type..!",
+            },
+          ]}
+        >
+          <Select
+            options={[
+              { label: "Product", value: "PRODUCT" },
+              { label: "Service", value: "SERVICE" },
+              { label: "Workshop", value: "WORKSHOP" },
+            ]}
+          />
+        </Form.Item>
       </Col>
       <Col span={12}>
         <Form.Item
@@ -71,7 +96,7 @@ const ProductDetailsFields = ({
           />
         </Form.Item>
       </Col>
-      <Col span={12}>
+      {/* <Col span={12}>
         <Form.Item
           name="price"
           label="Price"
@@ -84,8 +109,8 @@ const ProductDetailsFields = ({
         >
           <InputNumber min={0} />
         </Form.Item>
-      </Col>
-      <Col span={12}>
+      </Col> */}
+      {/* <Col span={12}>
         <Form.Item
           name="sku"
           label="Product SKU"
@@ -98,13 +123,13 @@ const ProductDetailsFields = ({
         >
           <Input />
         </Form.Item>
-      </Col>
-      <Col span={12}>
+      </Col> */}
+      {/* <Col span={12}>
         <Form.Item name="minPreorderDays" label="Min Preorder Days">
           <InputNumber min={0} />
         </Form.Item>
-      </Col>
-      <Col span={12} className="mb-24">
+      </Col> */}
+      <Col span={12} className="mb-10">
         <h3>Description</h3>
 
         <Editor
@@ -136,7 +161,7 @@ const ProductDetailsFields = ({
           }}
         />
       </Col>
-      <Col span={12} className="mb-24">
+      <Col span={12} className="mb-10">
         <h3>Arabic Description</h3>
 
         <Editor
@@ -165,7 +190,7 @@ const ProductDetailsFields = ({
         />
       </Col>
 
-      <Col span={24}>
+      {/* <Col span={24}>
         <Form.Item name="avatar" label="Product Image">
           <Upload
             name="avatar"
@@ -179,32 +204,7 @@ const ProductDetailsFields = ({
             </>
           </Upload>
         </Form.Item>
-      </Col>
-      <Col span={24}>
-        <Form.Item name="active" label="Active" initialValue={true}>
-          <Switch />
-        </Form.Item>
-      </Col>
-      <Col span={24}>
-        <Form.Item
-          name="type"
-          label="Product Type"
-          rules={[
-            {
-              required: true,
-              message: "Please select the product type..!",
-            },
-          ]}
-        >
-          <Select
-            options={[
-              { label: "Product", value: "PRODUCT" },
-              { label: "Service", value: "SERVICE" },
-              { label: "Workshop", value: "WORKSHOP" },
-            ]}
-          />
-        </Form.Item>
-      </Col>
+      </Col> */}
     </>
   );
 };

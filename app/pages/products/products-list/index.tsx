@@ -12,10 +12,9 @@ import AddNewProduct from "../add-product";
 
 import { ActionButtonsWrapper } from "../styles";
 import ProductFilter from "~/components/shared/filter-columns";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import { productColumns } from "./ProductList.utils";
 export default function Index() {
-  const [productDrawerOpen, setProductDrawerOpen] = useState(false);
+  const [productDrawerOpen, setProductDrawerOpen] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
   const [filteredColumn, setFilteredColumn] = useState([]);
@@ -86,7 +85,7 @@ export default function Index() {
   return (
     <ProductTableWrapper>
       <h2 className="text-3xl">Products</h2>
-      <Row gutter={24} className="flex items-baseline">
+      <Row gutter={24} className="flex items-baseline justify-between">
         <ProductFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}
@@ -105,29 +104,28 @@ export default function Index() {
           Create product
         </Button>
       </Row>
-      <Row gutter={24} className="flex items-baseline">
-        <Table
-          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-          dataSource={data}
-          loading={loading}
-          size="middle"
+
+      <Table
+        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+        dataSource={data}
+        loading={loading}
+        size="middle"
+      />
+      <Drawer
+        title={
+          selectedAction === "new-product" ? "Add product" : "Edit product"
+        }
+        size="large"
+        open={productDrawerOpen}
+        onClose={() => setProductDrawerOpen(false)}
+        placement="right"
+      >
+        <AddNewProduct
+          selectedProduct={selectedProduct}
+          setProductDrawerOpen={setProductDrawerOpen}
+          selectedAction={selectedAction}
         />
-        <Drawer
-          title={
-            selectedAction === "new-product" ? "Add product" : "Edit product"
-          }
-          size="large"
-          open={productDrawerOpen}
-          onClose={() => setProductDrawerOpen(false)}
-          placement="right"
-        >
-          <AddNewProduct
-            selectedProduct={selectedProduct}
-            setProductDrawerOpen={setProductDrawerOpen}
-            selectedAction={selectedAction}
-          />
-        </Drawer>
-      </Row>
+      </Drawer>
     </ProductTableWrapper>
   );
 }
