@@ -38,7 +38,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
         <Form.Item name="duration" label="Duration">
           <TimePicker
             format="HH:mm"
-            minuteStep={5}
+            minuteStep={15}
             placeholder="How long does this service take?"
           />
         </Form.Item>
