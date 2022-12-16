@@ -11,6 +11,7 @@ import type { UploadProps } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Drawer from "~/components/shared/drawer";
 import VariantForm from "~/pages/variants/variant-actions";
+import type { VariantTypes } from "~/types/variants";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
   selectedProduct,
@@ -27,16 +28,18 @@ const ProductDetailsFields = ({
     },
   });
 
-  const [variantsResult] = useQuery<{ getVariants: CategoryType[] }>({
+  const [variantsResult] = useQuery<{ getVariants: VariantTypes[] }>({
     query: GetVariants,
     variables: {
       vendorId: cookies.get("vendorId"),
     },
   });
 
-  const { data: categories } = catgoriesResult;
+  console.log(variantsResult);
 
   const { data: variants } = variantsResult;
+
+  const { data: categories } = catgoriesResult;
 
   const uploadProps: UploadProps = {
     multiple: false,
@@ -119,45 +122,39 @@ const ProductDetailsFields = ({
         </Form.Item>
       </Col>
 
-      {variants?.getVariants.length === 0 ? (
-        <Col span={24}>
-          <VariantOptions />
-        </Col>
-      ) : (
-        <Col span={24}>
-          <Form.Item
-            name="variantId"
-            label={
-              <div className="flex w-full justify-between">
-                <span>Variants</span>
-                <span
-                  className="add-variant"
-                  onClick={(e) => {
-                    setVariantDrawerOpen(true);
-                    e.preventDefault();
-                  }}
-                >
-                  Add new variants
-                </span>
-              </div>
-            }
-            rules={[
-              {
-                required: true,
-                message: "Please select a variant...!",
-              },
-            ]}
-          >
-            <Select
-              mode="tags"
-              options={(variants?.getVariants || []).map((t) => ({
-                value: t.id,
-                label: t.title,
-              }))}
-            />
-          </Form.Item>
-        </Col>
-      )}
+      <Col span={24}>
+        <Form.Item
+          name="variantId"
+          label={
+            <div className="flex w-full justify-between">
+              <span>Variants</span>
+              <span
+                className="add-variant"
+                onClick={(e) => {
+                  setVariantDrawerOpen(true);
+                  e.preventDefault();
+                }}
+              >
+                Add new variants
+              </span>
+            </div>
+          }
+          rules={[
+            {
+              required: true,
+              message: "Please select a variant...!",
+            },
+          ]}
+        >
+          <Select
+            mode="tags"
+            options={(variants?.getVariants || []).map((t) => ({
+              value: t.id,
+              label: t.title,
+            }))}
+          />
+        </Form.Item>
+      </Col>
 
       <Col span={12} className="mb-10">
         <h3>Description</h3>

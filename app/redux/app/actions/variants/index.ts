@@ -23,12 +23,10 @@ export function GetVariantsAction() {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
-          console.log(result);
           dispatch(requestSuccessUpdateStateData(result.data.getVariants));
         });
     } catch (error) {

@@ -14,6 +14,13 @@ createVariant (data: {
     id
     title
     title_ar
+    options {
+      image
+      price
+      sku
+      title
+      title_ar
+    }
   }
 }
 `;

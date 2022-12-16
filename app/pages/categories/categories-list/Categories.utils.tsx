@@ -15,13 +15,6 @@ export const categoriesColumns = [
     responsive: ["md", "xs"],
     label: <Checkbox value="title_ar">Arabic Title </Checkbox>,
   },
-  {
-    title: "Active",
-    dataIndex: "active",
-    key: "active",
-    responsive: ["md", "xs"],
-    label: <Checkbox value="description">Description </Checkbox>,
-  },
 
   {
     title: "Created At",

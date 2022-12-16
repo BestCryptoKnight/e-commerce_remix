@@ -4,13 +4,14 @@ import {
   GetCategoriesAction,
 } from "~/redux/app/actions/category";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm, Row, Checkbox } from "antd";
+import { Table, Button, Popconfirm, Row, Checkbox, Tag } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { categoriesColumns } from "./Categories.utils";
 import CategoriesFilter from "~/components/shared/filter-columns";
 import Drawer from "~/components/shared/drawer";
 import AddNewCategory from "../add-category";
 import { ActionButtonsWrapper } from "./styles";
+import { getStatusTag } from "~/utils/getStatusTag";
 
 export default function Index() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -27,6 +28,20 @@ export default function Index() {
 
   const [tableColumns, setTableColumns] = useState<any>([
     ...categoriesColumns,
+    {
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
+      responsive: ["md", "xs"],
+      render: (_: any, record: any) => {
+        return (
+          <Tag color={record?.active ? "green" : "red"}>
+            {record?.active ? "Active" : "Inactive"}
+          </Tag>
+        );
+      },
+      label: <Checkbox value="description">Description </Checkbox>,
+    },
     {
       title: "Actions",
       render: (_: any, record: any) => {
@@ -84,7 +99,7 @@ export default function Index() {
   return (
     <>
       <h2 className="text-3xl">Categories</h2>
-      <Row gutter={24} className="flex items-baseline">
+      <Row gutter={24} className="flex items-baseline justify-between">
         <CategoriesFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}
