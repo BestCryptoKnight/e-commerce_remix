@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { drawerLoading as StateDrawerLoading, loading } from "~/redux/app";
 import { CreateVariantAction } from "~/redux/app/actions/variants";
 
-export default function CouponForm({
+export default function VariantForm({
   setVariantDrawerOpen,
   selectedVariant,
   selectedAction,
