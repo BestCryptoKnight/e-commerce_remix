@@ -25,7 +25,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker minuteStep={15} />
+                      <TimePicker minuteStep={15} format="HH:mm" />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -40,7 +40,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker minuteStep={15} />
+                      <TimePicker minuteStep={15} format="HH:mm" />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
