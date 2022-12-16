@@ -39,7 +39,7 @@ export const formatData = (data: any) => {
       item.days.map((day: any) => {
         var d1 = new Date(day);
 
-        for (var i = 0; i < 90; i += 7) {
+        for (var i = 0; i < 45; i += 7) {
           d1.setDate(d1.getDate() + 7);
 
           newData.push({
