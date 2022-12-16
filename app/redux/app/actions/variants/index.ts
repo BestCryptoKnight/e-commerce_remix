@@ -25,12 +25,10 @@ export function GetVariantsAction() {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
-          console.log(result);
           dispatch(requestSuccessUpdateStateData(result.data.getVariants));
         });
     } catch (error) {
@@ -39,7 +37,12 @@ export function GetVariantsAction() {
   };
 }
 
-export function CreateVariantAction(data: any, setVariantDrawerOpen: any) {
+export function CreateVariantAction(
+  data: any,
+  setVariantDrawerOpen?: any,
+  isProductForm?: boolean,
+  setVariantRes?: any
+) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -51,6 +54,10 @@ export function CreateVariantAction(data: any, setVariantDrawerOpen: any) {
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
+          }
+
+          if (isProductForm) {
+            setVariantRes(result?.data?.createVariant);
           }
 
           let stateData = state();

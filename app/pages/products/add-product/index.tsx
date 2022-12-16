@@ -7,6 +7,15 @@ import { Row, Col, Button, Form } from "antd";
 import { AddProductWrapper } from "../styles";
 import { useAppDispatch } from "~/hooks/Store";
 import { ProductsAction } from "~/redux/app/actions/product";
+import { useQuery } from "urql";
+import Cookies from "universal-cookie";
+import { VariantTypes } from "~/types/variants";
+import { GetVariants } from "~/graphql/queries/variants";
+import {
+  CreateVariantAction,
+  GetVariantsAction,
+} from "~/redux/app/actions/variants";
+const cookies = new Cookies();
 
 export default function ProductForm({
   selectedProduct,
@@ -17,12 +26,22 @@ export default function ProductForm({
     field: "",
     location: "",
   });
+  const [variantRes, setVariantRes] = useState({});
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
   const descriptionRef = useRef<any>(null);
   const arabicDescriptionRef = useRef<any>(null);
 
-  console.log(selectedProduct);
+  const [variantsResult] = useQuery<{ getVariants: VariantTypes[] }>({
+    query: GetVariants,
+    variables: {
+      vendorId: cookies.get("vendorId"),
+    },
+  });
+
+  console.log(variantsResult);
+
+  const { data: variants } = variantsResult;
 
   useEffect(() => {
     if (selectedAction == "edit-product") {
@@ -36,10 +55,32 @@ export default function ProductForm({
     form.setFieldValue("location", selectedLocation.location);
   }, [selectedLocation, form]);
 
+  console.log("varittttt", variantRes);
+
   const onSubmit = async (data: any) => {
     data.description = descriptionRef?.current?.targetElm?.value;
     data.description_ar = arabicDescriptionRef?.current?.targetElm?.value;
 
+    const variantOptions = {
+      options: data?.options,
+      title: "test",
+      title_ar: "test2",
+    };
+
+    console.log("data", data);
+
+    if (true) {
+      dispatch(CreateVariantAction(variantOptions, "", true, setVariantRes));
+    }
+
+    const payload = {
+      ...data,
+      variants: variantRes,
+    };
+
+    console.log("payload", payload);
+
+    return;
     if (selectedAction == "edit-product") {
       dispatch(
         ProductsAction(
@@ -61,6 +102,7 @@ export default function ProductForm({
       <Form onFinish={onSubmit} form={form} layout="vertical">
         <Row gutter={24}>
           <ProductDetailsFields
+            variants={variants}
             selectedProduct={selectedProduct}
             descriptionRef={descriptionRef}
             arabicDescriptionRef={arabicDescriptionRef}

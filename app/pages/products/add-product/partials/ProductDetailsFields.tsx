@@ -6,11 +6,13 @@ import type { CategoryType } from "~/types/categories";
 import Cookies from "universal-cookie";
 import { GetVariants } from "~/graphql/queries/variants";
 import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
+import { VariantTypes } from "~/types/variants";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
   selectedProduct,
   descriptionRef,
   arabicDescriptionRef,
+  variants,
 }: any) => {
   const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
     query: GetCategories,
@@ -19,16 +21,7 @@ const ProductDetailsFields = ({
     },
   });
 
-  const [variantsResult] = useQuery<{ getVariants: CategoryType[] }>({
-    query: GetVariants,
-    variables: {
-      vendorId: cookies.get("vendorId"),
-    },
-  });
-
   const { data: categories } = catgoriesResult;
-
-  const { data: variants } = variantsResult;
 
   return (
     <>
@@ -80,14 +73,14 @@ const ProductDetailsFields = ({
         </Form.Item>
       </Col>
 
-      {variants?.getVariants.length === 0 ? (
+      {true ? (
         <Col span={24}>
           <VariantOptions />
         </Col>
       ) : (
         <Col span={24}>
           <Form.Item
-            name="variantId"
+            name="variants"
             label="Variants"
             rules={[
               {
