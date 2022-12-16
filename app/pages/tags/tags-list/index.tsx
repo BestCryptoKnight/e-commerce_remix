@@ -96,7 +96,7 @@ export default function Index() {
   return (
     <>
       <h2 className="text-3xl">Tags</h2>
-      <Row gutter={24} className="flex items-baseline">
+      <Row gutter={24} className="flex items-baseline justify-between">
         <TagsFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}

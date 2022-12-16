@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Tabs, Table, Button, Row } from "antd";
+import { Tabs, Table, Button, Row, Alert } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
@@ -45,19 +45,29 @@ export default function Index() {
       <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
-      <Table
-        onRow={(record: any) => {
-          return {
-            onClick: () => {
-              setSelectedOrder(record);
-              setOrderDetailsDrawerOpen(true);
-            },
-          };
-        }}
-        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={data}
-        loading={loading}
-      />
+      {data.length === 0 ? (
+        <Alert
+          message="No Orders"
+          description="Once you have an order you will see the information here"
+          type="info"
+          showIcon
+        />
+      ) : (
+        <Table
+          onRow={(record: any) => {
+            return {
+              onClick: () => {
+                setSelectedOrder(record);
+                setOrderDetailsDrawerOpen(true);
+              },
+            };
+          }}
+          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+          dataSource={data}
+          loading={loading}
+        />
+      )}
+
       <Drawer
         width="90%"
         title="Order Details"
