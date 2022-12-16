@@ -4,6 +4,13 @@ export const AddProductWrapper = styled.div`
   .ant-picker {
     width: 100%;
   }
+  .ant-form-item-required {
+    width: 100%;
+  }
+  .add-variant {
+    color: #44bd9c;
+    cursor: pointer;
+  }
 `;
 
 export const ActionButtonsWrapper = styled.div`

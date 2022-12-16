@@ -59,13 +59,13 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="h-6 w-6 cursor-pointer"
                   onClick={() => setCollapsed(!collapsed)}
                 >
                   <path
-                    stroke-linecap="round"
+                    strokeLinecap="round"
                     stroke-linejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
                   />
@@ -81,7 +81,7 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
                   onClick={() => setCollapsed(!collapsed)}
                 >
                   <path
-                    stroke-linecap="round"
+                    strokeLinecap="round"
                     stroke-linejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
                   />

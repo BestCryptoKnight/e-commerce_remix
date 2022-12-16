@@ -13,6 +13,7 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import { UploadFile } from "~/graphql/mutations/utils";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -48,15 +49,14 @@ export function ProductsAction(
     dispatch(requestStartInitilizeLoading());
     try {
       data.vendorId = cookies.get("vendorId");
-      data.image = "new image";
 
-      const suggestedSlug = slugify(data.title, {
-        replacement: "-",
-        remove: /[^\w\s]/gi,
-      })
-        .replace(/'_+/g, "")
-        .toLowerCase();
-      data.slug = suggestedSlug;
+      // const suggestedSlug = slugify(data.title, {
+      //   replacement: "-",
+      //   remove: /[^\w\s]/gi,
+      // })
+      //   .replace(/'_+/g, "")
+      //   .toLowerCase();
+      // data.slug = suggestedSlug;
 
       urqlQuery
         .mutation(
@@ -93,6 +93,25 @@ export function ProductsAction(
             let newStateData = [result?.data?.updateProduct, ...filteredData];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
+
+          urqlQuery
+            .mutation(UploadFile, {
+              file: data.image,
+              key: "new file",
+            })
+            .toPromise()
+            .then((result) => {
+              if (!result || !result.data) {
+                notification.error({
+                  message: "Product image not uploaded",
+                });
+                throw new Error("Something went wrong");
+              }
+
+              notification.success({
+                message: "Product image uploaded successfully",
+              });
+            });
 
           notification.success({
             message:

@@ -7,8 +7,6 @@ import {
   requestStartInitilizeLoading,
   requestCompleteDisableLoading,
   requestSuccessUpdateStateData,
-  requestStartInitilizeDrawerLoading,
-  requestCompleteDisableDrawerLoading,
 } from "../../";
 import { notification } from "antd";
 import Cookies from "universal-cookie";
@@ -39,7 +37,11 @@ export function GetVariantsAction() {
   };
 }
 
-export function CreateVariantAction(data: any, setVariantDrawerOpen: any) {
+export function CreateVariantAction(
+  data: any,
+  setVariantDrawerOpen: any,
+  screen: string
+) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -53,12 +55,15 @@ export function CreateVariantAction(data: any, setVariantDrawerOpen: any) {
             throw new Error("Something went wrong");
           }
 
-          let stateData = state();
-          let newStateData = [
-            ...stateData.app.data,
-            result?.data?.createVariant,
-          ];
-          dispatch(requestSuccessUpdateStateData(newStateData));
+          if (screen !== "product") {
+            let stateData = state();
+            let newStateData = [
+              ...stateData.app.data,
+              result?.data?.createVariant,
+            ];
+            dispatch(requestSuccessUpdateStateData(newStateData));
+          }
+
           setVariantDrawerOpen(false);
           notification.success({
             message: "Variant created successfully",

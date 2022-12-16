@@ -1,4 +1,5 @@
-import { Col, Upload, Form, Input, InputNumber, Select, Switch } from "antd";
+import { useState } from "react";
+import { Col, Upload, Form, Input, Button, Select, Switch } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { GetCategories } from "~/graphql/queries/categories";
@@ -6,12 +7,19 @@ import type { CategoryType } from "~/types/categories";
 import Cookies from "universal-cookie";
 import { GetVariants } from "~/graphql/queries/variants";
 import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
+import type { UploadProps } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import Drawer from "~/components/shared/drawer";
+import VariantForm from "~/pages/variants/variant-actions";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
   selectedProduct,
   descriptionRef,
   arabicDescriptionRef,
 }: any) => {
+  const [file, setFile] = useState<any>(null);
+
+  const [variantDrawerOpen, setVariantDrawerOpen] = useState(false);
   const [catgoriesResult] = useQuery<{ getCategories: CategoryType[] }>({
     query: GetCategories,
     variables: {
@@ -30,6 +38,36 @@ const ProductDetailsFields = ({
 
   const { data: variants } = variantsResult;
 
+  const uploadProps: UploadProps = {
+    multiple: false,
+    accept: ".jpeg, .png",
+    maxCount: 1,
+
+    onRemove: () => {
+      setFile(null);
+      console.log("onRemove called");
+
+      return true;
+    },
+    customRequest: ({ file, onSuccess }: any) => {
+      setTimeout(() => {
+        onSuccess("ok");
+      }, 0);
+    },
+    beforeUpload: (file: any) => {
+      console.log(file);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        setFile(e.target.result);
+      };
+
+      reader.readAsDataURL(file);
+
+      // Prevent upload
+      return false;
+    },
+  };
+
   return (
     <>
       <Col span={24}>
@@ -37,6 +75,7 @@ const ProductDetailsFields = ({
           <Switch />
         </Form.Item>
       </Col>
+
       <Col span={12}>
         <Form.Item
           name="type"
@@ -88,7 +127,20 @@ const ProductDetailsFields = ({
         <Col span={24}>
           <Form.Item
             name="variantId"
-            label="Variants"
+            label={
+              <div className="flex w-full justify-between">
+                <span>Variants</span>
+                <span
+                  className="add-variant"
+                  onClick={(e) => {
+                    setVariantDrawerOpen(true);
+                    e.preventDefault();
+                  }}
+                >
+                  Add new variants
+                </span>
+              </div>
+            }
             rules={[
               {
                 required: true,
@@ -167,6 +219,19 @@ const ProductDetailsFields = ({
           }}
         />
       </Col>
+      <Drawer
+        title="Add new variant"
+        width="50%"
+        size="large"
+        open={variantDrawerOpen}
+        onClose={() => setVariantDrawerOpen(false)}
+        placement="top"
+      >
+        <VariantForm
+          setVariantDrawerOpen={setVariantDrawerOpen}
+          screen="product"
+        />
+      </Drawer>
     </>
   );
 };
