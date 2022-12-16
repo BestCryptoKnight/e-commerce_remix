@@ -1,7 +1,7 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Col, Input, Select, Upload, InputNumber } from "antd";
+import { Button, Form, Col, Input, Upload, InputNumber } from "antd";
 
-const Availibility = () => {
+const VariantOptions = () => {
   return (
     <>
       <Col span={24}>
@@ -10,6 +10,16 @@ const Availibility = () => {
             <>
               {fields.map((field) => (
                 <div key={field.key} className="mb-4 flex flex-wrap">
+                  <Col span={24} className="mb-5">
+                    <Upload
+                      name="avatar"
+                      listType="picture-card"
+                      className="avatar-uploader"
+                      showUploadList={false}
+                    >
+                      <div style={{ marginTop: 8 }}>Upload Image</div>
+                    </Upload>
+                  </Col>
                   <Col span={12}>
                     <Form.Item
                       {...field}
@@ -59,17 +69,6 @@ const Availibility = () => {
                     </Form.Item>
                   </Col>
 
-                  <Col span={12}>
-                    <Upload
-                      name="avatar"
-                      listType="picture-card"
-                      className="avatar-uploader"
-                      showUploadList={false}
-                    >
-                      <div style={{ marginTop: 8 }}>Upload Image</div>
-                    </Upload>
-                  </Col>
-
                   <MinusCircleOutlined onClick={() => remove(field.name)} />
                 </div>
               ))}
@@ -81,7 +80,7 @@ const Availibility = () => {
                   block
                   icon={<PlusOutlined />}
                 >
-                  Options
+                  Add Options
                 </Button>
               </Form.Item>
             </>
@@ -92,4 +91,4 @@ const Availibility = () => {
   );
 };
 
-export default Availibility;
+export default VariantOptions;

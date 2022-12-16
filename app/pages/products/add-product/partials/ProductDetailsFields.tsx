@@ -1,10 +1,11 @@
 import { Col, Upload, Form, Input, InputNumber, Select, Switch } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { GetCategories } from "~/graphql/queries/categories";
 import type { CategoryType } from "~/types/categories";
 import Cookies from "universal-cookie";
+import { GetVariants } from "~/graphql/queries/variants";
+import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
   selectedProduct,
@@ -18,38 +19,45 @@ const ProductDetailsFields = ({
     },
   });
 
+  const [variantsResult] = useQuery<{ getVariants: CategoryType[] }>({
+    query: GetVariants,
+    variables: {
+      vendorId: cookies.get("vendorId"),
+    },
+  });
+
   const { data: categories } = catgoriesResult;
+
+  const { data: variants } = variantsResult;
 
   return (
     <>
-      <Col span={12}>
-        <Form.Item
-          name="title"
-          label="Title"
-          rules={[
-            {
-              required: true,
-              message: "Please enter the title...!",
-            },
-          ]}
-        >
-          <Input />
+      <Col span={24}>
+        <Form.Item name="active" label="Active" initialValue={true}>
+          <Switch />
         </Form.Item>
       </Col>
       <Col span={12}>
         <Form.Item
-          name="title_ar"
-          label="Arabic Title"
+          name="type"
+          label="Product Type"
           rules={[
             {
               required: true,
-              message: "Please enter the arabic title...!",
+              message: "Please select the product type..!",
             },
           ]}
         >
-          <Input />
+          <Select
+            options={[
+              { label: "Product", value: "PRODUCT" },
+              { label: "Service", value: "SERVICE" },
+              { label: "Workshop", value: "WORKSHOP" },
+            ]}
+          />
         </Form.Item>
       </Col>
+
       <Col span={12}>
         <Form.Item
           name="categoryId"
@@ -71,40 +79,35 @@ const ProductDetailsFields = ({
           />
         </Form.Item>
       </Col>
-      <Col span={12}>
-        <Form.Item
-          name="price"
-          label="Price"
-          rules={[
-            {
-              required: true,
-              message: "Please enter the price...!",
-            },
-          ]}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-        <Form.Item
-          name="sku"
-          label="Product SKU"
-          rules={[
-            {
-              required: true,
-              message: "Please enter the sku...!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-        <Form.Item name="minPreorderDays" label="Min Preorder Days">
-          <InputNumber min={0} />
-        </Form.Item>
-      </Col>
-      <Col span={12} className="mb-24">
+
+      {variants?.getVariants.length === 0 ? (
+        <Col span={24}>
+          <VariantOptions />
+        </Col>
+      ) : (
+        <Col span={24}>
+          <Form.Item
+            name="variantId"
+            label="Variants"
+            rules={[
+              {
+                required: true,
+                message: "Please select a variant...!",
+              },
+            ]}
+          >
+            <Select
+              mode="tags"
+              options={(variants?.getVariants || []).map((t) => ({
+                value: t.id,
+                label: t.title,
+              }))}
+            />
+          </Form.Item>
+        </Col>
+      )}
+
+      <Col span={12} className="mb-10">
         <h3>Description</h3>
 
         <Editor
@@ -136,7 +139,7 @@ const ProductDetailsFields = ({
           }}
         />
       </Col>
-      <Col span={12} className="mb-24">
+      <Col span={12} className="mb-10">
         <h3>Arabic Description</h3>
 
         <Editor
@@ -163,47 +166,6 @@ const ProductDetailsFields = ({
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
         />
-      </Col>
-
-      <Col span={24}>
-        <Form.Item name="avatar" label="Product Image">
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-          >
-            <>
-              {false ? <LoadingOutlined /> : <PlusOutlined />}
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </>
-          </Upload>
-        </Form.Item>
-      </Col>
-      <Col span={24}>
-        <Form.Item name="active" label="Active" initialValue={true}>
-          <Switch />
-        </Form.Item>
-      </Col>
-      <Col span={24}>
-        <Form.Item
-          name="type"
-          label="Product Type"
-          rules={[
-            {
-              required: true,
-              message: "Please select the product type..!",
-            },
-          ]}
-        >
-          <Select
-            options={[
-              { label: "Product", value: "PRODUCT" },
-              { label: "Service", value: "SERVICE" },
-              { label: "Workshop", value: "WORKSHOP" },
-            ]}
-          />
-        </Form.Item>
       </Col>
     </>
   );
