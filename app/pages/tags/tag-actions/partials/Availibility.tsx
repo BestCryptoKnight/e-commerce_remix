@@ -23,7 +23,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker />
+                      <TimePicker minuteStep={15} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -38,7 +38,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker />
+                      <TimePicker minuteStep={15} />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -61,7 +61,11 @@ const Availibility = () => {
                             },
                           ]}
                         >
-                          <DatePicker multiple={true} className="rmdp-input1" />
+                          <DatePicker
+                            multiple={true}
+                            className="rmdp-input1 ant-picker"
+                            style={{ height: 30 }}
+                          />
                         </Form.Item>
                       )}
                     </Form.Item>

@@ -11,6 +11,7 @@ import {
   requestSuccessUpdateStateData,
 } from "../../";
 import { notification } from "antd";
+import { formatData } from "./tags.utils";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -51,15 +52,7 @@ export function TagAction(
       const vendorId = cookies.get("vendorId");
       data.vendorId = vendorId;
 
-      data.availabilities = data?.availabilities?.map((availability: any) => {
-        return {
-          days: availability?.days?.map((day: any) =>
-            moment.unix(day?.unix).format("MM/DD/YYYY")
-          ),
-          startTime: moment(availability?.startDate).format("hh:mm"),
-          endTime: moment(availability?.endDate).format("hh:mm"),
-        };
-      });
+      data.availabilities = formatData(data);
 
       urqlQuery
         .mutation(
