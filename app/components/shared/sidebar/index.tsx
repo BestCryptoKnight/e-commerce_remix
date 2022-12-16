@@ -13,7 +13,6 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
   return (
     <ParentWrapper>
       <Sider
-        collapsible
         width={250}
         collapsedWidth={80}
         collapsed={collapsed}
