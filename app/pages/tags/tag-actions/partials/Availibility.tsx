@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-key */
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Col, TimePicker } from "antd";
 import DatePicker from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 const Availibility = () => {
   return (
@@ -23,7 +25,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker />
+                      <TimePicker minuteStep={15} format="HH:mm" />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -38,7 +40,7 @@ const Availibility = () => {
                         },
                       ]}
                     >
-                      <TimePicker />
+                      <TimePicker minuteStep={15} format="HH:mm" />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -61,7 +63,14 @@ const Availibility = () => {
                             },
                           ]}
                         >
-                          <DatePicker multiple={true} className="rmdp-input1" />
+                          <DatePicker
+                            multiple={true}
+                            className="rmdp-input1 ant-picker"
+                            style={{ height: 30 }}
+                            plugins={[
+                              <DatePanel header="Selected dates for next 1.5 month" />,
+                            ]}
+                          />
                         </Form.Item>
                       )}
                     </Form.Item>
