@@ -61,7 +61,7 @@ export function CreateVariantAction(
             ];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
-
+          dispatch(requestCompleteDisableLoading());
           setVariantDrawerOpen(false);
           notification.success({
             message: "Variant created successfully",

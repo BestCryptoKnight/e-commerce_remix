@@ -1,6 +1,6 @@
 export interface VariantTypes {
-  identifier: string;
-  price: number;
-  quantity: number;
-  sku: string;
+  title: string;
+  title_ar: number;
+  options: any;
+  id: string;
 }
