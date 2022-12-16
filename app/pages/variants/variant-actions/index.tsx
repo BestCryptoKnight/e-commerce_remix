@@ -5,19 +5,14 @@ import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { drawerLoading as StateDrawerLoading, loading } from "~/redux/app";
 import { CreateVariantAction } from "~/redux/app/actions/variants";
 
-export default function VariantForm({
-  setVariantDrawerOpen,
-  selectedVariant,
-  selectedAction,
-  setSelectedAction,
-}: any) {
+export default function VariantForm({ setVariantDrawerOpen, screen }: any) {
   const [form] = Form.useForm();
 
   const dispatch = useAppDispatch();
   const drawerLoading = useAppSelector(loading);
 
   const onFinish = (values: any) => {
-    dispatch(CreateVariantAction(values, setVariantDrawerOpen));
+    dispatch(CreateVariantAction(values, setVariantDrawerOpen, screen));
   };
 
   return (
