@@ -84,7 +84,7 @@ export default function Index() {
   return (
     <>
       <h2 className="text-3xl">Categories</h2>
-      <Row gutter={24} className="flex items-baseline">
+      <Row gutter={24} className="flex items-baseline justify-between">
         <CategoriesFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}

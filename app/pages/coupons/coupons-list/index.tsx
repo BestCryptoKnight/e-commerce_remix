@@ -23,7 +23,7 @@ export default function Index() {
   return (
     <>
       <h2 className="text-3xl">Coupons</h2>
-      <Row gutter={24} className="flex items-baseline">
+      <Row gutter={24} className="flex items-baseline justify-between">
         <CoupanFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}
@@ -54,7 +54,6 @@ export default function Index() {
         <AddNewCoupon
           selectedCoupon={null}
           setCouponDrawerOpen={setCouponDrawerOpen}
-          
         />
       </Drawer>
     </>

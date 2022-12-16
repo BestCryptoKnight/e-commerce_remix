@@ -94,10 +94,7 @@ export function CategoryAction(
             ];
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            const filteredData = stateData.app.data.filter(
-              (category: any) => category.id !== data.id
-            );
-            let newStateData = [result?.data?.updateCategory, ...filteredData];
+            let newStateData = [result?.data?.updateCategory];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
