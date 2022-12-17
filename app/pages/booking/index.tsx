@@ -13,7 +13,7 @@ import { INITIAL_EVENTS, createEventId } from "./event-utils";
 import { Modal, Form, Checkbox } from "antd";
 import { BookingCalendarWrapper } from "./styles";
 import BookingForm from "./partials/AddBookingForm";
-
+import moment from "moment";
 import type { BookingFormFields } from "~/types/booking";
 
 function BookingCalendar() {
@@ -63,6 +63,7 @@ function BookingCalendar() {
     calendarApi?.unselect(); // clear date selection
 
     if (data.title) {
+      console.log(formData?.startStr);
       calendarApi?.addEvent({
         id: createEventId(),
         title: data.title,
@@ -72,8 +73,9 @@ function BookingCalendar() {
       });
     }
 
-    setIsModalOpen(false);
-    form.resetFields();
+    console.log(data);
+    // setIsModalOpen(false);
+    // form.resetFields();
   };
 
   return (
@@ -88,7 +90,7 @@ function BookingCalendar() {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            initialView="dayGridMonth"
+            initialView="timeGridWeek"
             editable={true}
             selectable={true}
             selectMirror={true}
@@ -96,11 +98,14 @@ function BookingCalendar() {
             weekends={weekendsVisible}
             initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
             select={(selectInfo) => {
+              form.setFieldsValue({
+                startTime: moment(selectInfo.startStr),
+                endTime: moment(selectInfo.endStr),
+              });
               setIsModalOpen(true);
               setFormData(selectInfo);
             }}
             eventContent={(eventContent) => {
-              console.log(eventContent);
               return (
                 <>
                   <b>{eventContent.timeText}</b>
@@ -140,7 +145,7 @@ function BookingCalendar() {
               layout="vertical"
               form={form}
             >
-              <BookingForm />
+              <BookingForm form={form} />
             </Form>
           </Modal>
         </>

@@ -1,17 +1,18 @@
-export const GetTags = `
-query ($vendorId: String) {
-  getTags (vendorId: $vendorId) {
-    id
-    title
-    title_ar
-    createdAt
-    updatedAt
-    active,
-    availabilities {
-      days
-      startTime
-      endTime
+import { gql } from "urql";
+export const GetTags = gql`
+  query ($vendorId: String) {
+    getTags(vendorId: $vendorId) {
+      id
+      title
+      title_ar
+      createdAt
+      updatedAt
+      active
+      availabilities {
+        days
+        startTime
+        endTime
+      }
     }
   }
-}
 `;

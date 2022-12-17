@@ -1,26 +1,29 @@
-export const CreateVariant = `
-mutation (
-  $title: String!,
-  $title_ar: String!,
-  $options: [VariantOptionsInput!]
-  $vendorId: String!
-) {
-createVariant (data: {
-    title: $title,
-    title_ar: $title_ar,
-    options: $options,
-    vendorId: $vendorId
-  }) {
-    id
-    title
-    title_ar
-    options {
-      image
-      price
-      sku
+import { gql } from "urql";
+export const CreateVariant = gql`
+  mutation (
+    $title: String!
+    $title_ar: String!
+    $options: [VariantOptionsInput!]
+    $vendorId: String!
+  ) {
+    createVariant(
+      data: {
+        title: $title
+        title_ar: $title_ar
+        options: $options
+        vendorId: $vendorId
+      }
+    ) {
+      id
       title
       title_ar
+      options {
+        image
+        price
+        sku
+        title
+        title_ar
+      }
     }
   }
-}
 `;

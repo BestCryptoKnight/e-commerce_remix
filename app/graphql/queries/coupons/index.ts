@@ -1,7 +1,7 @@
 import { gql } from "urql";
 
 export const GetCoupons = gql`
-  query Dog($vendorId: String!) {
+  query getCoupons($vendorId: String!) {
     getCoupons(vendorId: $vendorId) {
       id
       code
