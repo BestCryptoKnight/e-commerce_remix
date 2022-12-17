@@ -19,7 +19,7 @@ export const couponTableColumns = [
     title: "Active",
     dataIndex: "active",
     key: "active",
-    render: (record) => {
+    render: (record: any) => {
       return <>{String(record)}</>;
     },
     responsive: ["md", "xs"],

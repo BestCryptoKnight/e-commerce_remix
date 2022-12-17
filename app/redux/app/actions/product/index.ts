@@ -6,7 +6,7 @@ import {
   DeleteProduct,
 } from "~/graphql/mutations/products";
 import type { Dispatch } from "redux";
-import slugify from "slugify";
+
 import {
   requestStartInitilizeLoading,
   requestSuccessUpdateStateData,
@@ -49,7 +49,10 @@ export function ProductsAction(
     dispatch(requestStartInitilizeLoading());
     try {
       data.vendorId = cookies.get("vendorId");
-
+      data.title = "Dummy title"; // Will be removed
+      data.title_ar = "Dummy arabic title"; // Will be removed
+      data.image = "dummy image"; // Will be removed
+      data.slug = "dummy slug"; // Will be removed
       // const suggestedSlug = slugify(data.title, {
       //   replacement: "-",
       //   remove: /[^\w\s]/gi,
@@ -88,30 +91,12 @@ export function ProductsAction(
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
             const filteredData = stateData.app.data.filter(
-              (product: any) => product.id !== data.id
+              (product: any) => product.id !== id
             );
+
             let newStateData = [result?.data?.updateProduct, ...filteredData];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
-
-          urqlQuery
-            .mutation(UploadFile, {
-              file: data.image,
-              key: "new file",
-            })
-            .toPromise()
-            .then((result) => {
-              if (!result || !result.data) {
-                notification.error({
-                  message: "Product image not uploaded",
-                });
-                throw new Error("Something went wrong");
-              }
-
-              notification.success({
-                message: "Product image uploaded successfully",
-              });
-            });
 
           notification.success({
             message:

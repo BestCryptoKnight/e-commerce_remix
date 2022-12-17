@@ -43,7 +43,7 @@ export const formatData = (data: any) => {
           d1.setDate(d1.getDate() + 7);
 
           newData.push({
-            day: moment(d1).format("dddd"),
+            // day: moment(d1).format("dddd"),
             date: moment(d1).format("DD/MM/YYYY"),
           });
         }
