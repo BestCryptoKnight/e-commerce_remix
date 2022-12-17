@@ -33,7 +33,7 @@ export default function VerifyOTP({ next }: { next: () => void }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="#153774"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="#153774"
               className="h-2 w-2"
             >
