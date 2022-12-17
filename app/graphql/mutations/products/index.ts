@@ -65,13 +65,11 @@ mutation ($id: String!,
   $vendorId: String!,
   $active: Boolean!,
   $tagIds: [String!],
-  $price: Float!,
   $categoryId: String!,
   $type: ProductType!,
   $itemsInStock: Int,
   $minPreorderDays: Int,
   $noOfSeats: Int,
-  $sku: String,
   $sortOrder: Int
   $slug: String!
 ) {
@@ -83,13 +81,11 @@ mutation ($id: String!,
     vendorId: $vendorId,
     active: $active,
     tagIds: $tagIds,
-    price: $price,
     image: $image,
     categoryId: $categoryId,
     type: $type,
     itemsInStock: $itemsInStock,
     noOfSeats: $noOfSeats,
-    sku: $sku,
     minPreorderDays:$minPreorderDays
     sortOrder: $sortOrder
     slug: $slug,
@@ -102,7 +98,6 @@ mutation ($id: String!,
     vendorId
     active
     tagIds
-    price
     image
     categoryId
     minPreorderDays
@@ -113,7 +108,6 @@ mutation ($id: String!,
     createdAt
     updatedAt
     slug
-    sku
   }
 }
 `;

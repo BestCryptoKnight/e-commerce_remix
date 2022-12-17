@@ -19,5 +19,8 @@ export const ParentWrapper = styled.div`
   .ant-layout-sider-has-trigger {
     height: 100vh;
   }
+  .ant-menu-item-icon {
+    padding-top: 7px;
+  }
   border-right: 1px solid #f0f0f0;
 `;
