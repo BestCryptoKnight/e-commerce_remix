@@ -1,6 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
-import { Button, Row, Col, DatePicker, Form, Input, Select } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+} from "antd";
 import { BookingCalendarDateWrapper } from "../styles";
 import { useQuery } from "urql";
 import Cookies from "universal-cookie";
@@ -148,7 +157,7 @@ const AddBookingForm = ({ form }: any) => {
           ></Select>
         </Form.Item>
       </Col>
-      <Col span={12}>
+      <Col span={24}>
         <Form.Item
           name="tagId"
           label="Tags"
@@ -168,6 +177,11 @@ const AddBookingForm = ({ form }: any) => {
               }))}
           ></Select>
         </Form.Item>
+      </Col>
+
+      <Col span={24}>
+        <Checkbox />
+        <span>Select service duration as event duration</span>
       </Col>
 
       <Col span={24}>
