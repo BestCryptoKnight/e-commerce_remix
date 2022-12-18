@@ -6,11 +6,12 @@ import { useQuery } from "urql";
 import Cookies from "universal-cookie";
 import { GetFilterProducts } from "~/graphql/queries/products";
 import type { ProductType } from "~/types/products";
-
+import { loading as stateLoading } from "~/redux/app";
+import { useAppSelector } from "~/hooks/Store";
 const AddBookingForm = ({ form }: any) => {
   const cookies = new Cookies();
   const [selectedService, setSelectedService] = useState("");
-
+  const loading = useAppSelector(stateLoading);
   const [services] = useQuery<{ getProducts: { list: ProductType[] } }>({
     query: GetFilterProducts,
     variables: {
@@ -19,11 +20,7 @@ const AddBookingForm = ({ form }: any) => {
       field: "type",
     },
   });
-  console.log(
-    services?.data?.getProducts.list.filter(
-      (item) => item.id === selectedService
-    )
-  );
+
   return (
     <Row gutter={24}>
       <Col span={12}>
@@ -174,7 +171,7 @@ const AddBookingForm = ({ form }: any) => {
       </Col>
 
       <Col span={24}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           submit
         </Button>
       </Col>

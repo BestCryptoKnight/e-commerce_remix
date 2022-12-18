@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useState } from "react";
-import { unwrapResult } from "@reduxjs/toolkit";
+import { useState, useEffect } from "react";
+import { GetBookingsAction } from "~/redux/app/actions/booking";
 import type {
   EventApi,
   DateSelectArg,
@@ -16,7 +16,7 @@ import { BookingCalendarWrapper } from "./styles";
 import BookingForm from "./partials/AddBookingForm";
 import moment from "moment";
 import type { BookingFormFields } from "~/types/booking";
-import { useAppDispatch } from "~/hooks/Store";
+import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { CreateBooking } from "~/redux/app/actions/booking";
 
 function BookingCalendar() {
@@ -27,6 +27,10 @@ function BookingCalendar() {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(GetBookingsAction());
+  }, []);
+
   const renderSidebar = () => {
     return (
       <div className="demo-app-sidebar">
@@ -36,7 +40,7 @@ function BookingCalendar() {
               checked={weekendsVisible}
               onChange={() => setWeekendsVisible(!weekendsVisible)}
             ></Checkbox>
-            {"  "}This week bookings
+            This week bookings
           </label>
         </div>
         {/* <div className="demo-app-sidebar-section">
@@ -146,11 +150,7 @@ function BookingCalendar() {
             onCancel={() => setIsModalOpen(false)}
             footer={null}
           >
-            <Form<BookingFormFields>
-              onFinish={onSubmit}
-              layout="vertical"
-              form={form}
-            >
+            <Form onFinish={onSubmit} layout="vertical" form={form}>
               <BookingForm form={form} />
             </Form>
           </Modal>

@@ -3,8 +3,10 @@ import type { AppDispatch } from "~/redux/store";
 import {
   requestStartInitilizeLoading,
   requestCompleteDisableLoading,
+  requestSuccessUpdateStateData,
 } from "../../";
 import Cookies from "universal-cookie";
+import { GetBookings } from "~/graphql/queries/bookings";
 import { notification } from "antd";
 import { CreateOrderAction } from "../order";
 import type { BookingFormFields } from "~/types/booking";
@@ -128,6 +130,34 @@ export function CreateBookingAction(data: any) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
+
+          return result.data;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function GetBookingsAction() {
+  return async (dispatch: Dispatch) => {
+    dispatch(requestStartInitilizeLoading());
+    try {
+      return urqlQuery
+        .query(GetBookings, {
+          vendorId,
+        })
+        .toPromise()
+        .then((result) => {
+          if (!result || !result.data) {
+            notification.error({
+              message: result?.error?.message,
+            });
+            dispatch(requestCompleteDisableLoading());
+            throw new Error("Something went wrong");
+          }
+
+          dispatch(requestSuccessUpdateStateData(result.data.getBookings));
           return result.data;
         });
     } catch (error) {
