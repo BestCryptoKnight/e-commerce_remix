@@ -14,8 +14,7 @@ const AddBookingForm = ({ form }: any) => {
   const [services] = useQuery<{ getProducts: { list: ProductType[] } }>({
     query: GetFilterProducts,
     variables: {
-      // vendorId: cookies.get("vendorId"),
-      vendorId: "638e6e77898a05f954ca1cc3",
+      vendorId: cookies.get("vendorId"),
       type: "SERVICE",
       field: "type",
     },
@@ -43,12 +42,12 @@ const AddBookingForm = ({ form }: any) => {
       </Col>
       <Col span={12}>
         <Form.Item
-          label="Customer full name "
-          name="fullName"
+          label="Customer first name "
+          name="firstName"
           rules={[
             {
               required: true,
-              message: "Please enter the full name...!",
+              message: "Please enter the first name...!",
             },
           ]}
         >
@@ -57,7 +56,21 @@ const AddBookingForm = ({ form }: any) => {
       </Col>
       <Col span={12}>
         <Form.Item
-          name="phoneNumber"
+          label="Customer last name "
+          name="lastName"
+          rules={[
+            {
+              required: true,
+              message: "Please enter the last name...!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item
+          name="phone"
           label="Customer phone number "
           rules={[
             {
@@ -118,7 +131,7 @@ const AddBookingForm = ({ form }: any) => {
 
       <Col span={12}>
         <Form.Item
-          name="service"
+          name="productId"
           label="Services"
           rules={[
             {
@@ -129,7 +142,7 @@ const AddBookingForm = ({ form }: any) => {
         >
           <Select
             onChange={(e) => setSelectedService(e)}
-            options={(services?.data?.getProducts.list || []).map(
+            options={(services?.data?.getProducts?.list || []).map(
               (t: ProductType) => ({
                 value: t.id,
                 label: t.title,
@@ -140,7 +153,7 @@ const AddBookingForm = ({ form }: any) => {
       </Col>
       <Col span={12}>
         <Form.Item
-          name="tags"
+          name="tagId"
           label="Tags"
           rules={[
             {
@@ -150,9 +163,9 @@ const AddBookingForm = ({ form }: any) => {
           ]}
         >
           <Select
-            options={(services?.data?.getProducts.list || [])
+            options={(services?.data?.getProducts?.list || [])
               .find((item) => item.id === selectedService)
-              ?.Tags.map((t: any) => ({
+              ?.Tags?.map((t: any) => ({
                 value: t.id,
                 label: t.title,
               }))}

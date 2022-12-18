@@ -22,7 +22,7 @@ export default function Index() {
   }, [dispatch]);
 
   const tabItems = orderStatusTabs.map((item, i) => {
-    const id = String(i + 1);
+    const id: any = String(i + 1);
     return {
       label: item?.label,
       key: id,

@@ -9,7 +9,6 @@ export const GetTags = gql`
       updatedAt
       active
       availabilities {
-        days
         startTime
         endTime
       }

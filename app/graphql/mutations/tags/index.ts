@@ -21,7 +21,6 @@ export const CreateTag = gql`
       title_ar
       active
       availabilities {
-        days
         startTime
         endTime
       }

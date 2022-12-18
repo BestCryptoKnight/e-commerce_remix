@@ -5,7 +5,6 @@ export const GetOrders = gql`
       id
       createdAt
       cart {
-        checkedOut
         createdAt
         finalPrice
         totalPrice
@@ -51,7 +50,6 @@ export const GetOrder = gql`
       id
       createdAt
       cart {
-        checkedOut
         createdAt
         finalPrice
         items {

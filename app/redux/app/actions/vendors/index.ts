@@ -29,7 +29,7 @@ export function CreateVendorAction(data: any, next: NavigateFunction) {
           }
           cookies.set("vendorId", JSON.stringify(result.data.createVendor.id));
           window.localStorage.removeItem("onboarding-step");
-          next("/");
+          next("/products");
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

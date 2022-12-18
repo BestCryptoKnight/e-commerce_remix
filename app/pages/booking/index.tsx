@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useState } from "react";
+import { unwrapResult } from "@reduxjs/toolkit";
 import type {
   EventApi,
   DateSelectArg,
@@ -15,6 +16,8 @@ import { BookingCalendarWrapper } from "./styles";
 import BookingForm from "./partials/AddBookingForm";
 import moment from "moment";
 import type { BookingFormFields } from "~/types/booking";
+import { useAppDispatch } from "~/hooks/Store";
+import { CreateBooking } from "~/redux/app/actions/booking";
 
 function BookingCalendar() {
   const [weekendsVisible, setWeekendsVisible] = useState(false);
@@ -22,6 +25,7 @@ function BookingCalendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<DateSelectArg>();
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
 
   const renderSidebar = () => {
     return (
@@ -58,24 +62,26 @@ function BookingCalendar() {
   //   );
   // };
   const onSubmit = async (data: BookingFormFields) => {
-    const calendarApi = formData?.view.calendar;
+    dispatch(CreateBooking(data)).then((result) => {
+      if (result) {
+        const calendarApi = formData?.view.calendar;
 
-    calendarApi?.unselect(); // clear date selection
+        // calendarApi?.unselect();
 
-    if (data.title) {
-      console.log(formData?.startStr);
-      calendarApi?.addEvent({
-        id: createEventId(),
-        title: data.title,
-        start: formData?.startStr,
-        end: formData?.endStr,
-        allDay: formData?.allDay,
-      });
-    }
+        if (data.title) {
+          calendarApi?.addEvent({
+            id: createEventId(),
+            title: data.title,
+            start: formData?.startStr,
+            end: formData?.endStr,
+            allDay: formData?.allDay,
+          });
+        }
 
-    console.log(data);
-    // setIsModalOpen(false);
-    // form.resetFields();
+        setIsModalOpen(false);
+        form.resetFields();
+      }
+    });
   };
 
   return (
