@@ -33,20 +33,13 @@ export const GetFilterProducts = gql`
         id
         title
         title_ar
-        description
-        description_ar
-        vendorId
-        active
-        tagIds
-
-        image
-        minPreorderDays
-        type
-        itemsInStock
-        noOfSeats
-        createdAt
-        updatedAt
-        categoryId
+        vendor {
+          id
+        }
+        Tags {
+          id
+          title
+        }
       }
     }
   }

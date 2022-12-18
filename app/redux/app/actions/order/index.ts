@@ -1,5 +1,6 @@
 import urqlQuery from "~/graphql/";
 import { GetOrders, GetOrder } from "~/graphql/queries/orders";
+import { CreateOrder } from "~/graphql/mutations/order";
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -7,24 +8,7 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
-
-type CustomerInfoType = {
-  firstName: string;
-  lastName: string;
-};
-
-type CartType = {
-  finalPrice: number;
-};
-
-type RowDataType = {
-  id: string;
-  status: string;
-  cart: CartType;
-  customerInfo: CustomerInfoType;
-  paymentMethod: string;
-  deliveryMethod: string;
-};
+import type { RowDataType } from "~/types/orders";
 
 export function GetOrdersAction() {
   return async (dispatch: Dispatch) => {
@@ -66,26 +50,27 @@ export function GetOrdersAction() {
   };
 }
 
-// export function GetOrderAction(id: string) {
-//   return async (dispatch: Dispatch) => {
-//     dispatch(requestStartInitilizeLoading());
-//     try {
-//       urqlQuery
-//         .query(GetOrder, {
-//           id,
-//         })
-//         .toPromise()
-//         .then((result) => {
-//           if (!result || !result.data) {
-//             throw new Error("Something went wrong");
-//           }
-
-//           const items = result.data.getOrder;
-
-//           dispatch(requestSuccessUpdateStateData(items));
-//         });
-//     } catch (error) {
-//       throw error;
-//     }
-//   };
-// }
+export function CreateOrderAction(data: any) {
+  return async (dispatch: Dispatch) => {
+    dispatch(requestStartInitilizeLoading());
+    try {
+      return urqlQuery
+        .mutation(CreateOrder, {
+          ...data,
+        })
+        .toPromise()
+        .then((result) => {
+          if (!result || !result.data) {
+            notification.error({
+              message: result?.error?.message,
+            });
+            dispatch(requestCompleteDisableLoading());
+            throw new Error("Something went wrong");
+          }
+          return result.data;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+}

@@ -1,10 +1,10 @@
-export const GetOrders = `
-query ($vendorId: String!) {
-    getOrders (vendorId: $vendorId) {
+import { gql } from "urql";
+export const GetOrders = gql`
+  query ($vendorId: String!) {
+    getOrders(vendorId: $vendorId) {
       id
       createdAt
       cart {
-        checkedOut
         createdAt
         finalPrice
         totalPrice
@@ -24,56 +24,55 @@ query ($vendorId: String!) {
             image
             location
           }
-         productVariant
-         quantity
-         slots {
-          endTime
-          startTime
-         }
-      }
+          productVariant
+          quantity
+          slots {
+            endTime
+            startTime
+          }
+        }
       }
       customerInfo {
         firstName
         lastName
         phone
       }
-      deliveryMethod 
+      deliveryMethod
       paymentMethod
       status
+    }
   }
-}
 `;
 
-export const GetOrder = `
-query ($id: String!) {
-    getOrder (id: $id) {
+export const GetOrder = gql`
+  query ($id: String!) {
+    getOrder(id: $id) {
       id
       createdAt
       cart {
-        checkedOut
         createdAt
         finalPrice
         items {
-            Product {
+          Product {
+            title
+            title_ar
+            type
+            Tags {
               title
               title_ar
-              type
-              Tags {
-                title
-                title_ar
-              }
-              startDate
-              endDate
-              endTime
-              image
-              location
             }
-           productVariant
-           quantity
-           slots {
+            startDate
+            endDate
+            endTime
+            image
+            location
+          }
+          productVariant
+          quantity
+          slots {
             endTime
             startTime
-           }
+          }
         }
         totalPrice
         updatedAt
@@ -83,9 +82,9 @@ query ($id: String!) {
         lastName
         phone
       }
-      deliveryMethod 
+      deliveryMethod
       paymentMethod
       status
+    }
   }
-}
 `;

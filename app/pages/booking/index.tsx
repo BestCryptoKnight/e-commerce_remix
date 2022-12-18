@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { GetBookingsAction } from "~/redux/app/actions/booking";
 import type {
   EventApi,
   DateSelectArg,
@@ -13,8 +14,10 @@ import { INITIAL_EVENTS, createEventId } from "./event-utils";
 import { Modal, Form, Checkbox } from "antd";
 import { BookingCalendarWrapper } from "./styles";
 import BookingForm from "./partials/AddBookingForm";
-
+import moment from "moment";
 import type { BookingFormFields } from "~/types/booking";
+import { useAppDispatch, useAppSelector } from "~/hooks/Store";
+import { CreateBooking } from "~/redux/app/actions/booking";
 
 function BookingCalendar() {
   const [weekendsVisible, setWeekendsVisible] = useState(false);
@@ -22,6 +25,11 @@ function BookingCalendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<DateSelectArg>();
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(GetBookingsAction());
+  }, []);
 
   const renderSidebar = () => {
     return (
@@ -32,7 +40,7 @@ function BookingCalendar() {
               checked={weekendsVisible}
               onChange={() => setWeekendsVisible(!weekendsVisible)}
             ></Checkbox>
-            {"  "}This week bookings
+            This week bookings
           </label>
         </div>
         {/* <div className="demo-app-sidebar-section">
@@ -58,22 +66,26 @@ function BookingCalendar() {
   //   );
   // };
   const onSubmit = async (data: BookingFormFields) => {
-    const calendarApi = formData?.view.calendar;
+    dispatch(CreateBooking(data)).then((result) => {
+      if (result) {
+        const calendarApi = formData?.view.calendar;
 
-    calendarApi?.unselect(); // clear date selection
+        // calendarApi?.unselect();
 
-    if (data.title) {
-      calendarApi?.addEvent({
-        id: createEventId(),
-        title: data.title,
-        start: formData?.startStr,
-        end: formData?.endStr,
-        allDay: formData?.allDay,
-      });
-    }
+        if (data.title) {
+          calendarApi?.addEvent({
+            id: createEventId(),
+            title: data.title,
+            start: formData?.startStr,
+            end: formData?.endStr,
+            allDay: formData?.allDay,
+          });
+        }
 
-    setIsModalOpen(false);
-    form.resetFields();
+        setIsModalOpen(false);
+        form.resetFields();
+      }
+    });
   };
 
   return (
@@ -88,7 +100,7 @@ function BookingCalendar() {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            initialView="dayGridMonth"
+            initialView="timeGridWeek"
             editable={true}
             selectable={true}
             selectMirror={true}
@@ -96,11 +108,14 @@ function BookingCalendar() {
             weekends={weekendsVisible}
             initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
             select={(selectInfo) => {
+              form.setFieldsValue({
+                startTime: moment(selectInfo.startStr),
+                endTime: moment(selectInfo.endStr),
+              });
               setIsModalOpen(true);
               setFormData(selectInfo);
             }}
             eventContent={(eventContent) => {
-              console.log(eventContent);
               return (
                 <>
                   <b>{eventContent.timeText}</b>
@@ -135,12 +150,8 @@ function BookingCalendar() {
             onCancel={() => setIsModalOpen(false)}
             footer={null}
           >
-            <Form<BookingFormFields>
-              onFinish={onSubmit}
-              layout="vertical"
-              form={form}
-            >
-              <BookingForm />
+            <Form onFinish={onSubmit} layout="vertical" form={form}>
+              <BookingForm form={form} />
             </Form>
           </Modal>
         </>

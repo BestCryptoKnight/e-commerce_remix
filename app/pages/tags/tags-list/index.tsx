@@ -61,7 +61,9 @@ export default function Index() {
               okText="Yes"
               cancelText="No"
             >
-              <DeleteIcon />
+              <div>
+                <DeleteIcon />
+              </div>
             </Popconfirm>
           </ActionButtonsWrapper>
         );
