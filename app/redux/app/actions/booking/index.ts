@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { CreateCartAction, AddServiceToCartAction } from "../cart";
 import type { AppDispatch } from "~/redux/store";
 import {
@@ -14,6 +15,7 @@ import moment from "moment";
 import urqlQuery from "~/graphql/";
 import { CreateBooking as CreateBookingGQL } from "~/graphql/mutations/booking";
 import type { Dispatch } from "redux";
+import { parseIn, getTimeIntervals } from "../tags/tags.utils";
 
 const cookies = new Cookies();
 const vendorId = cookies.get("vendorId");
@@ -22,66 +24,58 @@ export function CreateBooking(data: BookingFormFields) {
     dispatch(requestStartInitilizeLoading());
 
     try {
-      const { getCustomerCart } = await dispatch(CreateCartAction());
+      const timeIntervals: any = [];
+      getTimeIntervals(
+        parseIn(moment(data?.startTime).format("YYYY-MM-DD HH:mm:ss")),
+        parseIn(moment(data?.endTime).format("YYYY-MM-DD HH:mm:ss"))
+      ).forEach((item: any, index: number, array) => {
+        if (array[index + 1]) {
+          timeIntervals.push({
+            startTime: array[index],
+            endTime: array[index + 1],
+            date: moment(data.startTime).format("YYYY-MM-DD"),
+          });
+        }
+      });
 
+      const { getCustomerCart } = await dispatch(CreateCartAction());
       if (!getCustomerCart) {
         return notification.error({
           message: "Unable to create customer cart",
         });
       }
-
       const genericPayload: any = {};
       genericPayload.productId = data?.productId;
       genericPayload.vendorId = vendorId;
       genericPayload.cartId = getCustomerCart?.id;
       genericPayload.tagId = data?.tagId;
-
       const addServiceToCartPayload: any = {
         ...genericPayload,
-        slots: [
-          {
-            date: moment(data.startTime).format("DD/MM/YYYY"),
-            startTime: moment(data.startTime).format("HH:mm"),
-            endTime: moment(data.endTime).format("HH:mm"),
-          },
-        ],
+        slots: timeIntervals,
       };
-
       // addServiceToCartPayload.quantity = data?.quantity;
       // addServiceToCartPayload.productVariant = data?.productVariant;
-
       const { addServiceToCart } = await dispatch(
         AddServiceToCartAction(addServiceToCartPayload)
       );
-
       if (!addServiceToCart) {
         return notification.error({
           message: "Unable to add service to cart",
         });
       }
-
       const createBookingPayload = {
         ...genericPayload,
         status: "PENDING",
-        times: [
-          {
-            date: moment(data.startTime).format("DD/MM/YYYY"),
-            startTime: moment(data.startTime).format("HH:mm"),
-            endTime: moment(data.endTime).format("HH:mm"),
-          },
-        ],
+        times: timeIntervals,
       };
-
       const { createBooking } = await dispatch(
         CreateBookingAction(createBookingPayload)
       );
-
       if (!createBooking) {
         return notification.error({
           message: "Unable to create booking",
         });
       }
-
       const orderPayload: any = {
         cartId: getCustomerCart?.id,
         customerInfo: {
@@ -93,19 +87,15 @@ export function CreateBooking(data: BookingFormFields) {
         status: "PENDING",
         vendorId: vendorId,
       };
-
       const { createOrder } = await dispatch(CreateOrderAction(orderPayload));
-
       if (!createOrder) {
         return notification.error({
           message: "Unable to create booking",
         });
       }
-
       notification.success({
         message: "Booking created successfully",
       });
-
       return createOrder;
     } catch (error) {
       throw error;
