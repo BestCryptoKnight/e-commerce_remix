@@ -1,6 +1,6 @@
 import moment from "moment";
 
-var getTimeIntervals = function (time1: any, time2: any) {
+export const getTimeIntervals = function (time1: any, time2: any) {
   var arr = [];
   while (time1 <= time2) {
     arr.push(time1.toTimeString().substring(0, 5));
@@ -9,7 +9,7 @@ var getTimeIntervals = function (time1: any, time2: any) {
   return arr;
 };
 
-var parseIn = function (date_time: any) {
+export const parseIn = function (date_time: any) {
   var d = new Date();
   d.setHours(date_time.substring(11, 13));
   d.setMinutes(date_time.substring(14, 16));
