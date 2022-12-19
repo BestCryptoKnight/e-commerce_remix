@@ -25,17 +25,14 @@ export default function CouponForm({
       tagToUpdate.active = selectedTag.active;
       tagToUpdate.title = selectedTag.title;
       tagToUpdate.title_ar = selectedTag.title_ar;
-      tagToUpdate.availabilities = selectedTag?.availabilities?.map(
-        (availability: any) => {
-          return {
-            days: availability?.days?.map((day: any) =>
-              moment(day).format("YYYY/MM/DD")
-            ),
-            startTime: moment(availability?.startTime, "HH:mm"),
-            endTime: moment(availability?.startTime, "HH:mm"),
-          };
-        }
-      );
+      tagToUpdate.workdays = selectedTag?.workdays?.map((workday: any) => {
+        return {
+          day: workday?.day,
+          startTime: moment(workday?.startTime),
+          endTime: moment(workday?.startTime),
+        };
+      });
+
       form.setFieldsValue(tagToUpdate);
     } else {
       form.resetFields();

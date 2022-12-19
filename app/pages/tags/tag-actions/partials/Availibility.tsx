@@ -1,18 +1,43 @@
 /* eslint-disable react/jsx-key */
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Col, TimePicker } from "antd";
-import DatePicker from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import { Button, Form, Col, TimePicker, Select } from "antd";
 
 const Availibility = () => {
   return (
     <>
       <Col span={24}>
-        <Form.List name="availabilities">
+        <Form.List name="workdays">
           {(fields, { add, remove }) => (
             <>
               {fields.map((field) => (
                 <div key={field.key} className="flex">
+                  <Col span={8}>
+                    <Form.Item>
+                      <Form.Item
+                        {...field}
+                        label="Day"
+                        name={[field.name, "day"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select the day..!",
+                          },
+                        ]}
+                      >
+                        <Select
+                          options={[
+                            { label: "Monday", value: "Monday" },
+                            { label: "Tuesday", value: "Tuesday" },
+                            { label: "Wednesday", value: "Wednesday" },
+                            { label: "Thursday", value: "Thursday" },
+                            { label: "Friday", value: "Friday" },
+                            { label: "Saturday", value: "Saturday" },
+                            { label: "Sunday", value: "Sunday" },
+                          ]}
+                        ></Select>
+                      </Form.Item>
+                    </Form.Item>
+                  </Col>
                   <Col span={8}>
                     <Form.Item
                       {...field}
@@ -41,38 +66,6 @@ const Availibility = () => {
                       ]}
                     >
                       <TimePicker minuteStep={15} format="HH:mm" />
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item
-                      shouldUpdate={(prevValues, curValues) =>
-                        prevValues.area !== curValues.area ||
-                        prevValues.sights !== curValues.sights
-                      }
-                      key={field.key}
-                    >
-                      {() => (
-                        <Form.Item
-                          {...field}
-                          label="Days"
-                          name={[field.name, "days"]}
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please select the start time...!",
-                            },
-                          ]}
-                        >
-                          <DatePicker
-                            multiple={true}
-                            className="rmdp-input1 ant-picker"
-                            style={{ height: 30 }}
-                            plugins={[
-                              <DatePanel header="Selected dates for next 1.5 month" />,
-                            ]}
-                          />
-                        </Form.Item>
-                      )}
                     </Form.Item>
                   </Col>
 

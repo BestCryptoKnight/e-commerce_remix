@@ -8,9 +8,10 @@ export const GetTags = gql`
       createdAt
       updatedAt
       active
-      availabilities {
-        startTime
-        endTime
+      workdays {
+        day
+        from
+        to
       }
     }
   }

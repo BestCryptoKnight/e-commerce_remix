@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Col, Upload, Form, Input, Button, Select, Switch } from "antd";
+import { Col, Form, Select, Switch } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { GetCategories } from "~/graphql/queries/categories";
 import type { CategoryType } from "~/types/categories";
 import Cookies from "universal-cookie";
 import { GetVariants } from "~/graphql/queries/variants";
-import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
 import type { UploadProps } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import Drawer from "~/components/shared/drawer";
 import VariantForm from "~/pages/variants/variant-actions";
 import type { VariantTypes } from "~/types/variants";
