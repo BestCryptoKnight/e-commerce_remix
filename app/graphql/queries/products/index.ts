@@ -36,7 +36,7 @@ export const GetFilterProducts = gql`
         vendor {
           id
         }
-        Tags {
+        tags {
           id
           title
         }

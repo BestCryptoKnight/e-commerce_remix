@@ -25,6 +25,7 @@ export default function CouponForm({
       tagToUpdate.active = selectedTag.active;
       tagToUpdate.title = selectedTag.title;
       tagToUpdate.title_ar = selectedTag.title_ar;
+      tagToUpdate.productIds = selectedTag.productIds;
       tagToUpdate.workdays = selectedTag?.workdays?.map((workday: any) => {
         return {
           day: workday?.day,
