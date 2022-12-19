@@ -23,16 +23,19 @@ export function GetTagsAction() {
       urqlQuery
         .query(GetTags, {
           vendorId,
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
-          console.log(result);
-          dispatch(requestSuccessUpdateStateData(result.data.getTags));
+          const data = {
+            list: result.data.getTags,
+            totalCount: null,
+          };
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -84,7 +87,10 @@ export function TagAction(
           let stateData = state();
 
           if (selectedAction === "create-tag") {
-            let newStateData = [...stateData.app.data, result?.data?.createTag];
+            let newStateData = {
+              totalCount: null,
+              list: [...stateData.app.data.list, result?.data?.createTag],
+            };
 
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {

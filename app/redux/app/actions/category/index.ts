@@ -74,11 +74,6 @@ export function CategoryAction(
           let stateData = state();
 
           if (selectedAction === "new-category") {
-            // let newStateData = [
-            //   result?.data?.createCategory,
-            //   ...stateData.app.data,
-            // ];
-
             let newStateData = {
               totalCount: null,
               list: [...stateData.app.data.list, result?.data?.createCategory],

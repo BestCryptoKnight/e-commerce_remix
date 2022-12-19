@@ -19,6 +19,7 @@ export default function Index() {
   const [filteredColumn, setFilteredColumn] = useState([]);
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
@@ -96,7 +97,7 @@ export default function Index() {
       </Row>
 
       <Table
-        dataSource={data}
+        dataSource={list}
         loading={loading}
         columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
       />
