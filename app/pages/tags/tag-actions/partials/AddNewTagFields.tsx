@@ -33,7 +33,7 @@ const AddTagsFields = () => {
       </Col>
 
       <Col span={24}>
-        <Form.Item name="active" label="Active" initialValue={true}>
+        <Form.Item name="active" label="Active">
           <Switch />
         </Form.Item>
       </Col>

@@ -11,7 +11,7 @@ import {
   requestSuccessUpdateStateData,
 } from "../../";
 import { notification } from "antd";
-import { formatData } from "./tags.utils";
+
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -47,13 +47,24 @@ export function TagAction(
   form: any
 ) {
   return async (dispatch: Dispatch, state: any) => {
-    dispatch(requestStartInitilizeDrawerLoading());
     try {
       const vendorId = cookies.get("vendorId");
       data.vendorId = vendorId;
 
-      data.availabilities = formatData(data);
-
+      if (data?.workdays?.length > 0) {
+        data.workdays = data?.workdays?.map((workday: any) => {
+          return {
+            day: workday.day,
+            from: moment(workday.startTime).format("HH:mm"),
+            to: moment(workday.endTime).format("HH:mm"),
+          };
+        });
+      } else {
+        return notification.error({
+          message: "Please add your workday.",
+        });
+      }
+      dispatch(requestStartInitilizeDrawerLoading());
       urqlQuery
         .mutation(
           selectedAction === "create-tag" ? CreateTag : UpdateTag,

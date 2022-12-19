@@ -5,7 +5,7 @@ export const CreateTag = gql`
     $title_ar: String!
     $vendorId: String!
     $active: Boolean!
-    $availabilities: [ServiceAvailabilityInput!]
+    $workdays: [WorkDayInput!]!
   ) {
     createTag(
       data: {
@@ -13,16 +13,17 @@ export const CreateTag = gql`
         title_ar: $title_ar
         vendorId: $vendorId
         active: $active
-        availabilities: $availabilities
+        workdays: $workdays
       }
     ) {
       id
       title
       title_ar
       active
-      availabilities {
-        startTime
-        endTime
+      workdays {
+        day
+        from
+        to
       }
     }
   }
@@ -45,7 +46,7 @@ export const UpdateTag = gql`
     $title: String!
     $title_ar: String!
     $active: Boolean!
-    $availabilities: [ServiceAvailabilityInput!]
+    $workdays: [WorkDayInput!]!
   ) {
     updateTag(
       id: $id
@@ -53,17 +54,17 @@ export const UpdateTag = gql`
         title: $title
         title_ar: $title_ar
         active: $active
-        availabilities: $availabilities
+        workdays: $workdays
       }
     ) {
       id
       title
       title_ar
       active
-      availabilities {
-        days
-        startTime
-        endTime
+      workdays {
+        day
+        from
+        to
       }
     }
   }
