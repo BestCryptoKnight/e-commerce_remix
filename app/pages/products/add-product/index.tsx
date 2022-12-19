@@ -9,6 +9,7 @@ import { useAppDispatch } from "~/hooks/Store";
 import { ProductsAction } from "~/redux/app/actions/product";
 
 export default function ProductForm({
+  totalCount,
   setSelectedProduct,
   selectedProduct,
   setProductDrawerOpen,
@@ -25,8 +26,6 @@ export default function ProductForm({
   const descriptionRef = useRef<any>(null);
   const arabicDescriptionRef = useRef<any>(null);
 
-  console.log("???", selectedAction, selectedProduct);
-
   useEffect(() => {
     if (selectedAction === "edit-product") {
       form.setFieldsValue(selectedProduct);
@@ -36,8 +35,6 @@ export default function ProductForm({
       setSelectedProduct(null);
     }
   }, [selectedProduct, form, selectedAction]);
-
-  console.log("form", form);
 
   useEffect(() => {
     form.setFieldValue("location", selectedLocation.location);
@@ -71,17 +68,24 @@ export default function ProductForm({
           payload,
           setProductDrawerOpen,
           selectedAction,
-          selectedProduct.id
+          selectedProduct.id,
+          totalCount
         )
       );
     } else {
       dispatch(
-        ProductsAction(payload, setProductDrawerOpen, selectedAction, "")
+        ProductsAction(
+          payload,
+          setProductDrawerOpen,
+          selectedAction,
+          "",
+          totalCount
+        )
       );
     }
 
     form.resetFields();
-    setSelectedProduct(null)
+    setSelectedProduct(null);
   };
 
   const attendanceType: string = Form.useWatch("attendanceType", form);

@@ -15,6 +15,7 @@ import {
 import { notification } from "antd";
 import { UploadFile } from "~/graphql/mutations/utils";
 import Cookies from "universal-cookie";
+import slugify from "slugify";
 const cookies = new Cookies();
 
 export function GetProductsAction() {
@@ -25,13 +26,21 @@ export function GetProductsAction() {
       urqlQuery
         .query(GetProducts, {
           vendorId,
+          sortOrder: { direction: 'desc', field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
+
+          const data = {
+            list: result.data.getProducts.list,
+            totalCount: result.data.getProducts.totalCount,
+          };
+
+          console.log("result", result);
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -43,24 +52,24 @@ export function ProductsAction(
   data: any,
   setProductDrawerOpen: any,
   selectedAction: string,
-  id: string
+  id: string,
+  totalCount: number
 ) {
   return async (dispatch: Dispatch, state: any) => {
-    console.log("selectedAction", selectedAction);
     dispatch(requestStartInitilizeLoading());
     try {
       data.vendorId = cookies.get("vendorId");
-      data.title = "Dummy title"; // Will be removed
-      data.title_ar = "Dummy arabic title"; // Will be removed
-      data.image = "dummy image"; // Will be removed
-      data.slug = "dummy slug"; // Will be removed
-      // const suggestedSlug = slugify(data.title, {
-      //   replacement: "-",
-      //   remove: /[^\w\s]/gi,
-      // })
-      //   .replace(/'_+/g, "")
-      //   .toLowerCase();
-      // data.slug = suggestedSlug;
+      data.image =
+        "https://upload.travelawaits.com/ta/uploads/2021/04/7869b2f6d8e68e89909201dfcc4c67869b2.jpg"; // Will be removed
+      const suggestedSlug = slugify(data.title, {
+        replacement: "-",
+        remove: /[^\w\s]/gi,
+      })
+        .replace(/'_+/g, "")
+        .toLowerCase();
+      data.slug = suggestedSlug;
+
+      console.log("HEREEEE");
 
       urqlQuery
         .mutation(
@@ -76,19 +85,32 @@ export function ProductsAction(
         )
         .toPromise()
         .then((result) => {
+          console.log("RESULT", result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 
+          console.log("this line right here..");
+
           let stateData = state();
 
-          if (selectedAction === "new-product") {
-            let newStateData = [
-              ...stateData.app.data,
-              result?.data?.createProduct,
-            ];
+          console.log("stateData", stateData);
 
+          if (selectedAction === "new-product") {
+            // console.log("are you passing here??", ...stateData.app.data);
+
+            // const { price, sku, ...dataRest } = data;
+            // const prevList =
+
+            console.log("totalCount", totalCount);
+            console.log("newww", stateData, result);
+            let newStateData = {
+              totalCount: totalCount + 1,
+              list: [...stateData.app.data.list, result?.data?.createProduct],
+            };
+
+            console.log("1", newStateData);
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
             const filteredData = stateData.app.data.filter(
@@ -98,6 +120,8 @@ export function ProductsAction(
             let newStateData = [result?.data?.updateProduct, ...filteredData];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
+
+          console.log("success???");
 
           notification.success({
             message:
@@ -145,3 +169,4 @@ export function DeleteProductAction(id: string) {
     }
   };
 }
+

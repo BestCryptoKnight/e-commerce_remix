@@ -24,12 +24,74 @@ export default function Index() {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
     dispatch(GetProductsAction());
   }, [dispatch]);
 
   const [tableColumns, setTableColumns] = useState<any>([
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (_: any, record: any) => {
+        return (
+          <img
+            src={record.image}
+            alt={record?.title ? record?.title : record?.variants[0]?.title}
+            width={50}
+            height={50}
+            className="rounded-lg"
+          />
+        );
+      },
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.title ? record?.title : record?.variants[0]?.title}</p>
+        );
+      },
+    },
+    {
+      title: "Arabic Title",
+      dataIndex: "title_ar",
+      key: "title_ar",
+      render: (_: any, record: any) => {
+        return (
+          <p>
+            {record?.title_ar
+              ? record?.title_ar
+              : record?.variants[0]?.title_ar}
+          </p>
+        );
+      },
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (_: any, record: any) => {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: record?.description }} />
+        );
+      },
+    },
+    {
+      title: "Arabic Description",
+      dataIndex: "description_ar",
+      key: "description_ar",
+      render: (_: any, record: any) => {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: record?.description_ar }} />
+        );
+      },
+    },
     ...productColumns,
     {
       title: "Actions",
@@ -89,9 +151,10 @@ export default function Index() {
 
       <Table
         columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={data}
+        dataSource={list}
         loading={loading}
         size="middle"
+        // count={totalCount}
       />
       <Drawer
         title={
@@ -103,6 +166,7 @@ export default function Index() {
         placement="right"
       >
         <AddNewProduct
+          totalCount={totalCount}
           setSelectedProduct={setSelectedProduct}
           selectedProduct={selectedProduct}
           setProductDrawerOpen={setProductDrawerOpen}
@@ -112,3 +176,4 @@ export default function Index() {
     </ProductTableWrapper>
   );
 }
+

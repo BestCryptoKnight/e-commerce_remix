@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type Response = {
+  list: [];
+  totalCount: number;
+};
+
 interface initialStateTypes {
   isAuthorized: boolean;
   loading: boolean;
   hasErrors: boolean;
-  data: [];
+  data: Response;
   drawerActionLoading: boolean;
 }
 
@@ -13,7 +18,7 @@ export interface finalStateTypes {
     isAuthorized: boolean;
     loading: boolean;
     hasErrors: boolean;
-    data: [];
+    data: Response;
     drawerActionLoading: boolean;
   };
 }
@@ -22,7 +27,7 @@ const initialState: initialStateTypes = {
   isAuthorized: false,
   loading: false,
   hasErrors: false,
-  data: [],
+  data: { list: [], totalCount: 0 },
   drawerActionLoading: false,
 };
 
@@ -71,3 +76,4 @@ export const {
 } = appReducer.actions;
 
 export default appReducer.reducer;
+

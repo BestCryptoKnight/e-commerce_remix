@@ -1,5 +1,4 @@
 import type { CategoryType } from "../categories";
-import type { VariantTypes } from "../variants";
 import type { VendorsTypes } from "../vendors";
 export interface ProductType {
   Tags: string[];
@@ -31,11 +30,20 @@ export interface ProductType {
   title_ar: string;
   type: ProductTypeEnum;
   updatedAt: string;
-  variants: VariantTypes;
+  variants: Variant[];
   variationOptions: variationOptions;
   vendor: VendorsTypes;
   vendorId: VendorsTypes;
 }
+
+export type Variant = {
+  default: boolean;
+  image: string;
+  title: string;
+  title_ar: number;
+  price: number;
+  sku: string;
+};
 
 enum attendanceType {
   "ONLINE",

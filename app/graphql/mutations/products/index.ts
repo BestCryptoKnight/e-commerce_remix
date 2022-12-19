@@ -12,6 +12,7 @@ export const CreateProduct = gql`
     $categoryId: String!
     $type: ProductType!
     $itemsInStock: Int
+    $variants: [VariantInput!]
     $minPreorderDays: Int
     $noOfSeats: Int
     $sortOrder: Int
@@ -30,6 +31,7 @@ export const CreateProduct = gql`
         categoryId: $categoryId
         type: $type
         itemsInStock: $itemsInStock
+        variants: $variants
         noOfSeats: $noOfSeats
         minPreorderDays: $minPreorderDays
         sortOrder: $sortOrder
@@ -50,6 +52,12 @@ export const CreateProduct = gql`
       categoryId
       minPreorderDays
       type
+      variants {
+        title
+        title_ar
+        price
+        sku
+      }
       itemsInStock
       noOfSeats
       createdAt

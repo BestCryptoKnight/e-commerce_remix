@@ -1,8 +1,9 @@
 import { gql } from "urql";
 
 export const GetProducts = gql`
-  query GetProducts($vendorId: String!) {
-    getProducts(vendorId: $vendorId) {
+  query GetProducts($vendorId: String!, $sortOrder: SortOrder) {
+    getProducts(vendorId: $vendorId, sortOrder: $sortOrder) {
+      totalCount
       list {
         id
         title
