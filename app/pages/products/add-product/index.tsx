@@ -9,6 +9,7 @@ import { useAppDispatch } from "~/hooks/Store";
 import { ProductsAction } from "~/redux/app/actions/product";
 
 export default function ProductForm({
+  setSelectedProduct,
   selectedProduct,
   setProductDrawerOpen,
   selectedAction,
@@ -17,19 +18,26 @@ export default function ProductForm({
     field: "",
     location: "",
   });
-
+  const [addOptions, setAddOptions] = useState(false);
+  const [active, setActive] = useState(true);
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
   const descriptionRef = useRef<any>(null);
   const arabicDescriptionRef = useRef<any>(null);
 
+  console.log("???", selectedAction, selectedProduct);
+
   useEffect(() => {
-    if (selectedAction == "edit-product") {
+    if (selectedAction === "edit-product") {
       form.setFieldsValue(selectedProduct);
     } else {
+      console.log("passing here to reset");
       form.resetFields();
+      setSelectedProduct(null);
     }
   }, [selectedProduct, form, selectedAction]);
+
+  console.log("form", form);
 
   useEffect(() => {
     form.setFieldValue("location", selectedLocation.location);
@@ -39,18 +47,41 @@ export default function ProductForm({
     data.description = descriptionRef?.current?.targetElm?.value;
     data.description_ar = arabicDescriptionRef?.current?.targetElm?.value;
 
+    const { price, sku, ...dataRest } = data;
+
+    const formattedData = {
+      ...dataRest,
+      active,
+      variants: [
+        {
+          default: true,
+          price: data?.price,
+          sku: data?.sku,
+          title: data?.title,
+          title_ar: data?.title_ar,
+        },
+      ],
+    };
+
+    const payload = addOptions ? { ...data, active } : formattedData;
+
     if (selectedAction == "edit-product") {
       dispatch(
         ProductsAction(
-          data,
+          payload,
           setProductDrawerOpen,
           selectedAction,
           selectedProduct.id
         )
       );
     } else {
-      dispatch(ProductsAction(data, setProductDrawerOpen, selectedAction, ""));
+      dispatch(
+        ProductsAction(payload, setProductDrawerOpen, selectedAction, "")
+      );
     }
+
+    form.resetFields();
+    setSelectedProduct(null)
   };
 
   const attendanceType: string = Form.useWatch("attendanceType", form);
@@ -60,6 +91,10 @@ export default function ProductForm({
       <Form onFinish={onSubmit} form={form} layout="vertical">
         <Row gutter={24}>
           <ProductDetailsFields
+            active={active}
+            setActive={setActive}
+            setAddOptions={setAddOptions}
+            addOptions={addOptions}
             selectedProduct={selectedProduct}
             descriptionRef={descriptionRef}
             arabicDescriptionRef={arabicDescriptionRef}

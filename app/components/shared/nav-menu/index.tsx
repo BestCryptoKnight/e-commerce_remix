@@ -76,13 +76,6 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
       </div>
     ),
     getItem(
-      <Link to="/variants">Variants</Link>,
-      "Variants",
-      <div>
-        <VariantsIcon />
-      </div>
-    ),
-    getItem(
       <Link to="/settings">Settings</Link>,
       "Settings",
       <div>

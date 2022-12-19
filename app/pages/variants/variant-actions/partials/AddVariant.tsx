@@ -1,16 +1,17 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Col, Input, Upload, InputNumber } from "antd";
+import { useEffect } from "react";
 
 const VariantOptions = () => {
   return (
     <>
       <Col span={24}>
-        <Form.List name="options">
+        <Form.List name="variants">
           {(fields, { add, remove }) => (
             <>
               {fields.map((field) => (
                 <div key={field.key} className="mb-4 flex flex-wrap">
-                  <Col span={24} className="mb-5">
+                  {/* <Col span={24} className="mb-5">
                     <Upload
                       name="avatar"
                       listType="picture-card"
@@ -19,22 +20,7 @@ const VariantOptions = () => {
                     >
                       <div style={{ marginTop: 8 }}>Upload Image</div>
                     </Upload>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item
-                      {...field}
-                      label="Title"
-                      name={[field.name, "title"]}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please enter the title...!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
+                  </Col> */}
                   <Col span={12}>
                     <Form.Item
                       {...field}
@@ -44,6 +30,21 @@ const VariantOptions = () => {
                         {
                           required: true,
                           message: "Please enter the arabic title...!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      {...field}
+                      label="Title English"
+                      name={[field.name, "title"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter the title...!",
                         },
                       ]}
                     >

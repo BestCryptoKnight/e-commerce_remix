@@ -8,7 +8,7 @@ export const CreateProduct = gql`
     $description_ar: String!
     $vendorId: String!
     $active: Boolean!
-    $tagIds: [String!]
+    $tags: [String!]
     $categoryId: String!
     $type: ProductType!
     $itemsInStock: Int
@@ -25,7 +25,7 @@ export const CreateProduct = gql`
         description_ar: $description_ar
         vendorId: $vendorId
         active: $active
-        tagIds: $tagIds
+        tags: $tags
         image: $image
         categoryId: $categoryId
         type: $type
@@ -43,7 +43,9 @@ export const CreateProduct = gql`
       description_ar
       vendorId
       active
-      tagIds
+      tags {
+        id
+      }
       image
       categoryId
       minPreorderDays
@@ -66,9 +68,8 @@ export const UpdateProduct = gql`
     $title_ar: String!
     $description: String!
     $description_ar: String!
-    $vendorId: String!
     $active: Boolean!
-    $tagIds: [String!]
+    $tags: [String!]
     $categoryId: String!
     $type: ProductType!
     $itemsInStock: Int
@@ -84,9 +85,8 @@ export const UpdateProduct = gql`
         title_ar: $title_ar
         description: $description
         description_ar: $description_ar
-        vendorId: $vendorId
         active: $active
-        tagIds: $tagIds
+        tags: $tags
         image: $image
         categoryId: $categoryId
         type: $type
@@ -102,9 +102,10 @@ export const UpdateProduct = gql`
       title_ar
       description
       description_ar
-      vendorId
       active
-      tagIds
+      tags {
+        id
+      }
       image
       categoryId
       minPreorderDays

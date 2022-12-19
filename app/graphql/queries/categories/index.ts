@@ -9,7 +9,6 @@ export const GetCategories = gql`
       updatedAt
       sortOrder
       active
-      tagIds
     }
   }
 `;

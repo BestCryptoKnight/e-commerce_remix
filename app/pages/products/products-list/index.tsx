@@ -4,7 +4,7 @@ import {
   DeleteProductAction,
 } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm, Checkbox, Row, Col } from "antd";
+import { Table, Button, Popconfirm, Checkbox, Row } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
@@ -39,9 +39,9 @@ export default function Index() {
           <ActionButtonsWrapper>
             <EditIcon
               onClick={() => {
+                setSelectedAction("edit-product");
                 setSelectedProduct(record);
                 setProductDrawerOpen(true);
-                setSelectedAction("edit-product");
               }}
             />
 
@@ -78,8 +78,9 @@ export default function Index() {
           type="primary"
           className="mb-4"
           onClick={() => {
-            setProductDrawerOpen(true);
             setSelectedAction("new-product");
+            setSelectedProduct(null);
+            setProductDrawerOpen(true);
           }}
         >
           Create product
@@ -102,6 +103,7 @@ export default function Index() {
         placement="right"
       >
         <AddNewProduct
+          setSelectedProduct={setSelectedProduct}
           selectedProduct={selectedProduct}
           setProductDrawerOpen={setProductDrawerOpen}
           selectedAction={selectedAction}

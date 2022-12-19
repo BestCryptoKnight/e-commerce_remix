@@ -11,8 +11,9 @@ export const GetProducts = gql`
         description_ar
         vendorId
         active
-        tagIds
-
+        tags {
+          id
+        }
         image
         minPreorderDays
         type

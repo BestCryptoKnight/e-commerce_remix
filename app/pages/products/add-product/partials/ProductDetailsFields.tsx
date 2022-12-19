@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { Col, Form, Select, Switch } from "antd";
+import { Col, Form, Input, InputNumber, Select, Switch } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import { useQuery } from "urql";
 import { GetCategories } from "~/graphql/queries/categories";
 import type { CategoryType } from "~/types/categories";
 import Cookies from "universal-cookie";
-import { GetVariants } from "~/graphql/queries/variants";
 import type { UploadProps } from "antd";
 import Drawer from "~/components/shared/drawer";
 import VariantForm from "~/pages/variants/variant-actions";
 import type { VariantTypes } from "~/types/variants";
+import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
+  active,
+  setActive,
+  addOptions,
+  setAddOptions,
   selectedProduct,
   descriptionRef,
   arabicDescriptionRef,
@@ -25,17 +29,6 @@ const ProductDetailsFields = ({
       vendorId: cookies.get("vendorId"),
     },
   });
-
-  const [variantsResult] = useQuery<{ getVariants: VariantTypes[] }>({
-    query: GetVariants,
-    variables: {
-      vendorId: cookies.get("vendorId"),
-    },
-  });
-
-  console.log(variantsResult);
-
-  const { data: variants } = variantsResult;
 
   const { data: categories } = catgoriesResult;
 
@@ -71,9 +64,19 @@ const ProductDetailsFields = ({
 
   return (
     <>
-      <Col span={24}>
-        <Form.Item name="active" label="Active" initialValue={true}>
-          <Switch />
+      <Col span={12}>
+        <Form.Item label="Active" initialValue={true}>
+          <Switch defaultChecked onClick={() => setActive(!active)} />
+        </Form.Item>
+      </Col>
+
+      <Col span={12}>
+        <Form.Item
+          name="active"
+          label="Does this product have multiple options?"
+          initialValue={true}
+        >
+          <Switch onClick={() => setAddOptions(!addOptions)} />
         </Form.Item>
       </Col>
 
@@ -119,40 +122,55 @@ const ProductDetailsFields = ({
           />
         </Form.Item>
       </Col>
-
-      <Col span={24}>
+      <Col span={12}>
         <Form.Item
-          name="variantId"
-          label={
-            <div className="flex w-full justify-between">
-              <span>Variants</span>
-              <span
-                className="add-variant"
-                onClick={(e) => {
-                  setVariantDrawerOpen(true);
-                  e.preventDefault();
-                }}
-              >
-                Add new variants
-              </span>
-            </div>
-          }
+          label="Title Arabic"
+          name="title_ar"
           rules={[
             {
               required: true,
-              message: "Please select a variant...!",
+              message: "Please enter the arabic title...!",
             },
           ]}
         >
-          <Select
-            mode="tags"
-            options={(variants?.getVariants || []).map((t) => ({
-              value: t.id,
-              label: t.title,
-            }))}
-          />
+          <Input />
         </Form.Item>
       </Col>
+      <Col span={12}>
+        <Form.Item
+          label="Title English"
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: "Please enter the title...!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Col>
+
+      {addOptions ? (
+        <Col span={24}>
+          <Form.Item>
+            <VariantOptions />
+          </Form.Item>
+        </Col>
+      ) : (
+        <>
+          <Col span={12}>
+            <Form.Item label="Price" name="price">
+              <InputNumber />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label="SKU" name="sku">
+              <Input />
+            </Form.Item>
+          </Col>
+        </>
+      )}
 
       <Col span={12} className="mb-10">
         <h3>Description</h3>

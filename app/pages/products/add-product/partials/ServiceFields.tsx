@@ -24,7 +24,7 @@ const ServiceFields: React.FC<ServiceFieldsProps> = ({
   return (
     <>
       <Col span={12}>
-        <Form.Item name="tagIds" label="Tag">
+        <Form.Item name="tags" label="Tag">
           <Select
             options={(tags?.getTags || []).map((t: TagsTypes) => ({
               value: t.id,

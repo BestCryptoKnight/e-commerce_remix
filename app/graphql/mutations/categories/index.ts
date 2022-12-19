@@ -5,7 +5,6 @@ export const CreateCategory = gql`
     $title_ar: String!
     $vendorId: String!
     $active: Boolean!
-    $tagIds: [String!]!
     $sortOrder: Int!
   ) {
     createCategory(
@@ -14,7 +13,6 @@ export const CreateCategory = gql`
         title_ar: $title_ar
         vendorId: $vendorId
         active: $active
-        tagIds: $tagIds
         sortOrder: $sortOrder
       }
     ) {
@@ -23,7 +21,6 @@ export const CreateCategory = gql`
       title_ar
       vendorId
       active
-      tagIds
       sortOrder
       createdAt
       updatedAt
@@ -37,7 +34,6 @@ export const UpdateCategory = gql`
     $title: String!
     $title_ar: String!
     $active: Boolean!
-    $tagIds: [String!]
     $sortOrder: Int
   ) {
     updateCategory(
@@ -46,7 +42,6 @@ export const UpdateCategory = gql`
         title: $title
         title_ar: $title_ar
         active: $active
-        tagIds: $tagIds
         sortOrder: $sortOrder
       }
     ) {
@@ -54,7 +49,6 @@ export const UpdateCategory = gql`
       title
       title_ar
       active
-      tagIds
       sortOrder
       createdAt
       updatedAt

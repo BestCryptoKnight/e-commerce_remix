@@ -64,9 +64,9 @@ export function CategoryAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const tagIds = ["638df0b7788c2b789fe57c9c"];
+      const tags = ["638df0b7788c2b789fe57c9c"];
       data.vendorId = cookies.get("vendorId");
-      data.tagIds = tagIds;
+      data.tags = tags;
       urqlQuery
         .mutation(
           selectedAction === "new-category" ? CreateCategory : UpdateCategory,

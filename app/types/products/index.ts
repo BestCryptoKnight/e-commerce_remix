@@ -26,7 +26,7 @@ export interface ProductType {
   sku: string;
   sortOrder: number;
   startDate: string;
-  tagIds: string[];
+  tags: string[];
   title: string;
   title_ar: string;
   type: ProductTypeEnum;

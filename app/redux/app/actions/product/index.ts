@@ -46,6 +46,7 @@ export function ProductsAction(
   id: string
 ) {
   return async (dispatch: Dispatch, state: any) => {
+    console.log("selectedAction", selectedAction);
     dispatch(requestStartInitilizeLoading());
     try {
       data.vendorId = cookies.get("vendorId");
