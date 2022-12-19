@@ -26,7 +26,7 @@ export function GetProductsAction() {
       urqlQuery
         .query(GetProducts, {
           vendorId,
-          sortOrder: { direction: 'desc', field: "createdAt" },
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
@@ -38,8 +38,6 @@ export function GetProductsAction() {
             list: result.data.getProducts.list,
             totalCount: result.data.getProducts.totalCount,
           };
-
-          console.log("result", result);
           dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
@@ -69,8 +67,6 @@ export function ProductsAction(
         .toLowerCase();
       data.slug = suggestedSlug;
 
-      console.log("HEREEEE");
-
       urqlQuery
         .mutation(
           selectedAction === "new-product" ? CreateProduct : UpdateProduct,
@@ -85,32 +81,19 @@ export function ProductsAction(
         )
         .toPromise()
         .then((result) => {
-          console.log("RESULT", result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 
-          console.log("this line right here..");
-
           let stateData = state();
 
-          console.log("stateData", stateData);
-
           if (selectedAction === "new-product") {
-            // console.log("are you passing here??", ...stateData.app.data);
-
-            // const { price, sku, ...dataRest } = data;
-            // const prevList =
-
-            console.log("totalCount", totalCount);
-            console.log("newww", stateData, result);
             let newStateData = {
               totalCount: totalCount + 1,
               list: [...stateData.app.data.list, result?.data?.createProduct],
             };
 
-            console.log("1", newStateData);
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
             const filteredData = stateData.app.data.filter(
@@ -120,8 +103,6 @@ export function ProductsAction(
             let newStateData = [result?.data?.updateProduct, ...filteredData];
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
-
-          console.log("success???");
 
           notification.success({
             message:

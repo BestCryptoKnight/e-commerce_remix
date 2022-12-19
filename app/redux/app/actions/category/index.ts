@@ -22,6 +22,7 @@ export function GetCategoriesAction() {
       urqlQuery
         .query(GetCategories, {
           vendorId: cookies.get("vendorId"),
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
@@ -30,24 +31,9 @@ export function GetCategoriesAction() {
           }
 
           //change to backend sort once implemented
-          const items = [...result.data.getCategories];
+          const data = { list: result.data.getCategories, totalCount: null };
 
-          const sortedItems = items.sort(
-            (a: { createdAt: Date }, b: { createdAt: Date }) => {
-              const aCreatedAt = new Date(a.createdAt);
-              const bCreatedAt = new Date(b.createdAt);
-
-              if (aCreatedAt > bCreatedAt) {
-                return -1;
-              }
-              if (bCreatedAt < aCreatedAt) {
-                return 1;
-              }
-              return 0;
-            }
-          );
-
-          dispatch(requestSuccessUpdateStateData(sortedItems));
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -88,10 +74,15 @@ export function CategoryAction(
           let stateData = state();
 
           if (selectedAction === "new-category") {
-            let newStateData = [
-              result?.data?.createCategory,
-              ...stateData.app.data,
-            ];
+            // let newStateData = [
+            //   result?.data?.createCategory,
+            //   ...stateData.app.data,
+            // ];
+
+            let newStateData = {
+              totalCount: null,
+              list: [...stateData.app.data.list, result?.data?.createCategory],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
             let newStateData = [result?.data?.updateCategory];

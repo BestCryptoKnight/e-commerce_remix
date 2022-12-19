@@ -22,6 +22,7 @@ export default function Index() {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
     dispatch(GetCategoriesAction());
@@ -96,7 +97,7 @@ export default function Index() {
 
       <Table
         columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={data}
+        dataSource={list}
         loading={loading}
       />
       <Drawer
