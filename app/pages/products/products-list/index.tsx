@@ -30,6 +30,8 @@ export default function Index() {
     dispatch(GetProductsAction());
   }, [dispatch]);
 
+  console.log("list", list);
+
   const [tableColumns, setTableColumns] = useState<any>([
     {
       title: "Image",
@@ -42,7 +44,7 @@ export default function Index() {
             alt={record?.title ? record?.title : record?.variants[0]?.title}
             width={50}
             height={50}
-            className="rounded-lg"
+            className="rounded-lg object-cover"
           />
         );
       },

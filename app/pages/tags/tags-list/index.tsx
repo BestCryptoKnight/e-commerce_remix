@@ -19,7 +19,7 @@ export default function Index() {
   const [filteredColumn, setFilteredColumn] = useState([]);
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
-  const { list, totalCount } = data;
+  const { list } = data;
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {

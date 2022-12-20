@@ -51,16 +51,7 @@ const AddTagsFields = () => {
         </Form.Item>
       </Col>
       <Col span={24}>
-        <Form.Item
-          name="productIds"
-          label="Services"
-          rules={[
-            {
-              required: true,
-              message: "Please select a service.",
-            },
-          ]}
-        >
+        <Form.Item name="productIds" label="Services">
           <Select
             mode="multiple"
             options={(services?.data?.getProducts?.list || []).map(

@@ -94,10 +94,13 @@ export function TagAction(
 
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            const filteredData = stateData.app.data.filter(
+            const filteredData = stateData.app.data.list.filter(
               (tag: any) => tag.id !== data.id
             );
-            let newStateData = [result?.data?.updateTag, ...filteredData];
+            let newStateData = {
+              totalCount: null,
+              list: [result?.data?.updateTag, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -122,7 +125,8 @@ export function DeleteTagsAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
+
     try {
       urqlQuery
         .mutation(DeleteTag, {
@@ -130,7 +134,6 @@ export function DeleteTagsAction(id: string) {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
@@ -138,7 +141,13 @@ export function DeleteTagsAction(id: string) {
           let filteredRecords = records.filter(
             (record: any) => record.id !== id
           );
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+
+          let newStateData = {
+            totalCount: null,
+            list: filteredRecords,
+          };
+
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

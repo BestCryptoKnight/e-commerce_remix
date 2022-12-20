@@ -96,11 +96,14 @@ export function ProductsAction(
 
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            const filteredData = stateData.app.data.filter(
+            const filteredData = stateData.app.data.list.filter(
               (product: any) => product.id !== id
             );
 
-            let newStateData = [result?.data?.updateProduct, ...filteredData];
+            let newStateData = {
+              totalCount: stateData?.app?.data?.totalCount,
+              list: [result?.data?.updateProduct, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -124,7 +127,9 @@ export function DeleteProductAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
+    let totalCount = stateData.app.data.totalCount;
+
     try {
       urqlQuery
         .mutation(DeleteProduct, {
@@ -139,10 +144,15 @@ export function DeleteProductAction(id: string) {
             (record: any) => record.id !== id
           );
 
+          let newStateData = {
+            totalCount: totalCount - 1,
+            list: filteredRecords,
+          };
+
           notification.success({
             message: "Product deleted successfully",
           });
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

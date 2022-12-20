@@ -50,9 +50,7 @@ export function CategoryAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const tags = ["638df0b7788c2b789fe57c9c"];
       data.vendorId = cookies.get("vendorId");
-      data.tags = tags;
       urqlQuery
         .mutation(
           selectedAction === "new-category" ? CreateCategory : UpdateCategory,
@@ -80,7 +78,13 @@ export function CategoryAction(
             };
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            let newStateData = [result?.data?.updateCategory];
+            const filteredData = stateData.app.data.list.filter(
+              (category: any) => category.id !== id
+            );
+            let newStateData = {
+              totalCount: null,
+              list: [result?.data?.updateCategory, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -104,7 +108,7 @@ export function DeleteCategoryAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
     try {
       urqlQuery
         .mutation(DeleteCategory, {
@@ -112,7 +116,6 @@ export function DeleteCategoryAction(id: string) {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
@@ -120,10 +123,15 @@ export function DeleteCategoryAction(id: string) {
             (record: any) => record.id !== id
           );
 
+          let newStateData = {
+            totalCount: null,
+            list: filteredRecords,
+          };
+
           notification.success({
             message: "Category deleted successfully",
           });
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

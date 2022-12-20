@@ -22,7 +22,7 @@ export default function Index() {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
-  const { list, totalCount } = data;
+  const { list } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
     dispatch(GetCategoriesAction());
@@ -64,7 +64,9 @@ export default function Index() {
               okText="Yes"
               cancelText="No"
             >
-              <DeleteIcon />
+              <div>
+                <DeleteIcon />
+              </div>
             </Popconfirm>
           </ActionButtonsWrapper>
         );
