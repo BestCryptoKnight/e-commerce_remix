@@ -23,6 +23,12 @@ export const GetProducts = gql`
         tags {
           id
         }
+        variants {
+          title
+          title_ar
+          price
+          sku
+        }
         image
         minPreorderDays
         type

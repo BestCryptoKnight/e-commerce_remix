@@ -26,6 +26,8 @@ export default function ProductForm({
   const descriptionRef = useRef<any>(null);
   const arabicDescriptionRef = useRef<any>(null);
 
+  console.log("selected", selectedProduct);
+
   useEffect(() => {
     if (selectedAction === "edit-product") {
       form.setFieldsValue(selectedProduct);

@@ -8,7 +8,6 @@ import Cookies from "universal-cookie";
 import type { UploadProps } from "antd";
 import Drawer from "~/components/shared/drawer";
 import VariantForm from "~/pages/variants/variant-actions";
-import type { VariantTypes } from "~/types/variants";
 import VariantOptions from "~/pages/variants/variant-actions/partials/AddVariant";
 const cookies = new Cookies();
 const ProductDetailsFields = ({
@@ -160,12 +159,28 @@ const ProductDetailsFields = ({
       ) : (
         <>
           <Col span={12}>
-            <Form.Item label="Price" name="price">
+            <Form.Item
+              initialValue={
+                selectedProduct?.variants[0]?.price
+                  ? selectedProduct?.variants[0]?.price
+                  : ""
+              }
+              label="Price"
+              name="price"
+            >
               <InputNumber />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="SKU" name="sku">
+            <Form.Item
+              initialValue={
+                selectedProduct?.variants[0]?.sku
+                  ? selectedProduct?.variants[0]?.sku
+                  : ""
+              }
+              label="SKU"
+              name="sku"
+            >
               <Input />
             </Form.Item>
           </Col>
