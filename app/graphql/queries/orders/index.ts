@@ -13,44 +13,6 @@ export const GetOrders = gql`
       id
       createdAt
       orderId
-      cart {
-        createdAt
-        finalPrice
-        items {
-          productId
-          productVariant
-          quantity
-          slots {
-            from
-            to
-          }
-          tagId
-          Product {
-            category {
-              title
-              title_ar
-            }
-            duration
-            image
-            location
-            meetingLink
-            title
-            title_ar
-            workshopBookedCount
-            title
-            title_ar
-            type
-            tags {
-              title
-              title_ar
-            }
-            image
-            location
-          }
-        }
-        totalPrice
-        updatedAt
-      }
       customerInfo {
         firstName
         lastName
