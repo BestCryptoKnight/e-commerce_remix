@@ -6,6 +6,8 @@ import { useAppDispatch } from "~/hooks/Store";
 import { CategoryAction } from "~/redux/app/actions/category";
 
 export default function CategoryForm({
+  active,
+  setActive,
   selectedCategory,
   setCategoryDrawerOpen,
   selectedAction,
@@ -20,17 +22,20 @@ export default function CategoryForm({
   }, [selectedCategory, form]);
 
   const onSubmit = async (data: any) => {
+    const payload = { ...data, active };
     if (selectedAction === "edit-category") {
       dispatch(
         CategoryAction(
-          data,
+          payload,
           setCategoryDrawerOpen,
           selectedAction,
           selectedCategory.id
         )
       );
     } else {
-      dispatch(CategoryAction(data, setCategoryDrawerOpen, selectedAction, ""));
+      dispatch(
+        CategoryAction(payload, setCategoryDrawerOpen, selectedAction, "")
+      );
     }
   };
 
@@ -38,7 +43,7 @@ export default function CategoryForm({
     <AddCategoryWrapper>
       <Form onFinish={onSubmit} form={form} layout="vertical">
         <Row gutter={24}>
-          <CategoryDetailsFields />
+          <CategoryDetailsFields active={active} setActive={setActive} />
           <Col span={24}>
             <Button type="primary" htmlType="submit">
               submit

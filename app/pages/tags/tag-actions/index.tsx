@@ -8,7 +8,9 @@ import { TagAction } from "~/redux/app/actions/tags";
 import moment from "moment";
 import { drawerLoading as StateDrawerLoading } from "~/redux/app";
 
-export default function CouponForm({
+export default function TagForm({
+  active,
+  setActive,
   setTagDrawerOpen,
   selectedTag,
   selectedAction,
@@ -44,14 +46,18 @@ export default function CouponForm({
     if (selectedAction == "edit-tag") {
       values.id = selectedTag.id;
     }
-    dispatch(TagAction(values, setTagDrawerOpen, selectedAction, form));
+    const payload = {
+      ...values,
+      active,
+    };
+    dispatch(TagAction(payload, setTagDrawerOpen, selectedAction, form));
   };
 
   return (
     <AddCouponWrapper>
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Row gutter={24}>
-          <AddNewTag />
+          <AddNewTag setActive={setActive} active={active} />
           <Availibility />
 
           <Col span={24}>

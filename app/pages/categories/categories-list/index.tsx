@@ -19,6 +19,7 @@ export default function Index() {
   const [selectedAction, setSelectedAction] = useState("");
   const [categoryDrawerOpen, setCategoryDrawerOpen] = useState(false);
   const [filteredColumn, setFilteredColumn] = useState([]);
+  const [active, setActive] = useState(true);
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
@@ -112,6 +113,8 @@ export default function Index() {
         placement="right"
       >
         <AddNewCategory
+          active={active}
+          setActive={setActive}
           selectedAction={selectedAction}
           selectedCategory={selectedCategory}
           setCategoryDrawerOpen={setCategoryDrawerOpen}

@@ -3,7 +3,7 @@ import { useQuery } from "urql";
 import { GetFilterProducts } from "~/graphql/queries/products";
 import Cookies from "universal-cookie";
 import type { ProductType } from "~/types/products";
-const AddTagsFields = () => {
+const AddTagsFields = ({ active, setActive }: any) => {
   const cookies = new Cookies();
 
   const [services] = useQuery<{ getProducts: { list: ProductType[] } }>({
@@ -18,8 +18,8 @@ const AddTagsFields = () => {
   return (
     <>
       <Col span={24}>
-        <Form.Item name="active" label="Active">
-          <Switch />
+        <Form.Item label="Active">
+          <Switch defaultChecked onClick={() => setActive(!active)}/>
         </Form.Item>
       </Col>
       <Col span={12}>
