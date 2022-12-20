@@ -1,0 +1,10 @@
+{
+  "greeting": "Hello",
+  "filterBy": "Filter By",
+  "ALL_ORDERS": "All Orders",
+  "EXPORT_AS_CSV": "Export as Excel",
+  "PENDING": "Pending",
+  "CONFIRMED": "Confirmed",
+  "REJECTED": "Rejected",
+  "COMPLETED": "Completed"
+}

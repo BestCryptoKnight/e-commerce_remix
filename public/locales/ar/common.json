@@ -1,0 +1,10 @@
+{
+  "greeting": "مرحبًا",
+  "filterBy": "مصنف بواسطة",
+  "ALL_ORDERS": "جميع الطلبات",
+  "EXPORT_AS_CSV": "تصدير بتنسيق Excel",
+  "PENDING": "ريثما",
+  "CONFIRMED": "مؤكد",
+  "REJECTED": "مرفوض",
+  "COMPLETED": "مكتمل"
+}

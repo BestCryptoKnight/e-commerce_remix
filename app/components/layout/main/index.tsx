@@ -8,6 +8,8 @@ import profile from "~/assets/images/profile.png";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "~/components/shared/loading-spinner";
 import Cookies from "universal-cookie";
+
+import { Link } from "@remix-run/react";
 const { Content } = Layout;
 const { Header } = Layout;
 
@@ -28,6 +30,20 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
       items={[
         {
           key: "1",
+          label: "Change Language",
+          children: [
+            {
+              key: "2",
+              label: <a href={`/?lng=en`}>English</a>,
+            },
+            {
+              key: "3",
+              label: <a href={`/?lng=ar`}>Arabic</a>,
+            },
+          ],
+        },
+        {
+          key: "4",
           label: (
             <div
               onClick={() => {

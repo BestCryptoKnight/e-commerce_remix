@@ -37,7 +37,10 @@ export const LayoutWrapper = styled.div`
   .ant-layout-header {
     padding: 0 50px 0 10px !important;
   }
+  .ant-dropdown-menu-item .ant-dropdown-menu-submenu-expand-icon,
+  .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-expand-icon {
+    position: static;
+  }
 `;
-
 
 //f5f5f5

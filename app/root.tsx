@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import { Provider } from "urql";
 import GraphQLClient from "./graphql";
@@ -17,6 +18,18 @@ import store from "./redux/store";
 import calendarStyles from "fullcalendar/main.min.css";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { i18nCookie } from "./i18-cookie";
+import { useTranslation } from "react-i18next";
+import i18next from "~/i18next.server";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+export function useChangeLanguage(locale: string) {
+  let { i18n } = useTranslation();
+
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, [locale, i18n]);
+}
 
 export const links: LinksFunction = () => {
   return [
@@ -24,6 +37,21 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: antStylesUrl },
     { rel: "stylesheet", href: calendarStyles },
   ];
+};
+
+export let loader = async ({ request }: LoaderArgs) => {
+  let locale = await i18next.getLocale(request);
+
+  return json(
+    { locale },
+    {
+      headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
+    }
+  );
+};
+
+export let handle = {
+  i18n: "common",
 };
 
 export const meta: MetaFunction = () => ({
@@ -34,15 +62,21 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   const navigate = useNavigate();
-  const cookies = new Cookies();
+
+  let { locale } = useLoaderData<typeof loader>();
+
+  let { i18n } = useTranslation();
+
   useEffect(() => {
+    const cookies = new Cookies();
     if (!cookies.get("accessToken")) {
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
+  useChangeLanguage(locale);
   return (
-    <html lang="en" className="h-full">
+    <html lang={locale} dir={i18n.dir()} className="h-full">
       <head>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCpDNOfbiKVenZZrQ8N-dzwzOKxWuRh0c&libraries=places"></script>
         <script

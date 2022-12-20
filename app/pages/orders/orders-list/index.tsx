@@ -8,30 +8,32 @@ import OrdersFilter from "~/components/shared/filter-columns";
 import { OrderFiltersWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 import { GetOrdersAction } from "~/redux/app/actions/order";
+import { useTranslation } from "react-i18next";
 
 export default function Index() {
+  let { t } = useTranslation();
   const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const dispatch = useAppDispatch();
   const [filteredColumn, setFilteredColumn] = useState([]);
-  const [tableColumns, setTableColumns] = useState<any>(orderTableColumns);
+  const [tableColumns, setTableColumns] = useState<any>(orderTableColumns(t));
   const data = useAppSelector(StateData);
   const { list } = data;
   const loading = useAppSelector(StateLoading);
+
   useEffect(() => {
     dispatch(GetOrdersAction());
   }, [dispatch]);
 
-  const tabItems = orderStatusTabs.map((item, i) => {
+  const tabItems = orderStatusTabs(t).map((item, i) => {
     const id: any = String(i + 1);
     return {
       label: item?.label,
       key: id,
-      // children: `Content of tab ${id}`,
     };
   });
 
-  const operations = <Button>Export as Excel</Button>;
+  const operations = <Button>{t("EXPORT_AS_CSV")}</Button>;
 
   return (
     <>
