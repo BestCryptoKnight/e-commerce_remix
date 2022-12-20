@@ -29,13 +29,7 @@ const App = (props: any) => {
 
   return (
     <>
-      <Col
-        span={2}
-        sm={2}
-        xs={24}
-        className="flex items-center"
-        style={{ display: "flex" }}
-      >
+      <Col className="flex items-center" style={{ display: "flex" }}>
         <Dropdown
           className="filter"
           overlay={

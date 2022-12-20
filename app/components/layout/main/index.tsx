@@ -34,11 +34,11 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
           children: [
             {
               key: "2",
-              label: <Link to={`/?lng=en`}>English</Link>,
+              label: <a href={`/?lng=en`}>English</a>,
             },
             {
               key: "3",
-              label: <Link to={`/?lng=ar`}>Arabic</Link>,
+              label: <a href={`/?lng=ar`}>Arabic</a>,
             },
           ],
         },
