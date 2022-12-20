@@ -7,8 +7,8 @@ export const AddServiceToCart = gql`
     $cartId: String
     $tagId: String
     $quantity: Int
-    $productVariant: String
-    $slots: [BookingTimeInput!]
+    $sku: String!
+    $slots: [BookingSlotInput!]
   ) {
     addServiceToCart(
       data: {
@@ -17,8 +17,8 @@ export const AddServiceToCart = gql`
         cartId: $cartId
         tagId: $tagId
         quantity: $quantity
-        productVariant: $productVariant
         slots: $slots
+        sku: $sku
       }
     ) {
       id

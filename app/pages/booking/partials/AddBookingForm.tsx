@@ -1,17 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
-import {
-  Button,
-  Row,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Checkbox,
-} from "antd";
+import { Button, Row, Col, DatePicker, Form, Input, Select } from "antd";
 import { BookingCalendarDateWrapper } from "../styles";
 import { useQuery } from "urql";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Cookies from "universal-cookie";
 import { GetFilterProducts } from "~/graphql/queries/products";
 import type { ProductType } from "~/types/products";
@@ -26,7 +18,6 @@ const AddBookingForm = ({ form }: any) => {
     variables: {
       vendorId: cookies.get("vendorId"),
       type: "SERVICE",
-      field: "type",
     },
   });
 
@@ -103,39 +94,6 @@ const AddBookingForm = ({ form }: any) => {
         </Form.Item>
       </Col>
       <Col span={12}>
-        <BookingCalendarDateWrapper>
-          <Form.Item
-            name="startTime"
-            label="Start time"
-            rules={[
-              {
-                required: true,
-                message: "Please select the data and time...!",
-              },
-            ]}
-          >
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-          </Form.Item>
-        </BookingCalendarDateWrapper>
-      </Col>
-      <Col span={12}>
-        <BookingCalendarDateWrapper>
-          <Form.Item
-            name="endTime"
-            label="End time"
-            rules={[
-              {
-                required: true,
-                message: "Please select the data and time...!",
-              },
-            ]}
-          >
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-          </Form.Item>
-        </BookingCalendarDateWrapper>
-      </Col>
-
-      <Col span={12}>
         <Form.Item
           name="productId"
           label="Services"
@@ -157,6 +115,7 @@ const AddBookingForm = ({ form }: any) => {
           ></Select>
         </Form.Item>
       </Col>
+
       <Col span={24}>
         <Form.Item
           name="tagId"
@@ -171,7 +130,7 @@ const AddBookingForm = ({ form }: any) => {
           <Select
             options={(services?.data?.getProducts?.list || [])
               .find((item) => item.id === selectedService)
-              ?.Tags?.map((t: any) => ({
+              ?.tags?.map((t: any) => ({
                 value: t.id,
                 label: t.title,
               }))}
@@ -180,8 +139,71 @@ const AddBookingForm = ({ form }: any) => {
       </Col>
 
       <Col span={24}>
-        <Checkbox />
-        <span>Select service duration as event duration</span>
+        <Form.List name="slots">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field) => (
+                <div key={field.key} className="flex">
+                  <Col span={12}>
+                    <BookingCalendarDateWrapper>
+                      <Form.Item
+                        {...field}
+                        label="Start time"
+                        name={[field.name, "from"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select the start time...!",
+                          },
+                        ]}
+                      >
+                        <DatePicker
+                          showTime
+                          minuteStep={15}
+                          format="YYYY-MM-DD HH:mm"
+                        />
+                      </Form.Item>
+                    </BookingCalendarDateWrapper>
+                  </Col>
+                  <Col span={12}>
+                    <BookingCalendarDateWrapper>
+                      <Form.Item
+                        {...field}
+                        label="End time"
+                        name={[field.name, "to"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select the start time...!",
+                          },
+                        ]}
+                      >
+                        <DatePicker
+                          showTime
+                          minuteStep={15}
+                          format="YYYY-MM-DD HH:mm"
+                        />
+                      </Form.Item>
+                    </BookingCalendarDateWrapper>
+                  </Col>
+
+                  <MinusCircleOutlined onClick={() => remove(field.name)} />
+                </div>
+              ))}
+
+              <Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  icon={<PlusOutlined />}
+                >
+                  Add Slot
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
       </Col>
 
       <Col span={24}>

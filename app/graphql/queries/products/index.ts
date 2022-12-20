@@ -43,8 +43,8 @@ export const GetProducts = gql`
 `;
 
 export const GetFilterProducts = gql`
-  query GetProducts($vendorId: String!, $type: ProductType, $field: String!) {
-    getProducts(vendorId: $vendorId, filter: { type: $type, field: $field }) {
+  query GetProducts($vendorId: String!, $filter: ProductFilterInput) {
+    getProducts(vendorId: $vendorId, filter: $filter) {
       list {
         id
         title
