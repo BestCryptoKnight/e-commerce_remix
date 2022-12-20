@@ -16,6 +16,7 @@ export default function Index() {
   const [filteredColumn, setFilteredColumn] = useState([]);
   const [tableColumns, setTableColumns] = useState<any>(orderTableColumns);
   const data = useAppSelector(StateData);
+  const { list } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
     dispatch(GetOrdersAction());
@@ -45,7 +46,7 @@ export default function Index() {
       <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
-      {data.length === 0 ? (
+      {list.length === 0 ? (
         <Alert
           message="No Orders"
           description="Once you have an order you will see the information here"
@@ -63,7 +64,7 @@ export default function Index() {
             };
           }}
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-          dataSource={data}
+          dataSource={list}
           loading={loading}
         />
       )}

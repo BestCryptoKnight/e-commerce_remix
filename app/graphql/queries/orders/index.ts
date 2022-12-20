@@ -1,6 +1,10 @@
 import { gql } from "urql";
 export const GetOrders = gql`
-  query ($vendorId: String!) {
+  query (
+    $vendorId: String!
+    $sortOrder: SortOrder
+    $pagination: PaginationArgs
+  ) {
     getOrders(vendorId: $vendorId) {
       id
       createdAt

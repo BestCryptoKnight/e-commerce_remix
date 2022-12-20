@@ -22,6 +22,7 @@ export function GetOrdersAction() {
       urqlQuery
         .query(GetOrders, {
           vendorId,
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
@@ -32,7 +33,7 @@ export function GetOrdersAction() {
 
           const items = result.data.getOrders;
 
-          const data = items?.map((item: RowDataType) => ({
+          const formattedData = items?.map((item: RowDataType) => ({
             customer: `${item?.customerInfo?.firstName} ${item?.customerInfo?.lastName} `,
             payment: item?.paymentMethod,
             delivery: item?.deliveryMethod,
@@ -40,7 +41,10 @@ export function GetOrdersAction() {
             ...item,
           }));
 
-          console.log("data", data);
+          const data = {
+            list: formattedData,
+            totalCount: null,
+          };
 
           dispatch(requestSuccessUpdateStateData(data));
         });
