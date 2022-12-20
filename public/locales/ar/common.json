@@ -6,5 +6,7 @@
   "PENDING": "ريثما",
   "CONFIRMED": "مؤكد",
   "REJECTED": "مرفوض",
-  "COMPLETED": "مكتمل"
+  "COMPLETED": "مكتمل",
+  "NO_ORDERS": "لا توجد أوامر",
+  "ORDER_DESCRIPTIONS": "بمجرد حصولك على طلب ، سترى المعلومات هنا"
 }

@@ -6,5 +6,7 @@
   "PENDING": "Pending",
   "CONFIRMED": "Confirmed",
   "REJECTED": "Rejected",
-  "COMPLETED": "Completed"
+  "COMPLETED": "Completed",
+  "NO_ORDERS": "No Orders",
+  "ORDER_DESCRIPTIONS": "Once you have an order you will see the information here"
 }

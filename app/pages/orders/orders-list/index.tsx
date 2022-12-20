@@ -50,8 +50,8 @@ export default function Index() {
       </OrderFiltersWrapper>
       {list.length === 0 ? (
         <Alert
-          message="No Orders"
-          description="Once you have an order you will see the information here"
+          message={t("NO_ORDERS")}
+          description={t("ORDER_DESCRIPTIONS")}
           type="info"
           showIcon
         />
