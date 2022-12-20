@@ -41,7 +41,7 @@ export function LoginUser(data: EmailLoginForm, next: NavigateFunction) {
               path: "/",
             });
 
-            next("/");
+            next("/products");
           }
 
           dispatch(requestCompleteDisableLoading());
