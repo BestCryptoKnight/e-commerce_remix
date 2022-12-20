@@ -6,7 +6,7 @@ export const loader = async ({ request }: any) => {
   return json({
     lngs: {
       en: { nativeName: "English" },
-      de: { nativeName: "Deutsch" },
+      ar: { nativeName: "Arabic" },
     },
   });
 };

@@ -1,12 +1,14 @@
 import Backend from "i18next-fs-backend";
 import { resolve } from "node:path";
 import { RemixI18Next } from "remix-i18next";
+import { i18nCookie } from "./i18-cookie";
 import i18n from "~/i18n";
 
 let i18next = new RemixI18Next({
   detection: {
     supportedLanguages: i18n.supportedLngs,
     fallbackLanguage: i18n.fallbackLng,
+    cookie: i18nCookie,
   },
 
   i18next: {

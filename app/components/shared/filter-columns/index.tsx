@@ -1,32 +1,31 @@
-import React, { useState } from "react";
-import { AutoComplete, Dropdown, Menu, Row, Col } from "antd";
+// import React, { useState } from "react";
+import { Dropdown, Menu, Row, Col } from "antd";
 import { FilterFilled } from "@ant-design/icons";
-
-const mockVal = (str: string, repeat = 1) => ({
-  value: str.repeat(repeat),
-});
+import { useTranslation } from "react-i18next";
+// const mockVal = (str: string, repeat = 1) => ({
+//   value: str.repeat(repeat),
+// });
 
 const App = (props: any) => {
-  const [value, setValue] = useState("");
-  const [options, setOptions] = useState<{ value: string }[]>([]);
+  let { t } = useTranslation();
+  // const [value, setValue] = useState("");
+  // const [options, setOptions] = useState<{ value: string }[]>([]);
 
-  const onSearch = (searchText: string) => {
-    setOptions(
-      !searchText
-        ? []
-        : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)]
-    );
-  };
+  // const onSearch = (searchText: string) => {
+  //   setOptions(
+  //     !searchText
+  //       ? []
+  //       : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)]
+  //   );
+  // };
 
-  const onSelect = (data: string) => {
-    console.log("onSelect", data);
-  };
+  // const onSelect = (data: string) => {
+  //   console.log("onSelect", data);
+  // };
 
-  const onChange = (data: string) => {
-    setValue(data);
-  };
-
-  console.log("props", props);
+  // const onChange = (data: string) => {
+  //   setValue(data);
+  // };
 
   return (
     <>
@@ -62,7 +61,8 @@ const App = (props: any) => {
           }
         >
           <div style={{ cursor: "pointer" }}>
-            Filter By <FilterFilled />
+            {t("filterBy")}
+            <FilterFilled />
           </div>
         </Dropdown>
       </Col>

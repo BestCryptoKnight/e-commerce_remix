@@ -18,7 +18,7 @@ import store from "./redux/store";
 import calendarStyles from "fullcalendar/main.min.css";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-
+import { i18nCookie } from "./i18-cookie";
 import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
 import type { LoaderArgs } from "@remix-run/node";
@@ -41,7 +41,13 @@ export const links: LinksFunction = () => {
 
 export let loader = async ({ request }: LoaderArgs) => {
   let locale = await i18next.getLocale(request);
-  return json({ locale });
+
+  return json(
+    { locale },
+    {
+      headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
+    }
+  );
 };
 
 export let handle = {
