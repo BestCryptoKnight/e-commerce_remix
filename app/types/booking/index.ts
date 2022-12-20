@@ -11,6 +11,7 @@ export interface BookingFormFields {
   services: string;
   tagId: string;
   startTime: string;
+  slots: any;
 }
 
 export type BookingFormProps = {

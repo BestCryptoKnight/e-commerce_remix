@@ -6,7 +6,7 @@ export const CreateBooking = gql`
     $productId: String!
     $status: BookingStatus!
     $tagId: String!
-    $times: [BookingTimeInput!]!
+    $slots: [BookingSlotInput!]!
     $vendorId: String!
   ) {
     createBooking(
@@ -15,7 +15,7 @@ export const CreateBooking = gql`
         productId: $productId
         status: $status
         tagId: $tagId
-        times: $times
+        slots: $slots
         vendorId: $vendorId
       }
     ) {

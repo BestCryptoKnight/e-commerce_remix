@@ -11,11 +11,9 @@ import { GetBookings } from "~/graphql/queries/bookings";
 import { notification } from "antd";
 import { CreateOrderAction } from "../order";
 import type { BookingFormFields } from "~/types/booking";
-import moment from "moment";
 import urqlQuery from "~/graphql/";
 import { CreateBooking as CreateBookingGQL } from "~/graphql/mutations/booking";
 import type { Dispatch } from "redux";
-import { parseIn, getTimeIntervals } from "../tags/tags.utils";
 
 const cookies = new Cookies();
 const vendorId = cookies.get("vendorId");
@@ -24,22 +22,15 @@ export function CreateBooking(data: BookingFormFields) {
     dispatch(requestStartInitilizeLoading());
 
     try {
-      const timeIntervals: any = [];
-      getTimeIntervals(
-        parseIn(moment(data?.startTime).format("YYYY-MM-DD HH:mm:ss")),
-        parseIn(moment(data?.endTime).format("YYYY-MM-DD HH:mm:ss"))
-      ).forEach((item: any, index: number, array) => {
-        if (array[index + 1]) {
-          timeIntervals.push({
-            startTime: array[index],
-            endTime: array[index + 1],
-            date: moment(data.startTime).format("YYYY-MM-DD"),
-          });
-        }
-      });
-
+      if (data.slots.length == 0) {
+        dispatch(requestCompleteDisableLoading());
+        return notification.error({
+          message: "Please select time slots",
+        });
+      }
       const { getCustomerCart } = await dispatch(CreateCartAction());
       if (!getCustomerCart) {
+        dispatch(requestCompleteDisableLoading());
         return notification.error({
           message: "Unable to create customer cart",
         });
@@ -49,16 +40,18 @@ export function CreateBooking(data: BookingFormFields) {
       genericPayload.vendorId = vendorId;
       genericPayload.cartId = getCustomerCart?.id;
       genericPayload.tagId = data?.tagId;
+      genericPayload.sku = "sku";
       const addServiceToCartPayload: any = {
         ...genericPayload,
-        slots: timeIntervals,
+        slots: data?.slots,
       };
-      // addServiceToCartPayload.quantity = data?.quantity;
-      // addServiceToCartPayload.productVariant = data?.productVariant;
+
       const { addServiceToCart } = await dispatch(
         AddServiceToCartAction(addServiceToCartPayload)
       );
+
       if (!addServiceToCart) {
+        dispatch(requestCompleteDisableLoading());
         return notification.error({
           message: "Unable to add service to cart",
         });
@@ -66,12 +59,14 @@ export function CreateBooking(data: BookingFormFields) {
       const createBookingPayload = {
         ...genericPayload,
         status: "PENDING",
-        times: timeIntervals,
+        slots: data.slots,
       };
+
       const { createBooking } = await dispatch(
         CreateBookingAction(createBookingPayload)
       );
       if (!createBooking) {
+        dispatch(requestCompleteDisableLoading());
         return notification.error({
           message: "Unable to create booking",
         });
@@ -89,10 +84,12 @@ export function CreateBooking(data: BookingFormFields) {
       };
       const { createOrder } = await dispatch(CreateOrderAction(orderPayload));
       if (!createOrder) {
+        dispatch(requestCompleteDisableLoading());
         return notification.error({
           message: "Unable to create booking",
         });
       }
+      dispatch(requestCompleteDisableLoading());
       notification.success({
         message: "Booking created successfully",
       });
