@@ -26,6 +26,8 @@ const App = (props: any) => {
     setValue(data);
   };
 
+  console.log("props", props);
+
   return (
     <>
       <Col

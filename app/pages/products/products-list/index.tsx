@@ -30,8 +30,6 @@ export default function Index() {
     dispatch(GetProductsAction());
   }, [dispatch]);
 
-  console.log("list", list);
-
   const [tableColumns, setTableColumns] = useState<any>([
     {
       title: "Image",
@@ -48,6 +46,7 @@ export default function Index() {
           />
         );
       },
+      label: <Checkbox value="image">Image</Checkbox>,
     },
     {
       title: "Title",
@@ -59,6 +58,7 @@ export default function Index() {
           <p>{record?.title ? record?.title : record?.variants[0]?.title}</p>
         );
       },
+      label: <Checkbox value="title">Title</Checkbox>,
     },
     {
       title: "Arabic Title",
@@ -73,6 +73,7 @@ export default function Index() {
           </p>
         );
       },
+      label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
     },
     {
       title: "Description",
@@ -83,6 +84,7 @@ export default function Index() {
           <div dangerouslySetInnerHTML={{ __html: record?.description }} />
         );
       },
+      label: <Checkbox value="description">English Description</Checkbox>,
     },
     {
       title: "Arabic Description",
@@ -93,6 +95,7 @@ export default function Index() {
           <div dangerouslySetInnerHTML={{ __html: record?.description_ar }} />
         );
       },
+      label: <Checkbox value="description_ar">Arabic Description</Checkbox>,
     },
     ...productColumns,
     {
