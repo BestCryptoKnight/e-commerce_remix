@@ -4,17 +4,17 @@ import {
   DeleteProductAction,
 } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm, Checkbox, Row } from "antd";
+import { Table, Button, Popconfirm, Checkbox, Row, Pagination } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
 import AddNewProduct from "../add-product";
-
 import { ActionButtonsWrapper } from "../styles";
 import ProductFilter from "~/components/shared/filter-columns";
 import { productColumns } from "./ProductList.utils";
 import EditIcon from "~/assets/icons/EditIcon";
 import DeleteIcon from "~/assets/icons/DeleteIcons";
+import ImageIcon from "~/assets/icons/ImageIcon";
 
 export default function Index() {
   const [productDrawerOpen, setProductDrawerOpen] = useState(false);
@@ -27,8 +27,13 @@ export default function Index() {
   const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
-    dispatch(GetProductsAction());
+    //save current page and pagesize in store and pass it here
+    dispatch(GetProductsAction(1, 10));
   }, [dispatch]);
+
+  const getPaginatedItems = (page: number, pageSize: number) => {
+    dispatch(GetProductsAction(page, pageSize));
+  };
 
   const [tableColumns, setTableColumns] = useState<any>([
     {
@@ -37,13 +42,19 @@ export default function Index() {
       key: "image",
       render: (_: any, record: any) => {
         return (
-          <img
-            src={record.image}
-            alt={record?.title ? record?.title : record?.variants[0]?.title}
-            width={50}
-            height={50}
-            className="rounded-lg object-cover"
-          />
+          <>
+            {record?.image ? (
+              <img
+                src={record.image}
+                alt={record?.title ? record?.title : record?.variants[0]?.title}
+                width={50}
+                height={50}
+                className="rounded-lg object-cover"
+              />
+            ) : (
+              <ImageIcon />
+            )}
+          </>
         );
       },
       label: <Checkbox value="image">Image</Checkbox>,
@@ -154,13 +165,25 @@ export default function Index() {
         </Button>
       </Row>
 
-      <Table
-        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={list}
-        loading={loading}
-        size="middle"
-        // count={totalCount}
-      />
+      <div className="flex flex-col items-end justify-center">
+        <Table
+          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+          dataSource={list}
+          loading={loading}
+          size="middle"
+          pagination={false}
+        />
+
+        <Pagination
+          defaultCurrent={1}
+          total={totalCount}
+          style={{ padding: "40px 0" }}
+          pageSize={10}
+          showTotal={(total) => `Total ${total} items`}
+          onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+        />
+      </div>
+
       <Drawer
         title={
           selectedAction === "new-product" ? "Add product" : "Edit product"

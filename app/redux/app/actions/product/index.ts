@@ -18,7 +18,7 @@ import Cookies from "universal-cookie";
 import slugify from "slugify";
 const cookies = new Cookies();
 
-export function GetProductsAction() {
+export function GetProductsAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -27,6 +27,7 @@ export function GetProductsAction() {
         .query(GetProducts, {
           vendorId,
           sortOrder: { direction: "desc", field: "createdAt" },
+          pagination: { page, pageSize },
         })
         .toPromise()
         .then((result) => {

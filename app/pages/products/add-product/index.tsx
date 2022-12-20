@@ -30,7 +30,6 @@ export default function ProductForm({
     if (selectedAction === "edit-product") {
       form.setFieldsValue(selectedProduct);
     } else {
-      console.log("passing here to reset");
       form.resetFields();
       setSelectedProduct(null);
     }
