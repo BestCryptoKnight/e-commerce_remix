@@ -1,4 +1,6 @@
 {
   "greeting": "مرحبًا",
-  "filterBy": "مصنف بواسطة"
+  "filterBy": "مصنف بواسطة",
+  "ALL_ORDERS": "جميع الطلبات",
+  "EXPORT_AS_CSV": "تصدير بتنسيق Excel"
 }

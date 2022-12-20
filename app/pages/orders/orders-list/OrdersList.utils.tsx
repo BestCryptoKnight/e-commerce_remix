@@ -1,7 +1,7 @@
 import { Checkbox } from "antd";
 import moment from "moment";
 
-export const orderTableColumns = [
+export const orderTableColumns = (t: any) => [
   {
     title: "Order ID",
     dataIndex: "id",
@@ -54,9 +54,9 @@ export const orderTableColumns = [
   },
 ];
 
-export const orderStatusTabs = [
+export const orderStatusTabs = (t: any) => [
   {
-    label: "All Orders",
+    label: t("ALL_ORDERS"),
   },
   {
     label: "Pending",
