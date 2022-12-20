@@ -1,8 +1,17 @@
 import { gql } from "urql";
 
 export const GetProducts = gql`
-  query GetProducts($vendorId: String!) {
-    getProducts(vendorId: $vendorId) {
+  query GetProducts(
+    $vendorId: String!
+    $sortOrder: SortOrder
+    $pagination: PaginationArgs
+  ) {
+    getProducts(
+      vendorId: $vendorId
+      sortOrder: $sortOrder
+      pagination: $pagination
+    ) {
+      totalCount
       list {
         id
         title
@@ -11,8 +20,15 @@ export const GetProducts = gql`
         description_ar
         vendorId
         active
-        tagIds
-
+        tags {
+          id
+        }
+        variants {
+          title
+          title_ar
+          price
+          sku
+        }
         image
         minPreorderDays
         type

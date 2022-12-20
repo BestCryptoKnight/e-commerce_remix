@@ -17,8 +17,10 @@ export default function Index() {
   const [selectedTag, setSelectedTag] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
   const [filteredColumn, setFilteredColumn] = useState([]);
+  const [active, setActive] = useState(true);
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list } = data;
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
@@ -96,7 +98,7 @@ export default function Index() {
       </Row>
 
       <Table
-        dataSource={data}
+        dataSource={list}
         loading={loading}
         columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
       />
@@ -110,6 +112,8 @@ export default function Index() {
         placement="right"
       >
         <AddNewTag
+          active={active}
+          setActive={setActive}
           setTagDrawerOpen={setTagDrawerOpen}
           selectedTag={selectedTag}
           selectedAction={selectedAction}

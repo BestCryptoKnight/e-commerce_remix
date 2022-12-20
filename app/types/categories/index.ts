@@ -7,7 +7,7 @@ export interface CategoryType {
   createdAt: string;
   id: string;
   sortOrder: number;
-  tagIds: string[];
+  tags: string[];
   title: string;
   title_ar: string;
   updatedAt: string;

@@ -4,17 +4,17 @@ import {
   DeleteProductAction,
 } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Popconfirm, Checkbox, Row, Col } from "antd";
+import { Table, Button, Popconfirm, Checkbox, Row, Pagination } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
 import AddNewProduct from "../add-product";
-
 import { ActionButtonsWrapper } from "../styles";
 import ProductFilter from "~/components/shared/filter-columns";
 import { productColumns } from "./ProductList.utils";
 import EditIcon from "~/assets/icons/EditIcon";
 import DeleteIcon from "~/assets/icons/DeleteIcons";
+import ImageIcon from "~/assets/icons/ImageIcon";
 
 export default function Index() {
   const [productDrawerOpen, setProductDrawerOpen] = useState(false);
@@ -24,12 +24,90 @@ export default function Index() {
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
-    dispatch(GetProductsAction());
+    //save current page and pagesize in store and pass it here
+    dispatch(GetProductsAction(1, 10));
   }, [dispatch]);
 
+  const getPaginatedItems = (page: number, pageSize: number) => {
+    dispatch(GetProductsAction(page, pageSize));
+  };
+
   const [tableColumns, setTableColumns] = useState<any>([
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (_: any, record: any) => {
+        return (
+          <>
+            {record?.image ? (
+              <img
+                src={record.image}
+                alt={record?.title ? record?.title : record?.variants[0]?.title}
+                width={50}
+                height={50}
+                className="rounded-lg object-cover"
+              />
+            ) : (
+              <ImageIcon />
+            )}
+          </>
+        );
+      },
+      label: <Checkbox value="image">Image</Checkbox>,
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.title ? record?.title : record?.variants[0]?.title}</p>
+        );
+      },
+      label: <Checkbox value="title">Title</Checkbox>,
+    },
+    {
+      title: "Arabic Title",
+      dataIndex: "title_ar",
+      key: "title_ar",
+      render: (_: any, record: any) => {
+        return (
+          <p>
+            {record?.title_ar
+              ? record?.title_ar
+              : record?.variants[0]?.title_ar}
+          </p>
+        );
+      },
+      label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (_: any, record: any) => {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: record?.description }} />
+        );
+      },
+      label: <Checkbox value="description">English Description</Checkbox>,
+    },
+    {
+      title: "Arabic Description",
+      dataIndex: "description_ar",
+      key: "description_ar",
+      render: (_: any, record: any) => {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: record?.description_ar }} />
+        );
+      },
+      label: <Checkbox value="description_ar">Arabic Description</Checkbox>,
+    },
     ...productColumns,
     {
       title: "Actions",
@@ -39,9 +117,9 @@ export default function Index() {
           <ActionButtonsWrapper>
             <EditIcon
               onClick={() => {
+                setSelectedAction("edit-product");
                 setSelectedProduct(record);
                 setProductDrawerOpen(true);
-                setSelectedAction("edit-product");
               }}
             />
 
@@ -78,20 +156,34 @@ export default function Index() {
           type="primary"
           className="mb-4"
           onClick={() => {
-            setProductDrawerOpen(true);
             setSelectedAction("new-product");
+            setSelectedProduct(null);
+            setProductDrawerOpen(true);
           }}
         >
           Create product
         </Button>
       </Row>
 
-      <Table
-        columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={data}
-        loading={loading}
-        size="middle"
-      />
+      <div className="flex flex-col items-end justify-center">
+        <Table
+          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+          dataSource={list}
+          loading={loading}
+          size="middle"
+          pagination={false}
+        />
+
+        <Pagination
+          defaultCurrent={1}
+          total={totalCount}
+          style={{ padding: "40px 0" }}
+          pageSize={10}
+          showTotal={(total) => `Total ${total} items`}
+          onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+        />
+      </div>
+
       <Drawer
         title={
           selectedAction === "new-product" ? "Add product" : "Edit product"
@@ -102,6 +194,8 @@ export default function Index() {
         placement="right"
       >
         <AddNewProduct
+          totalCount={totalCount}
+          setSelectedProduct={setSelectedProduct}
           selectedProduct={selectedProduct}
           setProductDrawerOpen={setProductDrawerOpen}
           selectedAction={selectedAction}
@@ -110,3 +204,4 @@ export default function Index() {
     </ProductTableWrapper>
   );
 }
+

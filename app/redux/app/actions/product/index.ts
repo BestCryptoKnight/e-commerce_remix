@@ -15,9 +15,10 @@ import {
 import { notification } from "antd";
 import { UploadFile } from "~/graphql/mutations/utils";
 import Cookies from "universal-cookie";
+import slugify from "slugify";
 const cookies = new Cookies();
 
-export function GetProductsAction() {
+export function GetProductsAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -25,13 +26,20 @@ export function GetProductsAction() {
       urqlQuery
         .query(GetProducts, {
           vendorId,
+          sortOrder: { direction: "desc", field: "createdAt" },
+          pagination: { page, pageSize },
         })
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          dispatch(requestSuccessUpdateStateData(result.data.getProducts.list));
+
+          const data = {
+            list: result.data.getProducts.list,
+            totalCount: result.data.getProducts.totalCount,
+          };
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -43,23 +51,22 @@ export function ProductsAction(
   data: any,
   setProductDrawerOpen: any,
   selectedAction: string,
-  id: string
+  id: string,
+  totalCount: number
 ) {
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
       data.vendorId = cookies.get("vendorId");
-      data.title = "Dummy title"; // Will be removed
-      data.title_ar = "Dummy arabic title"; // Will be removed
-      data.image = "dummy image"; // Will be removed
-      data.slug = "dummy slug"; // Will be removed
-      // const suggestedSlug = slugify(data.title, {
-      //   replacement: "-",
-      //   remove: /[^\w\s]/gi,
-      // })
-      //   .replace(/'_+/g, "")
-      //   .toLowerCase();
-      // data.slug = suggestedSlug;
+      data.image =
+        "https://upload.travelawaits.com/ta/uploads/2021/04/7869b2f6d8e68e89909201dfcc4c67869b2.jpg"; // Will be removed
+      const suggestedSlug = slugify(data.title, {
+        replacement: "-",
+        remove: /[^\w\s]/gi,
+      })
+        .replace(/'_+/g, "")
+        .toLowerCase();
+      data.slug = suggestedSlug;
 
       urqlQuery
         .mutation(
@@ -83,18 +90,21 @@ export function ProductsAction(
           let stateData = state();
 
           if (selectedAction === "new-product") {
-            let newStateData = [
-              ...stateData.app.data,
-              result?.data?.createProduct,
-            ];
+            let newStateData = {
+              totalCount: totalCount + 1,
+              list: [...stateData.app.data.list, result?.data?.createProduct],
+            };
 
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            const filteredData = stateData.app.data.filter(
+            const filteredData = stateData.app.data.list.filter(
               (product: any) => product.id !== id
             );
 
-            let newStateData = [result?.data?.updateProduct, ...filteredData];
+            let newStateData = {
+              totalCount: stateData?.app?.data?.totalCount,
+              list: [result?.data?.updateProduct, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -118,7 +128,9 @@ export function DeleteProductAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
+    let totalCount = stateData.app.data.totalCount;
+
     try {
       urqlQuery
         .mutation(DeleteProduct, {
@@ -133,10 +145,15 @@ export function DeleteProductAction(id: string) {
             (record: any) => record.id !== id
           );
 
+          let newStateData = {
+            totalCount: totalCount - 1,
+            list: filteredRecords,
+          };
+
           notification.success({
             message: "Product deleted successfully",
           });
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {
@@ -144,3 +161,4 @@ export function DeleteProductAction(id: string) {
     }
   };
 }
+

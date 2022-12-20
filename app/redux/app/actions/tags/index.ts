@@ -23,16 +23,19 @@ export function GetTagsAction() {
       urqlQuery
         .query(GetTags, {
           vendorId,
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
-          console.log(result);
-          dispatch(requestSuccessUpdateStateData(result.data.getTags));
+          const data = {
+            list: result.data.getTags,
+            totalCount: null,
+          };
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -84,14 +87,20 @@ export function TagAction(
           let stateData = state();
 
           if (selectedAction === "create-tag") {
-            let newStateData = [...stateData.app.data, result?.data?.createTag];
+            let newStateData = {
+              totalCount: null,
+              list: [...stateData.app.data.list, result?.data?.createTag],
+            };
 
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            const filteredData = stateData.app.data.filter(
+            const filteredData = stateData.app.data.list.filter(
               (tag: any) => tag.id !== data.id
             );
-            let newStateData = [result?.data?.updateTag, ...filteredData];
+            let newStateData = {
+              totalCount: null,
+              list: [result?.data?.updateTag, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -116,7 +125,8 @@ export function DeleteTagsAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
+
     try {
       urqlQuery
         .mutation(DeleteTag, {
@@ -124,7 +134,6 @@ export function DeleteTagsAction(id: string) {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
@@ -132,7 +141,13 @@ export function DeleteTagsAction(id: string) {
           let filteredRecords = records.filter(
             (record: any) => record.id !== id
           );
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+
+          let newStateData = {
+            totalCount: null,
+            list: filteredRecords,
+          };
+
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

@@ -1,7 +1,7 @@
 import { gql } from "urql";
 export const GetTags = gql`
-  query ($vendorId: String) {
-    getTags(vendorId: $vendorId) {
+  query ($vendorId: String, $sortOrder: SortOrder) {
+    getTags(vendorId: $vendorId, sortOrder: $sortOrder) {
       id
       title
       title_ar

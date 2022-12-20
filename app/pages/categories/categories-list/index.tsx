@@ -19,9 +19,11 @@ export default function Index() {
   const [selectedAction, setSelectedAction] = useState("");
   const [categoryDrawerOpen, setCategoryDrawerOpen] = useState(false);
   const [filteredColumn, setFilteredColumn] = useState([]);
+  const [active, setActive] = useState(true);
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
+  const { list } = data;
   const loading = useAppSelector(StateLoading);
   useEffect(() => {
     dispatch(GetCategoriesAction());
@@ -63,7 +65,9 @@ export default function Index() {
               okText="Yes"
               cancelText="No"
             >
-              <DeleteIcon />
+              <div>
+                <DeleteIcon />
+              </div>
             </Popconfirm>
           </ActionButtonsWrapper>
         );
@@ -96,7 +100,7 @@ export default function Index() {
 
       <Table
         columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-        dataSource={data}
+        dataSource={list}
         loading={loading}
       />
       <Drawer
@@ -109,6 +113,8 @@ export default function Index() {
         placement="right"
       >
         <AddNewCategory
+          active={active}
+          setActive={setActive}
           selectedAction={selectedAction}
           selectedCategory={selectedCategory}
           setCategoryDrawerOpen={setCategoryDrawerOpen}

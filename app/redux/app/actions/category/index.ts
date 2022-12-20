@@ -22,6 +22,7 @@ export function GetCategoriesAction() {
       urqlQuery
         .query(GetCategories, {
           vendorId: cookies.get("vendorId"),
+          sortOrder: { direction: "desc", field: "createdAt" },
         })
         .toPromise()
         .then((result) => {
@@ -30,24 +31,9 @@ export function GetCategoriesAction() {
           }
 
           //change to backend sort once implemented
-          const items = [...result.data.getCategories];
+          const data = { list: result.data.getCategories, totalCount: null };
 
-          const sortedItems = items.sort(
-            (a: { createdAt: Date }, b: { createdAt: Date }) => {
-              const aCreatedAt = new Date(a.createdAt);
-              const bCreatedAt = new Date(b.createdAt);
-
-              if (aCreatedAt > bCreatedAt) {
-                return -1;
-              }
-              if (bCreatedAt < aCreatedAt) {
-                return 1;
-              }
-              return 0;
-            }
-          );
-
-          dispatch(requestSuccessUpdateStateData(sortedItems));
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;
@@ -64,9 +50,7 @@ export function CategoryAction(
   return async (dispatch: Dispatch, state: any) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const tagIds = ["638df0b7788c2b789fe57c9c"];
       data.vendorId = cookies.get("vendorId");
-      data.tagIds = tagIds;
       urqlQuery
         .mutation(
           selectedAction === "new-category" ? CreateCategory : UpdateCategory,
@@ -88,13 +72,19 @@ export function CategoryAction(
           let stateData = state();
 
           if (selectedAction === "new-category") {
-            let newStateData = [
-              result?.data?.createCategory,
-              ...stateData.app.data,
-            ];
+            let newStateData = {
+              totalCount: null,
+              list: [...stateData.app.data.list, result?.data?.createCategory],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           } else {
-            let newStateData = [result?.data?.updateCategory];
+            const filteredData = stateData.app.data.list.filter(
+              (category: any) => category.id !== id
+            );
+            let newStateData = {
+              totalCount: null,
+              list: [result?.data?.updateCategory, ...filteredData],
+            };
             dispatch(requestSuccessUpdateStateData(newStateData));
           }
 
@@ -118,7 +108,7 @@ export function DeleteCategoryAction(id: string) {
     dispatch(requestStartInitilizeLoading());
     let stateData = state();
 
-    let records = stateData.app.data;
+    let records = stateData.app.data.list;
     try {
       urqlQuery
         .mutation(DeleteCategory, {
@@ -126,7 +116,6 @@ export function DeleteCategoryAction(id: string) {
         })
         .toPromise()
         .then((result) => {
-          console.log(result);
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
@@ -134,10 +123,15 @@ export function DeleteCategoryAction(id: string) {
             (record: any) => record.id !== id
           );
 
+          let newStateData = {
+            totalCount: null,
+            list: filteredRecords,
+          };
+
           notification.success({
             message: "Category deleted successfully",
           });
-          dispatch(requestSuccessUpdateStateData(filteredRecords));
+          dispatch(requestSuccessUpdateStateData(newStateData));
           dispatch(requestCompleteDisableLoading());
         });
     } catch (error) {

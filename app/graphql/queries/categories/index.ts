@@ -1,7 +1,7 @@
 import { gql } from "urql";
 export const GetCategories = gql`
-  query ($vendorId: String!) {
-    getCategories(vendorId: $vendorId) {
+  query ($vendorId: String!, $sortOrder: SortOrder) {
+    getCategories(vendorId: $vendorId, sortOrder: $sortOrder) {
       id
       title
       title_ar
@@ -9,7 +9,6 @@ export const GetCategories = gql`
       updatedAt
       sortOrder
       active
-      tagIds
     }
   }
 `;
