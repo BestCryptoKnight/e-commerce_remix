@@ -5,36 +5,51 @@ export const GetOrders = gql`
     $sortOrder: SortOrder
     $pagination: PaginationArgs
   ) {
-    getOrders(vendorId: $vendorId) {
+    getOrders(
+      vendorId: $vendorId
+      sortOrder: $sortOrder
+      pagination: $pagination
+    ) {
       id
       createdAt
+      orderId
       cart {
         createdAt
         finalPrice
-        totalPrice
-        updatedAt
         items {
-          Product {
-            title
-            title_ar
-            type
-            Tags {
-              title
-              title_ar
-            }
-            startDate
-            endDate
-            endTime
-            image
-            location
-          }
+          productId
           productVariant
           quantity
           slots {
-            endTime
-            startTime
+            from
+            to
+          }
+          tagId
+          Product {
+            category {
+              title
+              title_ar
+            }
+            duration
+            image
+            location
+            meetingLink
+            title
+            title_ar
+            workshopBookedCount
+            title
+            title_ar
+            type
+            tags {
+              title
+              title_ar
+            }
+            image
+            location
           }
         }
+        totalPrice
+        updatedAt
       }
       customerInfo {
         firstName
@@ -53,29 +68,40 @@ export const GetOrder = gql`
     getOrder(id: $id) {
       id
       createdAt
+      orderId
       cart {
         createdAt
         finalPrice
         items {
-          Product {
-            title
-            title_ar
-            type
-            Tags {
-              title
-              title_ar
-            }
-            startDate
-            endDate
-            endTime
-            image
-            location
-          }
+          productId
           productVariant
           quantity
           slots {
-            endTime
-            startTime
+            from
+            to
+          }
+          tagId
+          Product {
+            category {
+              title
+              title_ar
+            }
+            duration
+            image
+            location
+            meetingLink
+            title
+            title_ar
+            workshopBookedCount
+            title
+            title_ar
+            type
+            tags {
+              title
+              title_ar
+            }
+            image
+            location
           }
         }
         totalPrice
@@ -85,6 +111,7 @@ export const GetOrder = gql`
         firstName
         lastName
         phone
+        email
       }
       deliveryMethod
       paymentMethod

@@ -18,7 +18,7 @@ const OrderDetails = ({ selectedOrder }: any) => {
       <div className="flex items-baseline justify-between">
         <p className="text-xl font-bold">
           Order Number{" "}
-          <span className="text-xl text-green">#{selectedOrder?.id}</span>
+          <span className="text-xl text-green">#{selectedOrder?.orderId}</span>
         </p>
 
         <div className="flex items-center">
