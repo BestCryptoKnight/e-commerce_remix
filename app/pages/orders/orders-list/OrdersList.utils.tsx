@@ -56,19 +56,19 @@ export const orderTableColumns = (t: any) => [
 
 export const orderStatusTabs = (t: any) => [
   {
-    label: t("ALL_ORDERS"),
+    label: <span className="ml-4">{t("ALL_ORDERS")}</span>,
   },
   {
-    label: "Pending",
+    label: t("PENDING"),
   },
   {
-    label: "Confirmed",
+    label: t("CONFIRMED"),
   },
 
   {
-    label: "Rejected",
+    label: t("REJECTED"),
   },
   {
-    label: "Completed",
+    label: t("COMPLETED"),
   },
 ];
