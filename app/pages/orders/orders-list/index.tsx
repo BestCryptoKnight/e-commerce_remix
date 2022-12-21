@@ -35,6 +35,8 @@ export default function Index() {
 
   const operations = <Button>{t("EXPORT_AS_CSV")}</Button>;
 
+  console.log("list", list);
+
   return (
     <>
       <Row gutter={24} className="flex items-baseline">
@@ -48,7 +50,7 @@ export default function Index() {
       <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
-      {list.length === 0 ? (
+      {list.length === 0 && !loading ? (
         <Alert
           message={t("NO_ORDERS")}
           description={t("ORDER_DESCRIPTIONS")}

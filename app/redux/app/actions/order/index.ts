@@ -8,17 +8,16 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
+import Cookies from "universal-cookie";
 import type { RowDataType } from "~/types/orders";
+const cookies = new Cookies();
 
 export function GetOrdersAction() {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     console.log("passing2");
     try {
-      console.log("dd33d");
-      const vendorId =
-        localStorage.getItem("vendorId") || "63900eb5788c2b789fe57cb3";
-      console.log("JJJJJJ");
+      const vendorId = cookies.get("vendorId");
       urqlQuery
         .query(GetOrders, {
           vendorId,
@@ -38,6 +37,7 @@ export function GetOrdersAction() {
             payment: item?.paymentMethod,
             delivery: item?.deliveryMethod,
             total: item?.cart?.finalPrice,
+            orderVId: item?.orderId,
             ...item,
           }));
 

@@ -15,6 +15,7 @@ type CartType = {
 
 export type RowDataType = {
   id: string;
+  orderId: string;
   status: string;
   cart: CartType;
   customerInfo: CustomerInfoType;
