@@ -1,4 +1,8 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { useEffect } from "react";
 import {
   Links,
@@ -23,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { env } from "./env";
 export function useChangeLanguage(locale: string) {
   let { i18n } = useTranslation();
 
@@ -39,11 +44,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export let loader = async ({ request }: LoaderArgs) => {
+export let loader: LoaderFunction = async ({ request }) => {
   let locale = await i18next.getLocale(request);
 
   return json(
-    { locale },
+    { locale, ENV: env },
     {
       headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
     }
@@ -63,7 +68,7 @@ export const meta: MetaFunction = () => ({
 export default function App() {
   const navigate = useNavigate();
 
-  let { locale } = useLoaderData<typeof loader>();
+  let { locale, ENV } = useLoaderData<typeof loader>();
 
   let { i18n } = useTranslation();
 
@@ -75,6 +80,7 @@ export default function App() {
   }, [navigate]);
 
   useChangeLanguage(locale);
+
   return (
     <html lang={locale} dir={i18n.dir()} className="h-full">
       <head>
@@ -93,6 +99,11 @@ export default function App() {
           </Provider>
         </ReduxProvider>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>
