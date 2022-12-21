@@ -89,11 +89,12 @@ export function CreateBooking(data: BookingFormFields) {
           message: "Unable to create booking",
         });
       }
+
       dispatch(requestCompleteDisableLoading());
       notification.success({
         message: "Booking created successfully",
       });
-      return createOrder;
+      return createBooking;
     } catch (error) {
       throw error;
     }
@@ -143,8 +144,22 @@ export function GetBookingsAction() {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
+          const events: any = [];
 
-          dispatch(requestSuccessUpdateStateData(result.data.getBookings));
+          result.data.getBookings.map((item: any) => {
+            if (item.slots.length > 0) {
+              item.slots.map((slot: any) => {
+                events.push({
+                  id: item.id + slot.from + slot.to,
+                  start: slot.from,
+                  end: slot.to,
+                });
+              });
+            }
+          });
+
+          console.log(events);
+          dispatch(requestSuccessUpdateStateData(events));
           return result.data;
         });
     } catch (error) {

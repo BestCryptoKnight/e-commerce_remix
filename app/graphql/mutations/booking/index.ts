@@ -20,6 +20,10 @@ export const CreateBooking = gql`
       }
     ) {
       id
+      slots {
+        from
+        to
+      }
     }
   }
 `;
