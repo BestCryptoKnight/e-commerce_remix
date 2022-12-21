@@ -18,18 +18,20 @@ import moment from "moment";
 import type { BookingFormFields } from "~/types/booking";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { CreateBooking } from "~/redux/app/actions/booking";
+import { data as BookingData } from "~/redux/app";
 
 function BookingCalendar() {
   const [weekendsVisible, setWeekendsVisible] = useState(false);
-  const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<DateSelectArg>();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
+  const data = useAppSelector(BookingData);
+  const [currentEvents, setCurrentEvents] = useState<any>(data);
 
   useEffect(() => {
     dispatch(GetBookingsAction());
-  }, []);
+  }, [dispatch]);
 
   const renderSidebar = () => {
     return (
@@ -43,51 +45,30 @@ function BookingCalendar() {
             This week bookings
           </label>
         </div>
-        {/* <div className="demo-app-sidebar-section">
-          <h2>All bookings ({currentEvents.length})</h2>
-          <ul>{currentEvents.map(renderSidebarEvent)}</ul>
-        </div> */}
       </div>
     );
   };
 
-  // const renderSidebarEvent = (event: EventApi) => {
-  //   return (
-  //     <li key={event.id}>
-  //       <b>
-  //         {formatDate(event.start!, {
-  //           year: "numeric",
-  //           month: "short",
-  //           day: "numeric",
-  //         })}
-  //       </b>
-  //       <i>{event.title}</i>
-  //     </li>
-  //   );
-  // };
   const onSubmit = async (data: BookingFormFields) => {
     dispatch(CreateBooking(data)).then((result) => {
       if (result) {
+        console.log(result);
         const calendarApi = formData?.view.calendar;
 
-        // calendarApi?.unselect();
-
-        if (data.title) {
+        result.slots.map((slot: any) => {
           calendarApi?.addEvent({
-            id: createEventId(),
-            title: data.title,
-            start: formData?.startStr,
-            end: formData?.endStr,
-            allDay: formData?.allDay,
+            id: slot.id + slot.from + slot.to,
+            start: slot.from,
+            end: slot.to,
           });
-        }
+        });
 
         setIsModalOpen(false);
         form.resetFields();
       }
     });
   };
-
+  console.log("compoent called");
   return (
     <div className="demo-app">
       {renderSidebar()}
@@ -106,12 +87,14 @@ function BookingCalendar() {
             selectMirror={true}
             dayMaxEvents={true}
             weekends={weekendsVisible}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+            events={data as any} // alternatively, use the `events` setting to fetch from a feed
             select={(selectInfo) => {
-              form.setFieldsValue({
-                startTime: moment(selectInfo.startStr),
-                endTime: moment(selectInfo.endStr),
-              });
+              form.setFieldValue("slots", [
+                {
+                  from: moment(selectInfo.startStr),
+                  to: moment(selectInfo.endStr),
+                },
+              ]);
               setIsModalOpen(true);
               setFormData(selectInfo);
             }}

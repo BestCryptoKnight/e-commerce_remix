@@ -9,7 +9,7 @@ import { OrderFiltersWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 import { GetOrdersAction } from "~/redux/app/actions/order";
 import { useTranslation } from "react-i18next";
-
+var XLSX = require("xlsx");
 export default function Index() {
   let { t } = useTranslation();
   const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
@@ -33,9 +33,18 @@ export default function Index() {
     };
   });
 
-  const operations = <Button>{t("EXPORT_AS_CSV")}</Button>;
-
-  console.log("list", list);
+  const operations = (
+    <Button
+      onClick={() => {
+        const worksheet = XLSX.utils.json_to_sheet(list);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "Orders.xlsx");
+      }}
+    >
+      {t("EXPORT_AS_CSV")}
+    </Button>
+  );
 
   return (
     <>
@@ -50,7 +59,7 @@ export default function Index() {
       <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
       </OrderFiltersWrapper>
-      {list.length === 0 && !loading ? (
+      {list?.length === 0 && !loading ? (
         <Alert
           message={t("NO_ORDERS")}
           description={t("ORDER_DESCRIPTIONS")}
