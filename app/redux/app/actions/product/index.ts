@@ -22,7 +22,10 @@ export function GetProductsAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      const vendorId = cookies.get("vendorId");
+      console.log("cookies", cookies);
+      // const vendorId = cookies.get("vendorId");
+      const vendorId = "638e6e77898a05f954ca1cc3";
+      console.log("vendorID", vendorId);
       urqlQuery
         .query(GetProducts, {
           vendorId,
@@ -161,4 +164,3 @@ export function DeleteProductAction(id: string) {
     }
   };
 }
-
