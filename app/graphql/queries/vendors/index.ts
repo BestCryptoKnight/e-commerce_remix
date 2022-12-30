@@ -5,6 +5,8 @@ export const GetVendorsView = gql`
     getVendorsView(pagination: $pagination) {
       totalCount
       list {
+        vendorName
+        vendorUrl
         numberOrders
         numberCoupons
         numberBookings

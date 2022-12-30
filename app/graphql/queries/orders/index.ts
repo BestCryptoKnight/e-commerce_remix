@@ -81,3 +81,31 @@ export const GetOrder = gql`
     }
   }
 `;
+
+export const GetAllOrders = gql`
+  query ($sortOrder: SortOrder, $pagination: PaginationArgs) {
+    getAllOrders(sortOrder: $sortOrder, pagination: $pagination) {
+      list {
+        id
+        vendor {
+          id
+          name
+        }
+        createdAt
+        orderId
+        customerInfo {
+          firstName
+          lastName
+          phone
+          email
+        }
+        deliveryMethod
+        paymentMethod
+        finalPrice
+        status
+      }
+
+      totalCount
+    }
+  }
+`;

@@ -25,17 +25,28 @@ export default function Index() {
     };
 
     const [tableColumns, setTableColumns] = useState<any>([
-        // {
-        //     title: "Last Login",
-        //     dataIndex: "last_login",
-        //     key: "last_login",
-        //     render: (_: any, record: any) => {
-        //         return (
-        //             <p>{record?.title ? record?.title : record?.variants[0]?.title}</p>
-        //         );
-        //     },
-        //     label: <Checkbox value="last_login">Last Login</Checkbox>,
-        // },
+        {
+            title: "Vendor Name",
+            dataIndex: "vendorName",
+            key: "vendorName",
+            render: (_: any, record: any) => {
+                return (
+                    <p>{record?.vendorName ? record?.vendorName : ''}</p>
+                );
+            },
+            label: <Checkbox value="vendorName">Vendor Name</Checkbox>,
+        },
+        {
+            title: "Vendor URL",
+            dataIndex: "vendorUrl",
+            key: "vendorUrl",
+            render: (_: any, record: any) => {
+                return (
+                    <p>{record?.vendorUrl ? record?.vendorUrl : ''}</p>
+                );
+            },
+            label: <Checkbox value="vendorUrl">Vendor URL</Checkbox>,
+        },
         {
             title: "Products",
             dataIndex: "numberProducts",
