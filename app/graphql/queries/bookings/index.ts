@@ -1,12 +1,24 @@
 import { gql } from "urql";
-export const GetBookings = gql`
-  query ($vendorId: String!) {
-    getBookings(vendorId: $vendorId) {
-      id
-      slots {
-        from
-        to
+export const GetAllBookings = gql`
+  query GetAllBookings($sortOrder: SortOrder, $pagination: PaginationArgs) {
+    getAllBookings(sortOrder: $sortOrder, pagination: $pagination) {
+      list {
+        vendor {
+          id
+          name
+        }
+        product {
+          type
+          title
+        }
+        orderId
+        slots {
+          from
+          to
+        }
+        createdAt
       }
+      totalCount
     }
   }
 `;
