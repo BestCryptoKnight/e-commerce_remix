@@ -1,5 +1,5 @@
 import urqlQuery from "~/graphql/";
-import { GetProducts } from "~/graphql/queries/products";
+import { GetAllProducts } from "~/graphql/queries/products";
 import {
   CreateProduct,
   UpdateProduct,
@@ -22,13 +22,8 @@ export function GetProductsAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      console.log("cookies", cookies);
-      // const vendorId = cookies.get("vendorId");
-      const vendorId = "638e6e77898a05f954ca1cc3";
-      console.log("vendorID", vendorId);
       urqlQuery
-        .query(GetProducts, {
-          vendorId,
+        .query(GetAllProducts, {
           sortOrder: { direction: "desc", field: "createdAt" },
           pagination: { page, pageSize },
         })
@@ -37,10 +32,9 @@ export function GetProductsAction(page: number, pageSize: number) {
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-
           const data = {
-            list: result.data.getProducts.list,
-            totalCount: result.data.getProducts.totalCount,
+            list: result.data.getAllProducts.list,
+            totalCount: result.data.getAllProducts.totalCount,
           };
           dispatch(requestSuccessUpdateStateData(data));
         });

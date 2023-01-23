@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Tabs, Table, Button, Row, Alert } from "antd";
+import { Tabs, Table, Button, Row, Alert, Pagination } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
 import OrdersFilter from "~/components/shared/filter-columns";
-import { OrderFiltersWrapper } from "./styles";
+import { OrderFiltersWrapper, OrderTableWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
-import { GetOrdersAction } from "~/redux/app/actions/order";
+import { GetAllOrdersAction } from "~/redux/app/actions/order";
 import { useTranslation } from "react-i18next";
 var XLSX = require("xlsx");
 export default function Index() {
@@ -18,12 +18,16 @@ export default function Index() {
   const [filteredColumn, setFilteredColumn] = useState([]);
   const [tableColumns, setTableColumns] = useState<any>(orderTableColumns(t));
   const data = useAppSelector(StateData);
-  const { list } = data;
+  const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
-    dispatch(GetOrdersAction());
+    dispatch(GetAllOrdersAction(1, 10));
   }, [dispatch]);
+
+  const getPaginatedItems = (page: number, pageSize: number) => {
+    dispatch(GetAllOrdersAction(page, pageSize));
+  };
 
   const tabItems = orderStatusTabs(t).map((item, i) => {
     const id: any = String(i + 1);
@@ -47,7 +51,8 @@ export default function Index() {
   );
 
   return (
-    <>
+    <OrderTableWrapper>
+      <h2 className="text-3xl">Orders</h2>
       <Row gutter={24} className="flex items-baseline">
         <OrdersFilter
           tableColumns={tableColumns}
@@ -56,9 +61,9 @@ export default function Index() {
           setFilteredColumn={setFilteredColumn}
         />
       </Row>
-      <OrderFiltersWrapper className="flex w-full justify-start">
+      {/* <OrderFiltersWrapper className="flex w-full justify-start">
         <Tabs tabBarExtraContent={operations} items={tabItems} />
-      </OrderFiltersWrapper>
+      </OrderFiltersWrapper> */}
       {list?.length === 0 && !loading ? (
         <Alert
           message={t("NO_ORDERS")}
@@ -79,8 +84,18 @@ export default function Index() {
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
           dataSource={list}
           loading={loading}
+          pagination={false}
         />
+
       )}
+      <Pagination
+        defaultCurrent={1}
+        total={totalCount}
+        style={{ padding: "40px 0" }}
+        pageSize={10}
+        showTotal={(total) => `Total ${total} items`}
+        onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+      />
 
       <Drawer
         width="90%"
@@ -92,6 +107,6 @@ export default function Index() {
       >
         <OrderDetails selectedOrder={selectedOrder} />
       </Drawer>
-    </>
+    </OrderTableWrapper>
   );
 }

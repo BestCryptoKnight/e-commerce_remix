@@ -3,18 +3,76 @@ import moment from "moment";
 
 export const orderTableColumns = (t: any) => [
   {
-    title: "Order ID",
+    title: "Vendor ID",
     dataIndex: "orderVId",
     key: "orderVId",
     responsive: ["md", "xs"],
-    label: <Checkbox value="orderVId">Order ID</Checkbox>,
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.vendor?.id ? record?.vendor?.id : ''}</p>
+      );
+    },
+    label: <Checkbox value="orderVId">Vendor ID</Checkbox>,
   },
   {
-    title: "Customer",
+    title: "Vendor Name",
     dataIndex: "customer",
     key: "customer",
     responsive: ["md", "xs"],
-    label: <Checkbox value="customer">Customer</Checkbox>,
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.vendor?.name ? record?.vendor?.name : ''}</p>
+      );
+    },
+    label: <Checkbox value="customer">Vendor Name</Checkbox>,
+  },
+  {
+    title: "Order Id",
+    dataIndex: "customer",
+    key: "customer",
+    responsive: ["md", "xs"],
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.orderId ? record?.orderId : ''}</p>
+      );
+    },
+    label: <Checkbox value="customer">Order Id</Checkbox>,
+  },
+  {
+    title: "Customer Name",
+    dataIndex: "customer",
+    key: "customer",
+    responsive: ["md", "xs"],
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.customerInfo ? (record?.customerInfo?.firstName + ' ' + record?.customerInfo?.lastName) : ''}</p>
+      );
+    },
+    label: <Checkbox value="customer">Customer Name</Checkbox>,
+  },
+  {
+    title: "Customer Phone",
+    dataIndex: "customer",
+    key: "customer",
+    responsive: ["md", "xs"],
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.customerInfo ? record?.customerInfo?.phone : ''}</p>
+      );
+    },
+    label: <Checkbox value="customer">Customer Phone</Checkbox>,
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "customer",
+    key: "customer",
+    responsive: ["md", "xs"],
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.customerInfo ? record?.customerInfo?.email : ''}</p>
+      );
+    },
+    label: <Checkbox value="customer">Customer Email</Checkbox>,
   },
   {
     title: "Payment",
@@ -37,8 +95,8 @@ export const orderTableColumns = (t: any) => [
         }
       };
       return (
-        <Tag color={getColor(record?.payment).color}>
-          {getColor(record?.payment).label}
+        <Tag color={getColor(record?.paymentMethod).color}>
+          {getColor(record?.paymentMethod).label}
         </Tag>
       );
     },
@@ -49,6 +107,11 @@ export const orderTableColumns = (t: any) => [
     dataIndex: "total",
     key: "total",
     responsive: ["md", "xs"],
+    render: (_: any, record: any) => {
+      return (
+        <p>{record?.finalPrice ? record?.finalPrice : ''}</p>
+      );
+    },
     label: <Checkbox value="total">Total Amount</Checkbox>,
   },
   {
@@ -84,18 +147,21 @@ export const orderTableColumns = (t: any) => [
   {
     title: "Created At",
     key: "createdAt",
-    render(value: string) {
-      return <div>{moment(value).format("DD-MM-YYYY HH:MM")}</div>;
+    render(_: any, record: any) {
+      // return <div>{moment(record).format("DD-MM-YYYY HH:MM")}</div>;
+      return (
+        <p>{record?.createdAt ? record?.createdAt : ''}</p>
+      );
     },
     responsive: ["sm"],
     label: <Checkbox value="createdAt">Created At</Checkbox>,
   },
-  {
-    title: "Action",
-    key: "action",
-    render: () => <p className="cursor-pointer text-green">Details</p>,
-    label: <Checkbox value="action">Actions</Checkbox>,
-  },
+  // {
+  //   title: "Action",
+  //   key: "action",
+  //   render: () => <p className="cursor-pointer text-green">Details</p>,
+  //   label: <Checkbox value="action">Actions</Checkbox>,
+  // },
 ];
 
 export const orderStatusTabs = (t: any) => [

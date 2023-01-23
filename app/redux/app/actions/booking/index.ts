@@ -7,7 +7,7 @@ import {
   requestSuccessUpdateStateData,
 } from "../../";
 import Cookies from "universal-cookie";
-import { GetBookings } from "~/graphql/queries/bookings";
+import { GetAllBookings } from "~/graphql/queries/bookings";
 import { notification } from "antd";
 import { CreateOrderAction } from "../order";
 import type { BookingFormFields } from "~/types/booking";
@@ -127,13 +127,14 @@ export function CreateBookingAction(data: any) {
   };
 }
 
-export function GetBookingsAction() {
+export function GetBookingsAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
-      return urqlQuery
-        .query(GetBookings, {
-          vendorId,
+      urqlQuery
+        .query(GetAllBookings, {
+          sortOrder: { direction: "desc", field: "createdAt" },
+          pagination: { page, pageSize },
         })
         .toPromise()
         .then((result) => {
@@ -144,23 +145,12 @@ export function GetBookingsAction() {
             dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
-          const events: any = [];
-
-          result.data.getBookings.map((item: any) => {
-            if (item.slots.length > 0) {
-              item.slots.map((slot: any) => {
-                events.push({
-                  id: item.id + slot.from + slot.to,
-                  start: slot.from,
-                  end: slot.to,
-                });
-              });
-            }
-          });
-
-          console.log(events);
-          dispatch(requestSuccessUpdateStateData(events));
-          return result.data;
+          console.log("-----", result);
+          const data = {
+            list: result.data.getAllBookings.list,
+            totalCount: result.data.getAllBookings.totalCount,
+          };
+          dispatch(requestSuccessUpdateStateData(data));
         });
     } catch (error) {
       throw error;

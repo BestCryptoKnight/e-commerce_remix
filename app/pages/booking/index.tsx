@@ -1,146 +1,172 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useState, useEffect } from "react";
-import { GetBookingsAction } from "~/redux/app/actions/booking";
-import type {
-  EventApi,
-  DateSelectArg,
-  EventClickArg,
-} from "@fullcalendar/react";
-import FullCalendar, { formatDate } from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "./event-utils";
-import { Modal, Form, Checkbox } from "antd";
-import { BookingCalendarWrapper } from "./styles";
-import BookingForm from "./partials/AddBookingForm";
-import moment from "moment";
-import type { BookingFormFields } from "~/types/booking";
+import { useEffect, useState } from "react";
+import {
+  GetBookingsAction,
+} from "~/redux/app/actions/booking";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { CreateBooking } from "~/redux/app/actions/booking";
-import { data as BookingData } from "~/redux/app";
+import { Table, Checkbox, Row, Pagination } from "antd";
+import { data as StateData, loading as StateLoading } from "~/redux/app";
+import { BookingTableWrapper } from "./styles";
+import BookingFilter from "~/components/shared/filter-columns";
 
-function BookingCalendar() {
-  const [weekendsVisible, setWeekendsVisible] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState<DateSelectArg>();
-  const [form] = Form.useForm();
+export default function Index() {
+  const [selectedAction, setSelectedAction] = useState("");
+  const [filteredColumn, setFilteredColumn] = useState([]);
+
   const dispatch = useAppDispatch();
-  const data = useAppSelector(BookingData);
-  const [currentEvents, setCurrentEvents] = useState<any>(data);
-
+  const data = useAppSelector(StateData);
+  const { list, totalCount } = data;
+  const loading = useAppSelector(StateLoading);
   useEffect(() => {
-    dispatch(GetBookingsAction());
+    //save current page and pagesize in store and pass it here
+    dispatch(GetBookingsAction(1, 10));
   }, [dispatch]);
 
-  const renderSidebar = () => {
-    return (
-      <div className="demo-app-sidebar">
-        <div className="demo-app-sidebar-section">
-          <label>
-            <Checkbox
-              checked={weekendsVisible}
-              onChange={() => setWeekendsVisible(!weekendsVisible)}
-            ></Checkbox>
-            This week bookings
-          </label>
-        </div>
-      </div>
-    );
+  const getPaginatedItems = (page: number, pageSize: number) => {
+    dispatch(GetBookingsAction(page, pageSize));
   };
 
-  const onSubmit = async (data: BookingFormFields) => {
-    dispatch(CreateBooking(data)).then((result) => {
-      if (result) {
-        console.log(result);
-        const calendarApi = formData?.view.calendar;
+  const [tableColumns, setTableColumns] = useState<any>([
+    {
+      title: "Vendor ID",
+      dataIndex: "vendorId",
+      key: "vendorId",
 
-        result.slots.map((slot: any) => {
-          calendarApi?.addEvent({
-            id: slot.id + slot.from + slot.to,
-            start: slot.from,
-            end: slot.to,
-          });
-        });
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.vendor ? record?.vendor?.id : ''}</p>
+        );
+      },
+      label: <Checkbox value="vendorId">Vendor ID</Checkbox>,
+    },
+    {
+      title: "Vendor Name",
+      dataIndex: "vendorName",
+      key: "vendorName",
 
-        setIsModalOpen(false);
-        form.resetFields();
-      }
-    });
-  };
-  console.log("compoent called");
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.vendor ? record?.vendor?.name : ''}</p>
+        );
+      },
+      label: <Checkbox value="vendorName">Vendor Name</Checkbox>,
+    },
+    {
+      title: "Order ID",
+      dataIndex: "orderId",
+      key: "orderId",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.orderId ? record?.orderId : ''}</p>
+        );
+      },
+      label: <Checkbox value="orderId">Order ID</Checkbox>,
+    },
+    {
+      title: "Service Name",
+      dataIndex: "serviceName",
+      key: "serviceName",
+      render: (_: any, record: any) => {
+        return (
+          <p>
+            {record?.product
+              ? record?.product?.title
+              : ""}
+          </p>
+        );
+      },
+      label: <Checkbox value="serviceName">Service Name</Checkbox>,
+    },
+    {
+      title: "Service Type",
+      dataIndex: "serviceType",
+      key: "serviceType",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.product ? record?.product?.type : ''}</p>
+        );
+      },
+      label: <Checkbox value="serviceType">Service Type</Checkbox>,
+    },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.createdAt ? record?.createdAt : ''}</p>
+        );
+      },
+      label: <Checkbox value="createdAt">Created At</Checkbox>,
+    },
+    {
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.slots ? record?.slots[0]?.from : ''}</p>
+        );
+      },
+      label: <Checkbox value="startTime">Start Time</Checkbox>,
+    },
+    {
+      title: "End Time",
+      dataIndex: "endTime",
+      key: "endTime",
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.slots ? record?.slots[0]?.to : ''}</p>
+        );
+      },
+      label: <Checkbox value="endTime">End Time</Checkbox>,
+    },
+    {
+      title: "Booking Date",
+      dataIndex: "bookingDate",
+      key: "bookingDate",
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.createdAt ? record?.createdAt : ''}</p>
+        );
+      },
+      label: <Checkbox value="bookingDate">Booking Date</Checkbox>,
+    },
+  ]);
+
   return (
-    <div className="demo-app">
-      {renderSidebar()}
-      <div className="demo-app-main">
-        <BookingCalendarWrapper>
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            initialView="timeGridWeek"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={weekendsVisible}
-            events={data as any} // alternatively, use the `events` setting to fetch from a feed
-            select={(selectInfo) => {
-              form.setFieldValue("slots", [
-                {
-                  from: moment(selectInfo.startStr),
-                  to: moment(selectInfo.endStr),
-                },
-              ]);
-              setIsModalOpen(true);
-              setFormData(selectInfo);
-            }}
-            eventContent={(eventContent) => {
-              return (
-                <>
-                  <b>{eventContent.timeText}</b>
-                  <i>{eventContent.event.title}</i>
-                </>
-              );
-            }} // custom render function
-            eventClick={(clickInfo: EventClickArg) => {
-              if (
-                confirm(
-                  `Are you sure you want to delete the event '${clickInfo.event.title}'`
-                )
-              ) {
-                clickInfo.event.remove();
-              }
-            }}
-            eventsSet={(events: EventApi[]) => {
-              setCurrentEvents(events);
-            }} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-          eventAdd={function(){}}
-          eventChange={function(){}}
-          eventRemove={function(){}}
-          */
-          />
-        </BookingCalendarWrapper>
-        <>
-          <Modal
-            title="Add booking"
-            open={isModalOpen}
-            onOk={() => setIsModalOpen(false)}
-            onCancel={() => setIsModalOpen(false)}
-            footer={null}
-          >
-            <Form onFinish={onSubmit} layout="vertical" form={form}>
-              <BookingForm form={form} />
-            </Form>
-          </Modal>
-        </>
+    <BookingTableWrapper>
+      <h2 className="text-3xl">Bookings</h2>
+      <Row gutter={24} className="flex items-baseline justify-between mb-4">
+        <BookingFilter
+          tableColumns={tableColumns}
+          setTableColumns={setTableColumns}
+          filteredColumn={filteredColumn}
+          setFilteredColumn={setFilteredColumn}
+        />
+      </Row>
+
+      <div className="flex flex-col items-end justify-center">
+        <Table
+          columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
+          dataSource={list}
+          loading={loading}
+          size="middle"
+          pagination={false}
+        />
+
+        <Pagination
+          defaultCurrent={1}
+          total={totalCount}
+          style={{ padding: "40px 0" }}
+          pageSize={10}
+          showTotal={(total) => `Total ${total} items`}
+          onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+        />
       </div>
-    </div>
+
+    </BookingTableWrapper>
   );
 }
 
-export default BookingCalendar;

@@ -37,6 +37,30 @@ export default function Index() {
 
   const [tableColumns, setTableColumns] = useState<any>([
     {
+      title: "Vendor ID",
+      dataIndex: "vendorId",
+      key: "vendorId",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.vendor ? record?.vendor?.id : ''}</p>
+        );
+      },
+      label: <Checkbox value="vendorId">Vendor ID</Checkbox>,
+    },
+    {
+      title: "Vendor Name",
+      dataIndex: "vendorName",
+      key: "vendorName",
+
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.vendor ? record?.vendor?.name : ''}</p>
+        );
+      },
+      label: <Checkbox value="vendorName">Vendor Name</Checkbox>,
+    },
+    {
       title: "Image",
       dataIndex: "image",
       key: "image",
@@ -108,43 +132,72 @@ export default function Index() {
       },
       label: <Checkbox value="description_ar">Arabic Description</Checkbox>,
     },
-    ...productColumns,
     {
-      title: "Actions",
-      key: "actions",
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
       render: (_: any, record: any) => {
         return (
-          <ActionButtonsWrapper>
-            <EditIcon
-              onClick={() => {
-                setSelectedAction("edit-product");
-                setSelectedProduct(record);
-                setProductDrawerOpen(true);
-              }}
-            />
-
-            <Popconfirm
-              title="Are you sure to delete this product?"
-              onConfirm={() => dispatch(DeleteProductAction(record.id))}
-              onCancel={() => console.log("cancel")}
-              okText="Yes"
-              cancelText="No"
-            >
-              <div>
-                <DeleteIcon />
-              </div>
-            </Popconfirm>
-          </ActionButtonsWrapper>
+          <>
+            {record?.variants
+              ? record?.variants.map((variant: any, idx: number) => {
+                return <p key={idx}>{variant?.title + ':' + variant?.price}</p>
+              })
+              : record?.variants[0]?.title_ar}
+          </>
+          // <div variants />
         );
       },
-      label: <Checkbox value="actions">Actions</Checkbox>,
+      label: <Checkbox value="price">Arabic Description</Checkbox>,
     },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (_: any, record: any) => {
+        return (
+          <p>{record?.createdAt ? record?.createdAt : ''}</p>
+        );
+      },
+      label: <Checkbox value="createdAt">Created At</Checkbox>,
+    },
+    // ...productColumns,
+    // {
+    //   title: "Actions",
+    //   key: "actions",
+    //   render: (_: any, record: any) => {
+    //     return (
+    //       <ActionButtonsWrapper>
+    //         <EditIcon
+    //           onClick={() => {
+    //             setSelectedAction("edit-product");
+    //             setSelectedProduct(record);
+    //             setProductDrawerOpen(true);
+    //           }}
+    //         />
+
+    //         <Popconfirm
+    //           title="Are you sure to delete this product?"
+    //           onConfirm={() => dispatch(DeleteProductAction(record.id))}
+    //           onCancel={() => console.log("cancel")}
+    //           okText="Yes"
+    //           cancelText="No"
+    //         >
+    //           <div>
+    //             <DeleteIcon />
+    //           </div>
+    //         </Popconfirm>
+    //       </ActionButtonsWrapper>
+    //     );
+    //   },
+    //   label: <Checkbox value="actions">Actions</Checkbox>,
+    // },
   ]);
 
   return (
     <ProductTableWrapper>
       <h2 className="text-3xl">Products</h2>
-      <Row gutter={24} className="flex items-baseline justify-between">
+      <Row gutter={24} className="flex items-baseline justify-between mb-4">
         <ProductFilter
           tableColumns={tableColumns}
           setTableColumns={setTableColumns}
@@ -152,7 +205,7 @@ export default function Index() {
           setFilteredColumn={setFilteredColumn}
         />
 
-        <Button
+        {/* <Button
           type="primary"
           className="mb-4"
           onClick={() => {
@@ -162,7 +215,7 @@ export default function Index() {
           }}
         >
           Create product
-        </Button>
+        </Button> */}
       </Row>
 
       <div className="flex flex-col items-end justify-center">
