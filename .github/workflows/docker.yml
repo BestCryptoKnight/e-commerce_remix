@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: portal
+  IMAGE_NAME: hub
 
 jobs:
   #Push to Digital Ocean private Registry
@@ -38,15 +38,17 @@ jobs:
           docker tag $IMAGE_NAME registry.digitalocean.com/anyaa/$IMAGE_NAME
           docker push registry.digitalocean.com/anyaa/$IMAGE_NAME
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Set up kubectl
         uses: matootie/dokube@v1.4.0
         with:
           personalAccessToken: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           clusterName: anyaa-k8s
 
-      - name: Deploy to Kubernetes
-        run: kubectl rollout restart deployment portal -n dev
+      - name: Upgrade deployment
+        run: |
+          helm upgrade --install --atomic --timeout 5m $IMAGE_NAME ./infra/ -f ./infra/values-dev.yaml \
+          --namespace dev --create-namespace \
+          --set-string sha=${{ github.sha }}
+
+      - name: Restart deployment
+        run: kubectl rollout restart deployment $IMAGE_NAME -n dev

@@ -18,3 +18,21 @@ spec:
           ports:
             - containerPort: {{ .Values.containerPort }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: API_URL
+              value: https://api.{{ .Values.ingress.tld }}/graphql
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+

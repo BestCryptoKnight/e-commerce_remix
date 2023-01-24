@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-namespace: dev
+namespace: staging
 
 image:
   repository: registry.digitalocean.com/anyaa/hub
@@ -13,17 +13,17 @@ image:
 containerPort: 3000
 
 ingress:
-  tld: dev.anyaa.io
+  tld: anyaa.store
   domain: hub
   path: /
 
 resources:
   limits:
     cpu: 200m
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 256Mi
 
 acme:
   email: thaer.abbas@anyaa.io
