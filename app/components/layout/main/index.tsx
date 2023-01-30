@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "~/components/shared/loading-spinner";
 import Cookies from "universal-cookie";
 
-import { Link } from "@remix-run/react";
 const { Content } = Layout;
 const { Header } = Layout;
 

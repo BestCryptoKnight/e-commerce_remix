@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { LayoutWrapper, HeroImage } from "./styles";
+import { LayoutWrapper } from "./styles";
 import React from "react";
 
 const { Content } = Layout;
