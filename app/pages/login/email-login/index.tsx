@@ -15,7 +15,7 @@ export default function EmailLogin() {
   };
 
   return (
-    <Form onFinish={onFinish} layout="vertical" className="h-36 w-4/5">
+    <Form onFinish={onFinish} layout="vertical" className="h-36 h-full w-2/5">
       <Form.Item
         name="email"
         rules={[
