@@ -1,20 +1,17 @@
 import { gql } from "urql";
 
-export const GetVendorsView = gql`
-  query GetVendorsView($pagination: PaginationArgs) {
-    getVendorsView(pagination: $pagination) {
-      totalCount
+export const GetVendors = gql`
+  query getVendorsForHub(
+    $pagination: PaginationArgs
+    $filter: VendorFilterInputForHub
+  ) {
+    getVendorsForHub(pagination: $pagination, filter: $filter) {
       list {
-        vendorName
-        vendorUrl
-        numberOrders
-        numberCoupons
-        numberBookings
-        numberProducts
-        numberServices
-        numberCategories
-        accountManager
+        name
+        name_ar
+        slug
       }
+      totalCount
     }
   }
 `;
