@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { GetVendorViewAction } from "~/redux/app/actions/vendor_view";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Table, Row, Pagination } from "antd";
+import type { InputRef } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { VendorTableWrapper } from "../styles";
 import ProductFilter from "~/components/shared/filter-columns";
@@ -9,12 +10,15 @@ import { vendorColumns } from "./VendorList.utils";
 
 export default function Index() {
   const [filteredColumn, setFilteredColumn] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
-  console.log("table data", data);
   const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
+
   useEffect(() => {
     //save current page and pagesize in store and pass it here
     dispatch(GetVendorViewAction(1, 10));
@@ -24,11 +28,19 @@ export default function Index() {
     dispatch(GetVendorViewAction(page, pageSize));
   };
 
-  const [tableColumns, setTableColumns] = useState<any>(vendorColumns);
+  const [tableColumns, setTableColumns] = useState<any>(
+    vendorColumns(
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn
+    )
+  );
 
   return (
     <VendorTableWrapper>
-      <h2 className="text-3xl">Vendors</h2>
+      <h2 className="text-3xl">Vendors #{totalCount}</h2>
       <Row gutter={24} className="flex items-baseline justify-between">
         <ProductFilter
           tableColumns={tableColumns}

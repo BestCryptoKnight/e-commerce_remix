@@ -10,6 +10,14 @@ export const GetVendors = gql`
         name
         name_ar
         slug
+        createdAt
+        owner {
+          email
+          firstName
+          lastName
+          role
+          phone
+        }
       }
       totalCount
     }

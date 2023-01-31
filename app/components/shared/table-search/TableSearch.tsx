@@ -1,12 +1,10 @@
-import { Checkbox } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import type { ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
-import moment from "moment";
 
-export const vendorColumns = (
+export const TableSearch = (
   searchText: any,
   searchInput: any,
   searchedColumn: any,
@@ -31,9 +29,8 @@ export const vendorColumns = (
   interface DataType {
     key: string;
     name: string;
-    name_ar: string;
-    slug: string;
-    createdAt: string;
+    age: number;
+    address: string;
   }
 
   type DataIndex = keyof DataType;
@@ -128,53 +125,5 @@ export const vendorColumns = (
         text
       ),
   });
-
-  return [
-    {
-      title: "Vendor Name",
-      dataIndex: "name",
-      key: "name",
-      render: (_: any, record: any) => {
-        return <p>{record?.name ? record?.name : ""}</p>;
-      },
-      label: <Checkbox value="name">Vendor Name</Checkbox>,
-      ...getColumnSearchProps("name"),
-    },
-    {
-      title: "Arabic Name",
-      dataIndex: "name_ar",
-      key: "name_ar",
-      render: (_: any, record: any) => {
-        return <p>{record?.name_ar ? record?.name_ar : ""}</p>;
-      },
-      label: <Checkbox value="name_ar">Arabic Name</Checkbox>,
-      ...getColumnSearchProps("name_ar"),
-    },
-    {
-      title: "Slug",
-      dataIndex: "slug",
-      key: "slug",
-      render: (_: any, record: any) => {
-        return <p>{record?.slug ? record?.slug : ""}</p>;
-      },
-      label: <Checkbox value="slug">Slug</Checkbox>,
-      ...getColumnSearchProps("slug"),
-    },
-    {
-      title: "Created At",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (_: any, record: any) => {
-        return (
-          <p>
-            {record?.createdAt
-              ? moment(record?.createdAt).format("DD-MM-YYYY HH:mm a")
-              : ""}
-          </p>
-        );
-      },
-      label: <Checkbox value="createdAt">createdAt</Checkbox>,
-      ...getColumnSearchProps("createdAt"),
-    },
-  ];
+  getColumnSearchProps("age");
 };
