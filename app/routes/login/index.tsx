@@ -17,7 +17,7 @@ export default function Login() {
   if (!cookies.get("accessToken")) {
     return (
       <Layout>
-        <div className="m-auto flex w-full flex-col items-center justify-center">
+        <div className="m-auto flex h-full w-full flex-col items-center justify-center">
           <img
             width="80"
             src="https://res.cloudinary.com/ddkwmafbd/image/upload/v1670590779/Anyaa_icon_blue_c68807d4b0.png"

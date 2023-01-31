@@ -4,15 +4,16 @@ import {
   requestStartInitilizeLoading,
   requestSuccessUpdateStateData,
 } from "../../";
-import { GetVendorsView } from "~/graphql/queries/vendors";
+import { GetVendors } from "~/graphql/queries/vendors";
 
 export function GetVendorViewAction(page: number, pageSize: number) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
       urqlQuery
-        .query(GetVendorsView, {
+        .query(GetVendors, {
           pagination: { page, pageSize },
+          filter: {},
         })
         .toPromise()
         .then((result) => {
@@ -21,13 +22,8 @@ export function GetVendorViewAction(page: number, pageSize: number) {
           }
           console.log("data", result.data);
           const data = {
-            // list: [
-            //   {
-            //     number_products: result.data.getProducts.totalCount,
-            //   },
-            // ],
-            list: result.data.getVendorsView.list,
-            totalCount: result.data.getVendorsView.totalCount,
+            list: result.data.getVendorsForHub.list,
+            totalCount: result.data.getVendorsForHub.totalCount,
           };
 
           dispatch(requestSuccessUpdateStateData(data));

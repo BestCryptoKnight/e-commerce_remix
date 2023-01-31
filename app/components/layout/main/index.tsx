@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "~/components/shared/loading-spinner";
 import Cookies from "universal-cookie";
 
-import { Link } from "@remix-run/react";
 const { Content } = Layout;
 const { Header } = Layout;
 
@@ -66,7 +65,7 @@ const CustomLayout: React.FC<LayoutPropsTypes> = ({ children }) => {
 
   return (
     <LayoutWrapper>
-      <Layout className="layout-container">
+      <Layout className="layout-container h-full">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <Layout className="site-layout">
           <Header className="nav-fixed header-bg-color">

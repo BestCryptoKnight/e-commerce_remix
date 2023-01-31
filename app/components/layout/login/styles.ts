@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const LayoutWrapper = styled.div`
   height: 100%;
   background: #ffffff;
+
   display: flex;
   justify-content: center;
 
