@@ -6,14 +6,18 @@ import {
 } from "../../";
 import { GetVendors } from "~/graphql/queries/vendors";
 
-export function GetVendorViewAction(page: number, pageSize: number) {
+export function GetVendorViewAction(
+  page: number,
+  pageSize: number,
+  filter: any
+) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
       urqlQuery
         .query(GetVendors, {
           pagination: { page, pageSize },
-          filter: {},
+          filter,
         })
         .toPromise()
         .then((result) => {

@@ -11,7 +11,8 @@ export const vendorColumns = (
   searchInput: any,
   searchedColumn: any,
   setSearchText: any,
-  setSearchedColumn: any
+  setSearchedColumn: any,
+  filterVendors: any
 ) => {
   const handleSearch = (
     selectedKeys: string[],
@@ -19,8 +20,7 @@ export const vendorColumns = (
     dataIndex: DataIndex
   ) => {
     confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
+    filterVendors({ [dataIndex]: selectedKeys[0] });
   };
 
   const handleReset = (clearFilters: () => void) => {
