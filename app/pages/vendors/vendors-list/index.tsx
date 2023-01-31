@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { GetVendorViewAction } from "~/redux/app/actions/vendor_view";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Row, Pagination } from "antd";
+import { Table, Row } from "antd";
 import type { InputRef } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { VendorTableWrapper } from "../styles";
@@ -19,13 +19,17 @@ export default function Index() {
   const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
 
+  const filterVendors = (filter: any) => {
+    dispatch(GetVendorViewAction(1, 10, filter));
+  };
+
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(GetVendorViewAction(1, 10));
+    dispatch(GetVendorViewAction(1, 10, {}));
   }, [dispatch]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetVendorViewAction(page, pageSize));
+    dispatch(GetVendorViewAction(page, pageSize, {}));
   };
 
   const [tableColumns, setTableColumns] = useState<any>(
@@ -34,7 +38,8 @@ export default function Index() {
       searchInput,
       searchedColumn,
       setSearchText,
-      setSearchedColumn
+      setSearchedColumn,
+      filterVendors
     )
   );
 
@@ -56,16 +61,16 @@ export default function Index() {
           dataSource={list}
           loading={loading}
           size="middle"
-          pagination={false}
-        />
-
-        <Pagination
-          defaultCurrent={1}
-          total={totalCount}
-          style={{ padding: "40px 0" }}
-          pageSize={10}
-          showTotal={(total) => `Total ${total} items`}
-          onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+          pagination={{
+            defaultCurrent: 1,
+            total: totalCount,
+            pageSize: 10,
+            showTotal(total) {
+              return <p>Total {total} items</p>;
+            },
+            onChange: (current, pageSize) =>
+              getPaginatedItems(current, pageSize),
+          }}
         />
       </div>
     </VendorTableWrapper>
