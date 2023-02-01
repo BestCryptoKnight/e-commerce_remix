@@ -28,7 +28,7 @@ export default function Index() {
 
   return (
     <BookingTableWrapper>
-      <h2 className="text-3xl">Bookings</h2>
+      <h2 className="text-3xl">Bookings # {totalCount}</h2>
       <Row gutter={24} className="mb-4 flex items-baseline justify-between">
         <BookingFilter
           tableColumns={tableColumns}

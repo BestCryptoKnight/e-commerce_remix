@@ -32,7 +32,7 @@ export default function Index() {
 
   return (
     <ProductTableWrapper>
-      <h2 className="text-3xl">Products</h2>
+      <h2 className="text-3xl">Products # {totalCount}</h2>
       <Row gutter={24} className="mb-4 flex items-baseline justify-between">
         <ProductFilter
           tableColumns={tableColumns}
