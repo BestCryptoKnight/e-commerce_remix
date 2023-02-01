@@ -25,7 +25,7 @@ API_URL="https://api.dev.anyaa.io/graphql"
 change into the project root directory by running the "cd" command at your terminal
 
 ```
-cd admin-portal
+cd hub
 ```
 
 inside project directory run the command to install the dependencies.
