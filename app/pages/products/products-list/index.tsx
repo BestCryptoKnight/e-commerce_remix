@@ -19,6 +19,7 @@ export default function Index() {
   const data = useAppSelector(StateData);
   const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
+
   useEffect(() => {
     //save current page and pagesize in store and pass it here
     dispatch(GetProductsAction(1, 10));
@@ -40,18 +41,6 @@ export default function Index() {
           filteredColumn={filteredColumn}
           setFilteredColumn={setFilteredColumn}
         />
-
-        {/* <Button
-          type="primary"
-          className="mb-4"
-          onClick={() => {
-            setSelectedAction("new-product");
-            setSelectedProduct(null);
-            setProductDrawerOpen(true);
-          }}
-        >
-          Create product
-        </Button> */}
       </Row>
 
       <div className="flex flex-col items-end justify-center">
