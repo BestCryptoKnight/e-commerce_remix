@@ -1,4 +1,4 @@
-# Anyaa Admin Portal Frontend React Application
+# Anyaa HUB Frontend React Application
 
 ### Technologies used in this project
 
