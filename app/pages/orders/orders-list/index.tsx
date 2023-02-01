@@ -5,7 +5,7 @@ import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
 import OrdersFilter from "~/components/shared/filter-columns";
-import { OrderFiltersWrapper, OrderTableWrapper } from "./styles";
+import { OrderTableWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 import { GetAllOrdersAction } from "~/redux/app/actions/order";
 import { useTranslation } from "react-i18next";
@@ -86,7 +86,6 @@ export default function Index() {
           loading={loading}
           pagination={false}
         />
-
       )}
       <Pagination
         defaultCurrent={1}

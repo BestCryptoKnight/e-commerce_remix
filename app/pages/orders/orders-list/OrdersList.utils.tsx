@@ -8,11 +8,11 @@ export const orderTableColumns = (t: any) => [
     key: "orderVId",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.vendor?.id ? record?.vendor?.id : ''}</p>
-      );
+      return <p>{record?.vendor?.id ? record?.vendor?.id : ""}</p>;
     },
     label: <Checkbox value="orderVId">Vendor ID</Checkbox>,
+    defaultSortOrder: "descend",
+    sorter: true,
   },
   {
     title: "Vendor Name",
@@ -20,11 +20,13 @@ export const orderTableColumns = (t: any) => [
     key: "customer",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.vendor?.name ? record?.vendor?.name : ''}</p>
-      );
+      return <p>{record?.vendor?.name ? record?.vendor?.name : ""}</p>;
     },
     label: <Checkbox value="customer">Vendor Name</Checkbox>,
+
+    sorter: (a: any, b: any, c: any) => {
+      console.log(c);
+    },
   },
   {
     title: "Order Id",
@@ -32,9 +34,7 @@ export const orderTableColumns = (t: any) => [
     key: "customer",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.orderId ? record?.orderId : ''}</p>
-      );
+      return <p>{record?.orderId ? record?.orderId : ""}</p>;
     },
     label: <Checkbox value="customer">Order Id</Checkbox>,
   },
@@ -45,7 +45,13 @@ export const orderTableColumns = (t: any) => [
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
       return (
-        <p>{record?.customerInfo ? (record?.customerInfo?.firstName + ' ' + record?.customerInfo?.lastName) : ''}</p>
+        <p>
+          {record?.customerInfo
+            ? record?.customerInfo?.firstName +
+              " " +
+              record?.customerInfo?.lastName
+            : ""}
+        </p>
       );
     },
     label: <Checkbox value="customer">Customer Name</Checkbox>,
@@ -56,9 +62,7 @@ export const orderTableColumns = (t: any) => [
     key: "customer",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.customerInfo ? record?.customerInfo?.phone : ''}</p>
-      );
+      return <p>{record?.customerInfo ? record?.customerInfo?.phone : ""}</p>;
     },
     label: <Checkbox value="customer">Customer Phone</Checkbox>,
   },
@@ -68,9 +72,7 @@ export const orderTableColumns = (t: any) => [
     key: "customer",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.customerInfo ? record?.customerInfo?.email : ''}</p>
-      );
+      return <p>{record?.customerInfo ? record?.customerInfo?.email : ""}</p>;
     },
     label: <Checkbox value="customer">Customer Email</Checkbox>,
   },
@@ -108,9 +110,7 @@ export const orderTableColumns = (t: any) => [
     key: "total",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
-      return (
-        <p>{record?.finalPrice ? record?.finalPrice : ''}</p>
-      );
+      return <p>{record?.finalPrice ? record?.finalPrice : ""}</p>;
     },
     label: <Checkbox value="total">Total Amount</Checkbox>,
   },
@@ -149,9 +149,7 @@ export const orderTableColumns = (t: any) => [
     key: "createdAt",
     render(_: any, record: any) {
       // return <div>{moment(record).format("DD-MM-YYYY HH:MM")}</div>;
-      return (
-        <p>{record?.createdAt ? record?.createdAt : ''}</p>
-      );
+      return <p>{record?.createdAt ? record?.createdAt : ""}</p>;
     },
     responsive: ["sm"],
     label: <Checkbox value="createdAt">Created At</Checkbox>,
