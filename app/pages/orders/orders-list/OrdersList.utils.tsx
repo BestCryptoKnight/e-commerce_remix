@@ -1,5 +1,4 @@
 import { Checkbox, Tag } from "antd";
-import moment from "moment";
 
 export const orderTableColumns = (t: any) => [
   {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetProductsAction } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Checkbox, Row, Pagination } from "antd";
+import { Table, Row, Pagination } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";

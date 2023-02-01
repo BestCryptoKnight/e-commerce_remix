@@ -1,5 +1,5 @@
 import urqlQuery from "~/graphql/";
-import { GetOrders, GetOrder, GetAllOrders } from "~/graphql/queries/orders";
+import { GetOrders, GetAllOrders } from "~/graphql/queries/orders";
 import { CreateOrder } from "~/graphql/mutations/order";
 import type { Dispatch } from "redux";
 import {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Tabs, Table, Button, Row, Alert, Pagination } from "antd";
+import { Table, Button, Row, Alert, Pagination } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
