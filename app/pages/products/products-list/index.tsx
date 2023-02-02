@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { GetProductsAction } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Table, Row } from "antd";
+import type { InputRef } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
@@ -13,7 +14,25 @@ export default function Index() {
   const [productDrawerOpen, setProductDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
-  const [filteredColumn, setFilteredColumn] = useState(productColumns);
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
+
+  const filterVendors = (filter: any) => {
+    dispatch(GetProductsAction(1, 10, filter));
+  };
+
+  const [filteredColumn, setFilteredColumn] = useState(
+    productColumns(
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    )
+  );
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
@@ -22,11 +41,11 @@ export default function Index() {
 
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(GetProductsAction(1, 10));
+    dispatch(GetProductsAction(1, 10, {}));
   }, [dispatch]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetProductsAction(page, pageSize));
+    dispatch(GetProductsAction(page, pageSize, {}));
   };
 
   const [tableColumns, setTableColumns] = useState<any>();

@@ -24,7 +24,7 @@ export function GetVendorViewAction(
           if (!result || !result.data) {
             throw new Error("Something went wrong");
           }
-          console.log("data", result.data);
+
           const data = {
             list: result.data.getVendorsForHub.list,
             totalCount: result.data.getVendorsForHub.totalCount,

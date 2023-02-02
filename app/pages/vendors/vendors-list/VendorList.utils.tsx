@@ -66,12 +66,7 @@ export const vendorColumns = (
       ),
     },
     {
-      title: "Created At",
-      key: "createdAt",
-      render: (d: any, record: any) =>
-        moment(record.createdAt).format("DD-MM-YYYY HH:mm a"),
-      label: <Checkbox value="createdAt">createdAt</Checkbox>,
-      /* ...getColumnSearchProps(
+      /*     ...getColumnSearchProps(
         "createdAt",
         searchText,
         searchInput,
@@ -80,6 +75,12 @@ export const vendorColumns = (
         setSearchedColumn,
         filterVendors
       ), */
+      title: "Created At",
+      key: "createdAt",
+      dataIndex: "createdAt",
+      render: (d: any, record: any) =>
+        moment(record.createdAt).format("DD-MM-YYYY HH:mm a"),
+      label: <Checkbox value="createdAt">createdAt</Checkbox>,
     },
   ];
 };
