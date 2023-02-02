@@ -18,7 +18,10 @@ export const GetAllProducts = gql`
         title_ar
         description
         description_ar
-
+        vendor {
+          id
+          name
+        }
         active
         tags {
           id
