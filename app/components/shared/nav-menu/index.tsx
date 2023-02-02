@@ -68,7 +68,7 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
         <VariantsIcon />
       </div>
     ),
-    getItem(
+    /*  getItem(
       <Link to="/categories">Categories</Link>,
       "Categories",
       <div>
@@ -88,7 +88,7 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
       <div>
         <SettingsIcon />
       </div>
-    ),
+    ), */
   ];
 
   return (

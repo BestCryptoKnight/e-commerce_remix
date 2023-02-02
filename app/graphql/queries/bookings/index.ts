@@ -1,7 +1,7 @@
 import { gql } from "urql";
 export const GetAllBookings = gql`
-  query GetAllBookings($sortOrder: SortOrder, $pagination: PaginationArgs) {
-    getAllBookings(sortOrder: $sortOrder, pagination: $pagination) {
+  query GetAllBookings($pagination: PaginationArgs) {
+    getAllBookings(pagination: $pagination) {
       list {
         vendor {
           id

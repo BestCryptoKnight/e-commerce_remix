@@ -13,7 +13,6 @@ import {
   requestCompleteDisableLoading,
 } from "../../";
 import { notification } from "antd";
-import { UploadFile } from "~/graphql/mutations/utils";
 import Cookies from "universal-cookie";
 import slugify from "slugify";
 const cookies = new Cookies();
@@ -26,6 +25,7 @@ export function GetProductsAction(page: number, pageSize: number) {
         .query(GetAllProducts, {
           sortOrder: { direction: "desc", field: "createdAt" },
           pagination: { page, pageSize },
+          filter: {},
         })
         .toPromise()
         .then((result) => {
@@ -33,8 +33,8 @@ export function GetProductsAction(page: number, pageSize: number) {
             throw new Error("Something went wrong");
           }
           const data = {
-            list: result.data.getAllProducts.list,
-            totalCount: result.data.getAllProducts.totalCount,
+            list: result.data.getProductsForHub.list,
+            totalCount: result.data.getProductsForHub.totalCount,
           };
           dispatch(requestSuccessUpdateStateData(data));
         });

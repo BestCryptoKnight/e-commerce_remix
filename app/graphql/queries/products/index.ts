@@ -1,8 +1,16 @@
 import { gql } from "urql";
 
 export const GetAllProducts = gql`
-  query GetAllProducts($sortOrder: SortOrder, $pagination: PaginationArgs) {
-    getAllProducts(sortOrder: $sortOrder, pagination: $pagination) {
+  query getProductsForHub(
+    $sortOrder: SortOrder
+    $pagination: PaginationArgs
+    $filter: ProductFilterInputForHub
+  ) {
+    getProductsForHub(
+      sortOrder: $sortOrder
+      pagination: $pagination
+      filter: $filter
+    ) {
       totalCount
       list {
         id
@@ -27,7 +35,7 @@ export const GetAllProducts = gql`
         image
         minPreorderDays
         type
-        itemsInStock
+
         noOfSeats
         createdAt
         updatedAt

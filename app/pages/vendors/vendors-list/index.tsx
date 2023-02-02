@@ -45,7 +45,7 @@ export default function Index() {
 
   return (
     <VendorTableWrapper>
-      <h2 className="text-3xl">Vendors #{totalCount}</h2>
+      <h2 className="text-3xl">Vendors # {totalCount}</h2>
       <Row gutter={24} className="flex items-baseline justify-between">
         <ProductFilter
           tableColumns={tableColumns}
