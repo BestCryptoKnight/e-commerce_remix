@@ -86,6 +86,7 @@ export function GetAllOrdersAction(page: number, pageSize: number) {
         .query(GetAllOrders, {
           pagination: { page, pageSize },
           sortOrder: { direction: "desc", field: "createdAt" },
+          filter: {},
         })
         .toPromise()
         .then((result) => {
@@ -94,22 +95,10 @@ export function GetAllOrdersAction(page: number, pageSize: number) {
             throw new Error("Something went wrong");
           }
 
-          // const items = result.data.getAllOrders.list;
-
-          // const formattedData = items?.map((item: RowDataType) => ({
-          //   customer: `${item?.customerInfo?.firstName} ${item?.customerInfo?.lastName} `,
-          //   payment: item?.paymentMethod,
-          //   delivery: item?.deliveryMethod,
-          //   total: item?.cart?.finalPrice,
-          //   orderVId: item?.orderId,
-          //   ...item,
-          // }));
-
           const data = {
-            list: result.data.getAllOrders.list,
-            totalCount: result.data.getAllOrders.totalCount,
+            list: result.data.getOrdersForHub.list,
+            totalCount: result.data.getOrdersForHub.totalCount,
           };
-          console.log("----------", data);
 
           dispatch(requestSuccessUpdateStateData(data));
         });

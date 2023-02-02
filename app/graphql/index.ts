@@ -4,8 +4,10 @@ import { env } from "~/env";
 const cookies = new Cookies();
 const client = createClient({
   url: env.API_URL,
+  requestPolicy: "cache-and-network",
   fetchOptions: () => {
     const token = cookies.get("accessToken");
+
     return {
       headers: { authorization: token ? `Bearer ${token}` : "" },
     };

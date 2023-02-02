@@ -1,4 +1,5 @@
 import { Checkbox } from "antd";
+import moment from "moment";
 import ImageIcon from "~/assets/icons/ImageIcon";
 
 export const productColumns = () => [
@@ -119,7 +120,13 @@ export const productColumns = () => [
     dataIndex: "createdAt",
     key: "createdAt",
     render: (_: any, record: any) => {
-      return <p>{record?.createdAt ? record?.createdAt : ""}</p>;
+      return (
+        <p>
+          {record?.createdAt
+            ? moment(record?.createdAt).format("DD-MM-YYYY HH:MM a")
+            : ""}
+        </p>
+      );
     },
     label: <Checkbox value="createdAt">Created At</Checkbox>,
   },

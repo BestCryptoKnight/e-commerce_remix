@@ -83,8 +83,16 @@ export const GetOrder = gql`
 `;
 
 export const GetAllOrders = gql`
-  query ($sortOrder: SortOrder, $pagination: PaginationArgs) {
-    getOrdersForHub(sortOrder: $sortOrder, pagination: $pagination) {
+  query (
+    $sortOrder: SortOrder
+    $pagination: PaginationArgs
+    $filter: OrderFilterInputForHub
+  ) {
+    getOrdersForHub(
+      sortOrder: $sortOrder
+      pagination: $pagination
+      filter: $filter
+    ) {
       list {
         id
         vendor {
@@ -92,7 +100,7 @@ export const GetAllOrders = gql`
           name
         }
         createdAt
-
+        orderId
         customerInfo {
           firstName
           lastName

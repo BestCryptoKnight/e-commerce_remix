@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetProductsAction } from "~/redux/app/actions/product";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Row, Pagination } from "antd";
+import { Table, Row } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
 import Drawer from "~/components/shared/drawer";
@@ -49,16 +49,16 @@ export default function Index() {
           dataSource={list.length > 0 ? list : []}
           loading={loading}
           size="middle"
-          pagination={false}
-        />
-
-        <Pagination
-          defaultCurrent={1}
-          total={totalCount}
-          style={{ padding: "40px 0" }}
-          pageSize={10}
-          showTotal={(total) => `Total ${total} items`}
-          onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
+          pagination={{
+            defaultCurrent: 1,
+            total: totalCount,
+            pageSize: 10,
+            showTotal(total) {
+              return <p>Total {total} items</p>;
+            },
+            onChange: (current, pageSize) =>
+              getPaginatedItems(current, pageSize),
+          }}
         />
       </div>
 
