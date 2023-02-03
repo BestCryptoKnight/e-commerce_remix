@@ -26,7 +26,6 @@ export const productColumns = (
     title: "Vendor ID",
     key: "vendorId",
     render: (_: any, record: any) => {
-      console.log(record);
       return <p>{record?.vendor ? record?.vendor?.id : ""}</p>;
     },
     label: <Checkbox value="vendorId">Vendor ID</Checkbox>,

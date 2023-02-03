@@ -14,13 +14,13 @@ export default function Index() {
   const [productDrawerOpen, setProductDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedAction, setSelectedAction] = useState("");
-
+  const [selectedFilter, setSelectedFilter] = useState<any>({});
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
 
   const filterVendors = (filter: any) => {
-    dispatch(GetProductsAction(1, 10, filter));
+    setSelectedFilter(filter);
   };
 
   const [filteredColumn, setFilteredColumn] = useState(
@@ -41,11 +41,13 @@ export default function Index() {
 
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(GetProductsAction(1, 10, {}));
-  }, [dispatch]);
+    dispatch(GetProductsAction(1, 10, selectedFilter));
+  }, [dispatch, selectedFilter]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetProductsAction(page, pageSize, {}));
+    dispatch(
+      GetProductsAction(page, pageSize, searchText ? selectedFilter : {})
+    );
   };
 
   const [tableColumns, setTableColumns] = useState<any>();
@@ -65,7 +67,7 @@ export default function Index() {
       <div className="flex flex-col items-end justify-center">
         <Table
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
-          dataSource={list.length > 0 ? list : []}
+          dataSource={list?.length > 0 ? list : []}
           loading={loading}
           size="middle"
           pagination={{
