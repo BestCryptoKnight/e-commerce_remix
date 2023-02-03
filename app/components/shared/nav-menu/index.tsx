@@ -5,10 +5,8 @@ import type { MenuProps } from "antd";
 import OrderIcon from "~/assets/icons/OrderIcons";
 import BookingIcon from "~/assets/icons/BookingIcon";
 import ProductsIcon from "~/assets/icons/ProductsIcon";
-import CategoriesIcon from "~/assets/icons/Categories";
-import TagsIcon from "~/assets/icons/TagsIcon";
 import VariantsIcon from "~/assets/icons/VariantsIcon";
-import SettingsIcon from "~/assets/icons/SettingsIcon";
+import { DashboardOutlined } from "@ant-design/icons";
 
 interface NavMenuPropTypes {
   collapsed: boolean;
@@ -40,6 +38,13 @@ const NavMenu: React.FC<NavMenuPropTypes> = (collapsed) => {
   }
 
   const items = [
+    getItem(
+      <Link to="/dashboard">Dashboard</Link>,
+      "Dashboard",
+      <div>
+        <DashboardOutlined />
+      </div>
+    ),
     getItem(
       <Link to="/orders">Orders</Link>,
       "Orders",
