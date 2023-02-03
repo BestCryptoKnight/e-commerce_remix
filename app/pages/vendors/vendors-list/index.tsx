@@ -29,7 +29,7 @@ export default function Index() {
   }, [dispatch]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetVendorViewAction(page, pageSize, {}));
+    if (!filteredColumn) dispatch(GetVendorViewAction(page, pageSize, {}));
   };
 
   const [tableColumns, setTableColumns] = useState<any>(

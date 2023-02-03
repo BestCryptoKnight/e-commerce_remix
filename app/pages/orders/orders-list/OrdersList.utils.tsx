@@ -1,4 +1,5 @@
 import { Checkbox, Tag } from "antd";
+import moment from "moment";
 
 export const orderTableColumns = (t: any) => [
   {
@@ -148,7 +149,13 @@ export const orderTableColumns = (t: any) => [
     key: "createdAt",
     render(_: any, record: any) {
       // return <div>{moment(record).format("DD-MM-YYYY HH:MM")}</div>;
-      return <p>{record?.createdAt ? record?.createdAt : ""}</p>;
+      return (
+        <p>
+          {record?.createdAt
+            ? moment(record?.createdAt).format("DD-MM-YYYY HH:MM a")
+            : ""}
+        </p>
+      );
     },
     responsive: ["sm"],
     label: <Checkbox value="createdAt">Created At</Checkbox>,

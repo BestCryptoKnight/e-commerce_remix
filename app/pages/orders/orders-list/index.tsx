@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Row, Alert, Pagination } from "antd";
+import { Table, Button, Row, Alert } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
@@ -52,7 +52,7 @@ export default function Index() {
 
   return (
     <OrderTableWrapper>
-      <h2 className="text-3xl">Orders</h2>
+      <h2 className="text-3xl">Orders # {totalCount}</h2>
       <Row gutter={24} className="flex items-baseline">
         <OrdersFilter
           tableColumns={tableColumns}
@@ -84,17 +84,18 @@ export default function Index() {
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
           dataSource={list}
           loading={loading}
-          pagination={false}
+          pagination={{
+            defaultCurrent: 1,
+            total: totalCount,
+            pageSize: 10,
+            showTotal(total) {
+              return <p>Total {total} items</p>;
+            },
+            onChange: (current, pageSize) =>
+              getPaginatedItems(current, pageSize),
+          }}
         />
       )}
-      <Pagination
-        defaultCurrent={1}
-        total={totalCount}
-        style={{ padding: "40px 0" }}
-        pageSize={10}
-        showTotal={(total) => `Total ${total} items`}
-        onChange={(current, pageSize) => getPaginatedItems(current, pageSize)}
-      />
 
       <Drawer
         width="90%"

@@ -1,12 +1,30 @@
 import { Checkbox } from "antd";
+import moment from "moment";
+import ActiveIcon from "~/assets/icons/Active";
 import ImageIcon from "~/assets/icons/ImageIcon";
+import NonActive from "~/assets/icons/NonActive";
+import { getColumnSearchProps } from "~/components/shared/table-search/TableSearch";
 
-export const productColumns = () => [
+export const productColumns = (
+  searchText: any,
+  searchInput: any,
+  searchedColumn: any,
+  setSearchText: any,
+  setSearchedColumn: any,
+  filterVendors: any
+) => [
   {
+    ...getColumnSearchProps(
+      "vendorId",
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    ),
     title: "Vendor ID",
-    dataIndex: "vendorId",
     key: "vendorId",
-
     render: (_: any, record: any) => {
       return <p>{record?.vendor ? record?.vendor?.id : ""}</p>;
     },
@@ -61,9 +79,21 @@ export const productColumns = () => [
     },
     label: <Checkbox value="title">Title</Checkbox>,
   },
+
+  {
+    title: "Attendance Type",
+    dataIndex: "attendanceType",
+    key: "attendanceType",
+
+    render: (_: any, record: any) => {
+      return <p>{record?.attendanceType ? record?.attendanceType : ""}</p>;
+    },
+    label: <Checkbox value="attendanceType">attendanceType</Checkbox>,
+  },
   {
     title: "Arabic Title",
     dataIndex: "title_ar",
+
     key: "title_ar",
     render: (_: any, record: any) => {
       return (
@@ -73,6 +103,16 @@ export const productColumns = () => [
             : record?.variants && record?.variants[0]?.title_ar}
         </p>
       );
+    },
+    label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
+  },
+  {
+    title: "Active",
+    dataIndex: "active",
+
+    key: "active",
+    render: (_: any, record: any) => {
+      return record?.active ? <ActiveIcon /> : <NonActive />;
     },
     label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
   },
@@ -88,6 +128,7 @@ export const productColumns = () => [
   {
     title: "Arabic Description",
     dataIndex: "description_ar",
+
     key: "description_ar",
     render: (_: any, record: any) => {
       return (
@@ -100,6 +141,7 @@ export const productColumns = () => [
     title: "Price",
     dataIndex: "price",
     key: "price",
+
     render: (_: any, record: any) => {
       return (
         <>
@@ -118,8 +160,15 @@ export const productColumns = () => [
     title: "Created At",
     dataIndex: "createdAt",
     key: "createdAt",
+
     render: (_: any, record: any) => {
-      return <p>{record?.createdAt ? record?.createdAt : ""}</p>;
+      return (
+        <p>
+          {record?.createdAt
+            ? moment(record?.createdAt).format("DD-MM-YYYY HH:MM a")
+            : ""}
+        </p>
+      );
     },
     label: <Checkbox value="createdAt">Created At</Checkbox>,
   },

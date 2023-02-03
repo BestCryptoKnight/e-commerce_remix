@@ -18,6 +18,8 @@ export const GetAllProducts = gql`
         title_ar
         description
         description_ar
+        active
+        attendanceType
         vendor {
           id
           name
