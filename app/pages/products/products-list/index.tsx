@@ -5,15 +5,10 @@ import { Table, Row } from "antd";
 import type { InputRef } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
-import Drawer from "~/components/shared/drawer";
-import AddNewProduct from "../add-product";
 import ProductFilter from "~/components/shared/filter-columns";
 import { productColumns } from "./ProductList.utils";
 
 export default function Index() {
-  const [productDrawerOpen, setProductDrawerOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedAction, setSelectedAction] = useState("");
   const [searchConfig, setSearchConfig] = useState<any>({
     filter: {},
     sortOrder: { direction: "desc", field: "createdAt" },
@@ -108,24 +103,6 @@ export default function Index() {
           }}
         />
       </div>
-
-      <Drawer
-        title={
-          selectedAction === "new-product" ? "Add product" : "Edit product"
-        }
-        size="large"
-        open={productDrawerOpen}
-        onClose={() => setProductDrawerOpen(false)}
-        placement="right"
-      >
-        <AddNewProduct
-          totalCount={totalCount}
-          setSelectedProduct={setSelectedProduct}
-          selectedProduct={selectedProduct}
-          setProductDrawerOpen={setProductDrawerOpen}
-          selectedAction={selectedAction}
-        />
-      </Drawer>
     </ProductTableWrapper>
   );
 }
