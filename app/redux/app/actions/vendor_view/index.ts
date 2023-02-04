@@ -9,7 +9,8 @@ import { GetVendors } from "~/graphql/queries/vendors";
 export function GetVendorViewAction(
   page: number,
   pageSize: number,
-  filter: any
+  filter: any,
+  sortOrder: any
 ) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
@@ -18,6 +19,7 @@ export function GetVendorViewAction(
         .query(GetVendors, {
           pagination: { page, pageSize },
           filter,
+          sortOrder,
         })
         .toPromise()
         .then((result) => {

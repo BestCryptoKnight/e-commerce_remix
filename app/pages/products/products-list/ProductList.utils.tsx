@@ -29,6 +29,7 @@ export const productColumns = (
       return <p>{record?.vendor ? record?.vendor?.id : ""}</p>;
     },
     label: <Checkbox value="vendorId">Vendor ID</Checkbox>,
+    sorter: true,
   },
   {
     title: "Vendor Name",
@@ -62,6 +63,7 @@ export const productColumns = (
       );
     },
     label: <Checkbox value="image">Image</Checkbox>,
+    sorter: true,
   },
   {
     title: "Title",
@@ -78,6 +80,7 @@ export const productColumns = (
       );
     },
     label: <Checkbox value="title">Title</Checkbox>,
+    sorter: true,
   },
 
   {
@@ -89,6 +92,7 @@ export const productColumns = (
       return <p>{record?.attendanceType ? record?.attendanceType : ""}</p>;
     },
     label: <Checkbox value="attendanceType">attendanceType</Checkbox>,
+    sorter: true,
   },
   {
     title: "Arabic Title",
@@ -105,6 +109,7 @@ export const productColumns = (
       );
     },
     label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
+    sorter: true,
   },
   {
     title: "Active",
@@ -115,6 +120,7 @@ export const productColumns = (
       return record?.active ? <ActiveIcon /> : <NonActive />;
     },
     label: <Checkbox value="title_ar">Arabic Title</Checkbox>,
+    sorter: true,
   },
   {
     title: "Description",
@@ -124,6 +130,7 @@ export const productColumns = (
       return <div dangerouslySetInnerHTML={{ __html: record?.description }} />;
     },
     label: <Checkbox value="description">English Description</Checkbox>,
+    sorter: true,
   },
   {
     title: "Arabic Description",
@@ -136,6 +143,7 @@ export const productColumns = (
       );
     },
     label: <Checkbox value="description_ar">Arabic Description</Checkbox>,
+    sorter: true,
   },
   {
     title: "Price",
@@ -171,6 +179,7 @@ export const productColumns = (
       );
     },
     label: <Checkbox value="createdAt">Created At</Checkbox>,
+    sorter: true,
   },
   // ...productColumns,
   // {
