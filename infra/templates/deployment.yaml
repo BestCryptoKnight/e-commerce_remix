@@ -26,12 +26,14 @@ spec:
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 20
+            timeoutSeconds: 10
             httpGet:
               path: /
               port: {{ .Values.containerPort }}
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 20
+            timeoutSeconds: 10
             httpGet:
               path: /
               port: {{ .Values.containerPort }}
