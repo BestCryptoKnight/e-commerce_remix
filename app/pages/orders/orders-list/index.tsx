@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { Table, Button, Row, Alert } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
@@ -9,46 +9,50 @@ import { OrderTableWrapper } from "./styles";
 import OrderDetails from "../add-order/partials/OrderDetails";
 import { GetAllOrdersAction } from "~/redux/app/actions/order";
 import { useTranslation } from "react-i18next";
-var XLSX = require("xlsx");
+import type { InputRef } from "antd";
+
 export default function Index() {
   let { t } = useTranslation();
   const [orderDetailsDrawerOpen, setOrderDetailsDrawerOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const dispatch = useAppDispatch();
   const [filteredColumn, setFilteredColumn] = useState([]);
-  const [tableColumns, setTableColumns] = useState<any>(orderTableColumns(t));
+
+  const [selectedFilter, setSelectedFilter] = useState<any>({});
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
+
+  const filterVendors = (filter: any) => {
+    if (filter.status) {
+      filter.status = filter?.status?.toUpperCase();
+    }
+    setSelectedFilter(filter);
+  };
+
+  const [tableColumns, setTableColumns] = useState<any>(
+    orderTableColumns(
+      t,
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    )
+  );
+
   const data = useAppSelector(StateData);
   const { list, totalCount } = data;
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
-    dispatch(GetAllOrdersAction(1, 10));
-  }, [dispatch]);
+    dispatch(GetAllOrdersAction(1, 10, selectedFilter));
+  }, [dispatch, selectedFilter]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetAllOrdersAction(page, pageSize));
+    dispatch(GetAllOrdersAction(page, pageSize, selectedFilter));
   };
-
-  const tabItems = orderStatusTabs(t).map((item, i) => {
-    const id: any = String(i + 1);
-    return {
-      label: item?.label,
-      key: id,
-    };
-  });
-
-  const operations = (
-    <Button
-      onClick={() => {
-        const worksheet = XLSX.utils.json_to_sheet(list);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, "Orders.xlsx");
-      }}
-    >
-      {t("EXPORT_AS_CSV")}
-    </Button>
-  );
 
   return (
     <OrderTableWrapper>

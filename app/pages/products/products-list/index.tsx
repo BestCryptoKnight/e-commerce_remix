@@ -5,22 +5,23 @@ import { Table, Row } from "antd";
 import type { InputRef } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
 import { ProductTableWrapper } from "../styles";
-import Drawer from "~/components/shared/drawer";
-import AddNewProduct from "../add-product";
 import ProductFilter from "~/components/shared/filter-columns";
 import { productColumns } from "./ProductList.utils";
 
 export default function Index() {
-  const [productDrawerOpen, setProductDrawerOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedAction, setSelectedAction] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState<any>({});
+  const [searchConfig, setSearchConfig] = useState<any>({
+    filter: {},
+    sortOrder: { direction: "desc", field: "createdAt" },
+  });
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
 
   const filterVendors = (filter: any) => {
-    setSelectedFilter(filter);
+    setSearchConfig({
+      ...searchConfig,
+      filter,
+    });
   };
 
   const [filteredColumn, setFilteredColumn] = useState(
@@ -41,12 +42,19 @@ export default function Index() {
 
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(GetProductsAction(1, 10, selectedFilter));
-  }, [dispatch, selectedFilter]);
+    dispatch(
+      GetProductsAction(1, 10, searchConfig.filter, searchConfig.sortOrder)
+    );
+  }, [dispatch, searchConfig]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
     dispatch(
-      GetProductsAction(page, pageSize, searchText ? selectedFilter : {})
+      GetProductsAction(
+        page,
+        pageSize,
+        searchText ? searchConfig.filter : {},
+        searchConfig.sortOrder
+      )
     );
   };
 
@@ -69,7 +77,20 @@ export default function Index() {
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
           dataSource={list?.length > 0 ? list : []}
           loading={loading}
+          sortDirections={["ascend", "descend"]}
           size="middle"
+          onChange={(pagination, filters, sorter: any) => {
+            setSearchConfig({
+              ...searchConfig,
+              sortOrder: {
+                direction:
+                  sorter?.order == "ascend"
+                    ? sorter?.order?.substring(0, 3)
+                    : "desc",
+                field: sorter?.columnKey,
+              },
+            });
+          }}
           pagination={{
             defaultCurrent: 1,
             total: totalCount,
@@ -82,24 +103,6 @@ export default function Index() {
           }}
         />
       </div>
-
-      <Drawer
-        title={
-          selectedAction === "new-product" ? "Add product" : "Edit product"
-        }
-        size="large"
-        open={productDrawerOpen}
-        onClose={() => setProductDrawerOpen(false)}
-        placement="right"
-      >
-        <AddNewProduct
-          totalCount={totalCount}
-          setSelectedProduct={setSelectedProduct}
-          selectedProduct={selectedProduct}
-          setProductDrawerOpen={setProductDrawerOpen}
-          selectedAction={selectedAction}
-        />
-      </Drawer>
     </ProductTableWrapper>
   );
 }

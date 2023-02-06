@@ -13,6 +13,10 @@ export default function Index() {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+  const [searchConfig, setSearchConfig] = useState<any>({
+    filter: {},
+    sortOrder: { direction: "desc", field: "createdAt" },
+  });
 
   const dispatch = useAppDispatch();
   const data = useAppSelector(StateData);
@@ -20,16 +24,29 @@ export default function Index() {
   const loading = useAppSelector(StateLoading);
 
   const filterVendors = (filter: any) => {
-    dispatch(GetVendorViewAction(1, 10, filter));
+    setSearchConfig({
+      ...searchConfig,
+      filter,
+    });
   };
 
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(GetVendorViewAction(1, 10, {}));
-  }, [dispatch]);
+    dispatch(
+      GetVendorViewAction(1, 10, searchConfig.filter, searchConfig.sortOrder)
+    );
+  }, [dispatch, searchConfig]);
 
   const getPaginatedItems = (page: number, pageSize: number) => {
-    if (!filteredColumn) dispatch(GetVendorViewAction(page, pageSize, {}));
+    if (!filteredColumn)
+      dispatch(
+        GetVendorViewAction(
+          page,
+          pageSize,
+          searchText ? searchConfig.filter : {},
+          searchConfig.sortOrder
+        )
+      );
   };
 
   const [tableColumns, setTableColumns] = useState<any>(
@@ -61,6 +78,18 @@ export default function Index() {
           dataSource={list}
           loading={loading}
           size="middle"
+          onChange={(pagination, filters, sorter: any) => {
+            setSearchConfig({
+              ...searchConfig,
+              sortOrder: {
+                direction:
+                  sorter?.order == "ascend"
+                    ? sorter?.order?.substring(0, 3)
+                    : "desc",
+                field: sorter?.columnKey,
+              },
+            });
+          }}
           pagination={{
             defaultCurrent: 1,
             total: totalCount,

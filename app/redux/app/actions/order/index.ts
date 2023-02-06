@@ -78,7 +78,11 @@ export function CreateOrderAction(data: any) {
   };
 }
 
-export function GetAllOrdersAction(page: number, pageSize: number) {
+export function GetAllOrdersAction(
+  page: number,
+  pageSize: number,
+  selectedFilter: any
+) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
@@ -86,7 +90,7 @@ export function GetAllOrdersAction(page: number, pageSize: number) {
         .query(GetAllOrders, {
           pagination: { page, pageSize },
           sortOrder: { direction: "desc", field: "createdAt" },
-          filter: {},
+          filter: selectedFilter,
         })
         .toPromise()
         .then((result) => {
