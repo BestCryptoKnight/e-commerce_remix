@@ -28,6 +28,7 @@ export const vendorColumns = (
         setSearchedColumn,
         filterVendors
       ),
+      sorter: true,
     },
     {
       title: "Arabic Name",
@@ -46,6 +47,7 @@ export const vendorColumns = (
         setSearchedColumn,
         filterVendors
       ),
+      sorter: true,
     },
     {
       title: "Slug",
@@ -64,6 +66,7 @@ export const vendorColumns = (
         setSearchedColumn,
         filterVendors
       ),
+      sorter: true,
     },
     {
       /*     ...getColumnSearchProps(
@@ -81,6 +84,7 @@ export const vendorColumns = (
       render: (d: any, record: any) =>
         moment(record.createdAt).format("DD-MM-YYYY HH:mm a"),
       label: <Checkbox value="createdAt">createdAt</Checkbox>,
+      sorter: true,
     },
   ];
 };

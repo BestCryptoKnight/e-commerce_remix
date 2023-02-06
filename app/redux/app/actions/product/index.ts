@@ -17,13 +17,18 @@ import Cookies from "universal-cookie";
 import slugify from "slugify";
 const cookies = new Cookies();
 
-export function GetProductsAction(page: number, pageSize: number, filter: any) {
+export function GetProductsAction(
+  page: number,
+  pageSize: number,
+  filter: any,
+  sortOrder: any
+) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
     try {
       urqlQuery
         .query(GetAllProducts, {
-          sortOrder: { direction: "desc", field: "createdAt" },
+          sortOrder,
           pagination: { page, pageSize },
           filter: filter,
         })

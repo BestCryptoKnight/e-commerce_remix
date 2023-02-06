@@ -1,18 +1,34 @@
 import { Checkbox, Tag } from "antd";
 import moment from "moment";
+import { getColumnSearchProps } from "~/components/shared/table-search/TableSearch";
 
-export const orderTableColumns = (t: any) => [
+export const orderTableColumns = (
+  t: any,
+  searchText: any,
+  searchInput: any,
+  searchedColumn: any,
+  setSearchText: any,
+  setSearchedColumn: any,
+  filterVendors: any
+) => [
   {
+    ...getColumnSearchProps(
+      "vendorId",
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    ),
     title: "Vendor ID",
-    dataIndex: "orderVId",
-    key: "orderVId",
+    dataIndex: "vendorId",
+    key: "vendorId",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
       return <p>{record?.vendor?.id ? record?.vendor?.id : ""}</p>;
     },
-    label: <Checkbox value="orderVId">Vendor ID</Checkbox>,
-    defaultSortOrder: "descend",
-    sorter: true,
+    label: <Checkbox value="vendorId">Vendor ID</Checkbox>,
   },
   {
     title: "Vendor Name",
@@ -29,9 +45,18 @@ export const orderTableColumns = (t: any) => [
     },
   },
   {
+    ...getColumnSearchProps(
+      "orderId",
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    ),
     title: "Order Id",
-    dataIndex: "customer",
-    key: "customer",
+    dataIndex: "orderId",
+    key: "orderId",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
       return <p>{record?.orderId ? record?.orderId : ""}</p>;
@@ -67,9 +92,18 @@ export const orderTableColumns = (t: any) => [
     label: <Checkbox value="customer">Customer Phone</Checkbox>,
   },
   {
+    ...getColumnSearchProps(
+      "email",
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    ),
     title: "Customer Email",
-    dataIndex: "customer",
-    key: "customer",
+    dataIndex: "email",
+    key: "email",
     responsive: ["md", "xs"],
     render: (_: any, record: any) => {
       return <p>{record?.customerInfo ? record?.customerInfo?.email : ""}</p>;
@@ -115,6 +149,15 @@ export const orderTableColumns = (t: any) => [
     label: <Checkbox value="total">Total Amount</Checkbox>,
   },
   {
+    ...getColumnSearchProps(
+      "status",
+      searchText,
+      searchInput,
+      searchedColumn,
+      setSearchText,
+      setSearchedColumn,
+      filterVendors
+    ),
     title: "Status",
     dataIndex: "status",
     key: "status",
@@ -138,7 +181,7 @@ export const orderTableColumns = (t: any) => [
       };
       return (
         <Tag color={getColor(record?.status).color}>
-          {getColor(record?.status).label}
+          {getColor(record?.status).label?.toUpperCase()}
         </Tag>
       );
     },

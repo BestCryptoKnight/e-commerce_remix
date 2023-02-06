@@ -4,8 +4,13 @@ export const GetVendors = gql`
   query getVendorsForHub(
     $pagination: PaginationArgs
     $filter: VendorFilterInputForHub
+    $sortOrder: SortOrder
   ) {
-    getVendorsForHub(pagination: $pagination, filter: $filter) {
+    getVendorsForHub(
+      pagination: $pagination
+      filter: $filter
+      sortOrder: $sortOrder
+    ) {
       list {
         name
         name_ar

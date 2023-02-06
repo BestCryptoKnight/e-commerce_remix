@@ -4,13 +4,8 @@ import { Row, Col, Button, Form } from "antd";
 import { AddOrderWrapper } from "./styles";
 import { useAppDispatch } from "~/hooks/Store";
 
-
-export default function OrderForm({
-  selectedCategory,
-  setCategoryDrawerOpen,
-}: any) {
+export default function OrderForm({ selectedCategory }: any) {
   const [form] = Form.useForm();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (selectedCategory) {
@@ -18,11 +13,9 @@ export default function OrderForm({
     }
   }, [selectedCategory, form]);
 
-  const onSubmit = async (data: any) => {};
-
   return (
     <AddOrderWrapper>
-      <Form onFinish={onSubmit} form={form} layout="vertical">
+      <Form form={form} layout="vertical">
         <Row gutter={24}>
           <OrderDetailsFields />
           <Col span={24}>
