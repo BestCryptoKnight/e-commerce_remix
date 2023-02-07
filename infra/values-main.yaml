@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 3
+replicaCount: 2
 
 namespace: prod
 
@@ -19,10 +19,10 @@ ingress:
 
 resources:
   limits:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 20m
+    memory: 256Mi
   requests:
-    cpu: 100m
+    cpu: 10m
     memory: 128Mi
 
 acme:
