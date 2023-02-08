@@ -24,6 +24,8 @@ export default function Index() {
     dispatch(GetBookingsAction(page, pageSize));
   };
 
+  console.log("trigger");
+
   const [tableColumns, setTableColumns] = useState<any>();
 
   return (
