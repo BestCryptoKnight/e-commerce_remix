@@ -30,6 +30,8 @@ export default function Index() {
     });
   };
 
+  console.log(searchConfig);
+
   useEffect(() => {
     //save current page and pagesize in store and pass it here
     dispatch(
