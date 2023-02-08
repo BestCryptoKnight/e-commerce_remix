@@ -39,10 +39,6 @@ export const orderTableColumns = (
       return <p>{record?.vendor?.name ? record?.vendor?.name : ""}</p>;
     },
     label: <Checkbox value="customer">Vendor Name</Checkbox>,
-
-    sorter: (a: any, b: any, c: any) => {
-      console.log(c);
-    },
   },
   {
     ...getColumnSearchProps(
@@ -202,6 +198,7 @@ export const orderTableColumns = (
     },
     responsive: ["sm"],
     label: <Checkbox value="createdAt">Created At</Checkbox>,
+    /* sorter: true, */
   },
   // {
   //   title: "Action",
