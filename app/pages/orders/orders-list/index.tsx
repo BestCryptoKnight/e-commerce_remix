@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
-import { Table, Button, Row, Alert } from "antd";
+import { Table, Row, Alert } from "antd";
 import { data as StateData, loading as StateLoading } from "~/redux/app";
-import { orderStatusTabs, orderTableColumns } from "./OrdersList.utils";
+import { orderTableColumns } from "./OrdersList.utils";
 import Drawer from "~/components/shared/drawer";
 import OrdersFilter from "~/components/shared/filter-columns";
 import { OrderTableWrapper } from "./styles";
@@ -47,12 +47,10 @@ export default function Index() {
   const loading = useAppSelector(StateLoading);
 
   useEffect(() => {
-    dispatch(GetAllOrdersAction(1, 10, selectedFilter));
+    dispatch(
+      GetAllOrdersAction(1, 10, {}, { direction: "desc", field: "createdAt" })
+    );
   }, [dispatch, selectedFilter]);
-
-  const getPaginatedItems = (page: number, pageSize: number) => {
-    dispatch(GetAllOrdersAction(page, pageSize, selectedFilter));
-  };
 
   return (
     <OrderTableWrapper>
@@ -88,6 +86,29 @@ export default function Index() {
           columns={filteredColumn.length > 0 ? filteredColumn : tableColumns}
           dataSource={list}
           loading={loading}
+          onChange={(pagination, filters, sorter: any) => {
+            const filter: any = {};
+            Object.keys(filters).forEach((item) => {
+              if (filters[item] && filters[item]!.length > 0) {
+                filter[item] = filters[item]![0];
+              }
+            });
+
+            dispatch(
+              GetAllOrdersAction(
+                pagination.current!,
+                pagination.pageSize!,
+                filter,
+                {
+                  direction:
+                    sorter?.order == "ascend"
+                      ? sorter?.order?.substring(0, 3)
+                      : "desc",
+                  field: sorter?.columnKey ? sorter?.columnKey : "createdAt",
+                }
+              )
+            );
+          }}
           pagination={{
             defaultCurrent: 1,
             total: totalCount,
@@ -95,8 +116,6 @@ export default function Index() {
             showTotal(total) {
               return <p>Total {total} items</p>;
             },
-            onChange: (current, pageSize) =>
-              getPaginatedItems(current, pageSize),
           }}
         />
       )}
