@@ -2,7 +2,7 @@ replicaCount: 2
 namespace: prod
 image:
   repository: registry.digitalocean.com/anyaa/hub
-  tag: 482c7f7
+  tag: 1abbdbe
 containerPort: 3000
 ingress:
   tld: anyaa.io
