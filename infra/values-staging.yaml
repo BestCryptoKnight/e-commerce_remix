@@ -2,7 +2,7 @@ replicaCount: 1
 namespace: staging
 image:
   repository: registry.digitalocean.com/anyaa/hub
-  tag: 69afd4e
+  tag: 87b04fe
 containerPort: 3000
 ingress:
   tld: anyaa.store
