@@ -10,10 +10,10 @@ ingress:
   path: /
 resources:
   limits:
-    cpu: 80m
+    cpu: 100m
     memory: 256Mi
   requests:
-    cpu: 50m
+    cpu: 100m
     memory: 128Mi
 acme:
   email: thaer.abbas@anyaa.io
