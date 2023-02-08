@@ -1,5 +1,5 @@
 import { Button, Form, Input } from "antd";
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import { useAppDispatch, useAppSelector } from "~/hooks/Store";
 import { loading as stateLoading } from "~/redux/app";
 import { LoginUser } from "~/redux/app/actions/login";
@@ -84,10 +84,6 @@ export default function EmailLogin() {
       >
         Login
       </Button>
-      <Link to="/onboarding" className="text-gray-400 hover:text-gray-400">
-        Don't have an account?
-        <span className="tjwl-bold text-green"> Register here</span>
-      </Link>
     </Form>
   );
 }
