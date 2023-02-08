@@ -1,6 +1,6 @@
 import urqlQuery from "~/graphql/";
 import { GetOrders, GetAllOrders } from "~/graphql/queries/orders";
-import { CreateOrder } from "~/graphql/mutations/order";
+
 import type { Dispatch } from "redux";
 import {
   requestStartInitilizeLoading,
@@ -53,35 +53,11 @@ export function GetOrdersAction() {
   };
 }
 
-export function CreateOrderAction(data: any) {
-  return async (dispatch: Dispatch) => {
-    dispatch(requestStartInitilizeLoading());
-    try {
-      return urqlQuery
-        .mutation(CreateOrder, {
-          ...data,
-        })
-        .toPromise()
-        .then((result) => {
-          if (!result || !result.data) {
-            notification.error({
-              message: result?.error?.message,
-            });
-            dispatch(requestCompleteDisableLoading());
-            throw new Error("Something went wrong");
-          }
-          return result.data;
-        });
-    } catch (error) {
-      throw error;
-    }
-  };
-}
-
 export function GetAllOrdersAction(
   page: number,
   pageSize: number,
-  selectedFilter: any
+  selectedFilter: any,
+  sortOrder: any
 ) {
   return async (dispatch: Dispatch) => {
     dispatch(requestStartInitilizeLoading());
@@ -89,13 +65,17 @@ export function GetAllOrdersAction(
       urqlQuery
         .query(GetAllOrders, {
           pagination: { page, pageSize },
-          sortOrder: { direction: "desc", field: "createdAt" },
+          sortOrder,
           filter: selectedFilter,
         })
         .toPromise()
         .then((result) => {
           console.log("ddd", result);
           if (!result || !result.data) {
+            notification.error({
+              message: result.error?.message,
+            });
+            dispatch(requestCompleteDisableLoading());
             throw new Error("Something went wrong");
           }
 
