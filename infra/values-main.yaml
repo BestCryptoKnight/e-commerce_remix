@@ -1,22 +1,13 @@
-# Default values for portal.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 2
-
 namespace: prod
-
 image:
   repository: registry.digitalocean.com/anyaa/hub
-  tag: 'latest'
-
+  tag: 482c7f7
 containerPort: 3000
-
 ingress:
   tld: anyaa.io
   domain: hub
   path: /
-
 resources:
   limits:
     cpu: 20m
@@ -24,6 +15,5 @@ resources:
   requests:
     cpu: 10m
     memory: 128Mi
-
 acme:
   email: thaer.abbas@anyaa.io
