@@ -32,22 +32,11 @@ export default function Index() {
 
   useEffect(() => {
     //save current page and pagesize in store and pass it here
-    dispatch(
-      GetVendorViewAction(1, 10, searchConfig.filter, searchConfig.sortOrder)
-    );
-  }, [dispatch, searchConfig]);
-
-  const getPaginatedItems = (page: number, pageSize: number) => {
-    if (!filteredColumn)
+    if (!searchText && !searchedColumn)
       dispatch(
-        GetVendorViewAction(
-          page,
-          pageSize,
-          searchText ? searchConfig.filter : {},
-          searchConfig.sortOrder
-        )
+        GetVendorViewAction(1, 10, searchConfig.filter, searchConfig.sortOrder)
       );
-  };
+  }, [dispatch]);
 
   const [tableColumns, setTableColumns] = useState<any>(
     vendorColumns(
@@ -79,16 +68,27 @@ export default function Index() {
           loading={loading}
           size="middle"
           onChange={(pagination, filters, sorter: any) => {
-            setSearchConfig({
-              ...searchConfig,
-              sortOrder: {
-                direction:
-                  sorter?.order == "ascend"
-                    ? sorter?.order?.substring(0, 3)
-                    : "desc",
-                field: sorter?.columnKey,
-              },
+            const filter: any = {};
+            Object.keys(filters).forEach((item) => {
+              if (filters[item] && filters[item]!.length > 0) {
+                filter[item] = filters[item]![0];
+              }
             });
+
+            dispatch(
+              GetVendorViewAction(
+                pagination.current!,
+                pagination.pageSize!,
+                filter,
+                {
+                  direction:
+                    sorter?.order == "ascend"
+                      ? sorter?.order?.substring(0, 3)
+                      : "desc",
+                  field: sorter?.columnKey ? sorter?.columnKey : "createdAt",
+                }
+              )
+            );
           }}
           pagination={{
             defaultCurrent: 1,
@@ -97,8 +97,6 @@ export default function Index() {
             showTotal(total) {
               return <p>Total {total} items</p>;
             },
-            onChange: (current, pageSize) =>
-              getPaginatedItems(current, pageSize),
           }}
         />
       </div>

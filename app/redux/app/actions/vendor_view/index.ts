@@ -3,8 +3,10 @@ import urqlQuery from "~/graphql/";
 import {
   requestStartInitilizeLoading,
   requestSuccessUpdateStateData,
+  requestCompleteDisableLoading,
 } from "../../";
 import { GetVendors } from "~/graphql/queries/vendors";
+import { notification } from "antd";
 
 export function GetVendorViewAction(
   page: number,
@@ -24,7 +26,10 @@ export function GetVendorViewAction(
         .toPromise()
         .then((result) => {
           if (!result || !result.data) {
-            throw new Error("Something went wrong");
+            notification.error({
+              message: result.error?.message,
+            });
+            dispatch(requestCompleteDisableLoading());
           }
 
           const data = {
