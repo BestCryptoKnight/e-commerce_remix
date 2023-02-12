@@ -31,6 +31,43 @@ export const vendorColumns = (
       sorter: true,
     },
     {
+      ...getColumnSearchProps(
+        "email",
+        searchText,
+        searchInput,
+        searchedColumn,
+        setSearchText,
+        setSearchedColumn,
+        filterVendors
+      ),
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (_: any, record: any) => {
+        return <p>{record?.owner?.email ? record?.owner?.email : ""}</p>;
+      },
+      label: <Checkbox value="email">Email</Checkbox>,
+    },
+
+    {
+      ...getColumnSearchProps(
+        "phone",
+        searchText,
+        searchInput,
+        searchedColumn,
+        setSearchText,
+        setSearchedColumn,
+        filterVendors
+      ),
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
+      render: (_: any, record: any) => {
+        return <p>{record?.owner?.phone ? record?.owner?.phone : ""}</p>;
+      },
+      label: <Checkbox value="phone">Phone</Checkbox>,
+    },
+    {
       title: "Arabic Name",
       dataIndex: "name_ar",
       key: "name_ar",
