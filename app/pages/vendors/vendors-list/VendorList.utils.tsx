@@ -105,6 +105,26 @@ export const vendorColumns = (
       ),
       sorter: true,
     },
+
+    {
+      title: "Store",
+      dataIndex: "slug",
+      key: "slug",
+      render: (_: any, record: any) => {
+        return (
+          <a
+            target="_blank"
+            href={`https://anyaa.io/${record?.slug}`}
+            rel="noreferrer"
+          >
+            Go to store
+          </a>
+        );
+      },
+      label: <Checkbox value="slug">Slug</Checkbox>,
+
+      sorter: true,
+    },
     {
       /*     ...getColumnSearchProps(
         "createdAt",
