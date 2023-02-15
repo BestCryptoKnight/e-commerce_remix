@@ -1,8 +1,8 @@
-# Anyaa HUB Frontend React Application
+# Anyaa HUB Frontend Remix Application
 
 ### Technologies used in this project
 
-1. React.js
+1. Remix.js
 1. Redux.js
 1. Ant Design
 1. Styled-Components
